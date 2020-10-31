@@ -6,6 +6,7 @@ import Explore from './components/Explore.vue'
 import More from './components/More.vue'
 import Channel from './components/Channel.vue'
 import MessageBox from './components/MessageBox.vue'
+import cloudbase from "@cloudbase/js-sdk";
 
 // 应用路由插件
 Vue.use(VueRouter)
@@ -59,8 +60,7 @@ const router = new VueRouter({
 
 function signIn() {
   // 链接腾讯云
-  const tcb = require("tcb-js-sdk")
-  const cloud = Vue.prototype.cloud = tcb.init({
+  const cloud = Vue.prototype.cloud = cloudbase.init({
     env: "dev-4f5fdb",
   })
   const cloudAuth = Vue.prototype.cloudAuth = cloud.auth()
