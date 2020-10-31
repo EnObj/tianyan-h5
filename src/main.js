@@ -1,42 +1,82 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueRouter from 'vue-router'
+import Zhui from './components/Zhui.vue'
+import Explore from './components/Explore.vue'
+import More from './components/More.vue'
+import Channel from './components/Channel.vue'
+import MessageBox from './components/MessageBox.vue'
 
-const tcb = require('tcb-js-sdk')
+// 应用路由插件
+Vue.use(VueRouter)
 
-const app = tcb.init({
-  env: 'dev-4f5fdb'
-})
-app.auth({
-  persistence: 'local'
-}).anonymousAuthProvider().signIn().then(item=>{
-  console.log('登录成功', item)
+// 过滤器
+function formatNumber(n) {
+  n = n.toString()
+  return n[1] ? n : '0' + n
+}
+Vue.filter('formatPass', function (pass) {
+  var now = new Date().getTime();
+  if (now - pass < 60000) {
+    return "刚刚"
+  }
+  var passDate = new Date(pass);
+  var year = passDate.getFullYear();
+  var month = passDate.getMonth() + 1;
+  var day = passDate.getDate();
+  var hour = passDate.getHours()
+  var minute = passDate.getMinutes()
 
-  const db = app.database()
-  const userDb = db.collection('ty_channel')
-  userDb.get().then(item=>{
-    console.log(item)
-  }).catch(error=>{
-    console.error(error)
-  })
+  var nowDate = new Date(now);
+  var nowYear = nowDate.getFullYear();
+  var nowMonth = nowDate.getMonth() + 1;
+  var nowDay = nowDate.getDate();
 
-  app.callFunction({
-    name: 'node-app',
-    data: {
-      user: 'tom',
-      invoker: 'browser'
+  if (year == nowYear) {
+    if (month == nowMonth && day == nowDay) {
+      return '今天 ' + [hour, minute].map(formatNumber).join(':')
+    } else {
+      return [month, day].map(formatNumber).join('-') + ' ' + [hour, minute].map(formatNumber).join(':')
     }
-  }).then(item=>{
-    console.log(item)
-  }).catch(error=>{
-    console.error(error)
-  })
+  }
 
-}).catch(error=>{
-  console.error('登录失败', error)
+  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute].map(formatNumber).join(':')
 })
 
 Vue.config.productionTip = false
 
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+const routes = [
+  { path: '/zhui', component: Zhui },
+  { path: '/explore', component: Explore },
+  { path: '/more', component: More },
+  { path: '/channel/:id', component: Channel, props: true },
+  { path: '/message-box', component: MessageBox },
+]
+
+const router = new VueRouter({
+  routes // （缩写）相当于 routes: routes
+})
+
+// 链接腾讯云
+const tcb = require("tcb-js-sdk")
+const cloud = Vue.prototype.cloud = tcb.init({
+  env: "dev-4f5fdb",
+})
+cloud
+  .auth({
+    persistence: "local",
+  })
+  .anonymousAuthProvider()
+  .signIn()
+  .then((item) => {
+    console.log("登录成功", item);
+    // 链接成功后再实例化app
+    new Vue({
+      render: h => h(App),
+      router
+    }).$mount('#app')
+  })
+  .catch((error) => {
+    console.error("登录失败", error);
+    return Promise.reject();
+  });
