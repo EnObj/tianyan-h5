@@ -57,26 +57,32 @@ const router = new VueRouter({
   routes // （缩写）相当于 routes: routes
 })
 
-// 链接腾讯云
-const tcb = require("tcb-js-sdk")
-const cloud = Vue.prototype.cloud = tcb.init({
-  env: "dev-4f5fdb",
+function signIn() {
+  // 链接腾讯云
+  const tcb = require("tcb-js-sdk")
+  const cloud = Vue.prototype.cloud = tcb.init({
+    env: "dev-4f5fdb",
+  })
+  const cloudAuth = Vue.prototype.cloudAuth = cloud.auth()
+  if (cloudAuth.hasLoginState()) {
+    return Promise.resolve()
+  }
+  return cloudAuth.anonymousAuthProvider()
+    .signIn()
+    .then((item) => {
+      console.log("登录成功", item);
+      return Promise.resolve()
+    })
+    .catch((error) => {
+      console.error("登录失败", error);
+      return Promise.reject();
+    });
+}
+
+signIn().then(() => {
+  // 链接成功后再实例化app
+  new Vue({
+    render: h => h(App),
+    router
+  }).$mount('#app')
 })
-cloud
-  .auth({
-    persistence: "local",
-  })
-  .anonymousAuthProvider()
-  .signIn()
-  .then((item) => {
-    console.log("登录成功", item);
-    // 链接成功后再实例化app
-    new Vue({
-      render: h => h(App),
-      router
-    }).$mount('#app')
-  })
-  .catch((error) => {
-    console.error("登录失败", error);
-    return Promise.reject();
-  });
