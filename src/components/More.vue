@@ -44,27 +44,36 @@ export default {
     signUp: function () {
       const email = prompt("请输入邮箱");
       const password = prompt("请输入密码");
-      this.cloudAuth.currentUser
-        .updatePassword(password)
-        .then(() => {
-          this.cloudAuth.currentUser
-            .updateEmail(email)
-            .then(() => {
-              console.log("关联成功");
-              this.user.refresh();
-            })
-            .catch((error) => {
-              console.error("发送邮件失败", error);
-            });
+      this.cloudAuth
+        .signUpWithEmailAndPassword(email, password)
+        .then((item) => {
+          console.log("注册成功", item);
+          this.user.refresh()
         })
         .catch((error) => {
-          console.error("更新密码失败", error);
+          console.error("注册失败", error);
         });
+    //   this.cloudAuth.currentUser
+    //     .updateEmail(email)
+    //     .then(() => {
+    //       this.cloudAuth.currentUser
+    //         .updatePassword(password)
+    //         .then(() => {
+    //           console.log("关联成功");
+    //           this.user.refresh();
+    //         })
+    //         .catch((error) => {
+    //           console.error("更新密码失败", error);
+    //         });
+    //     })
+    //     .catch((error) => {
+    //       console.error("发送邮件失败", error);
+    //     });
     },
-    updatePassword: function(){
-        const oldPassword = prompt("请输入老密码");
-        const password = prompt("请输入新密码");
-        this.cloudAuth.currentUser
+    updatePassword: function () {
+      const oldPassword = prompt("请输入老密码");
+      const password = prompt("请输入新密码");
+      this.cloudAuth.currentUser
         .updatePassword(password, oldPassword)
         .then(() => {
           this.user.refresh();
@@ -72,7 +81,7 @@ export default {
         .catch((error) => {
           console.error("更新密码失败", error);
         });
-    }
+    },
   },
 };
 </script>
