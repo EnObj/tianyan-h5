@@ -9,6 +9,7 @@
       >
       <div v-if="userChannel.channelDataMessage">
         {{ userChannel.channelDataMessage.createTime | formatPass }}
+        <span v-show="!userChannel.channelDataMessage.readed">新</span>
       </div>
       <div>
         <input
