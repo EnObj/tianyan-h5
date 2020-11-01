@@ -67,6 +67,7 @@ function signIn() {
   })
   const cloudAuth = Vue.prototype.cloudAuth = cloud.auth()
   if (cloudAuth.hasLoginState()) {
+    console.log('无需重复登录')
     return Promise.resolve()
   }
   return cloudAuth.anonymousAuthProvider()

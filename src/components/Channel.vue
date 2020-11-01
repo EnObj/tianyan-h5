@@ -15,8 +15,9 @@
             type="checkbox"
             id="notify-switch"
             v-model="userChannel.notify"
+            v-bind:disabled="!cloudAuth.currentUser.email"
           />
-          <label for="notify-switch">邮件通知</label>
+          <label for="notify-switch">邮件通知<router-link v-show="!cloudAuth.currentUser.email" to="/more">（此操作需要登录）</router-link></label>
         </div>
       </div>
       <div v-show="channel.openResourceUrl">
