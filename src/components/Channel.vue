@@ -17,12 +17,18 @@
             v-model="userChannel.notify"
             v-bind:disabled="!cloudAuth.currentUser.email"
           />
-          <label for="notify-switch">邮件通知<router-link v-show="!cloudAuth.currentUser.email" to="/more">（此操作需要登录）</router-link></label>
+          <label for="notify-switch"
+            >邮件通知<router-link
+              v-show="!cloudAuth.currentUser.email"
+              to="/more"
+              >（此操作需要登录）</router-link
+            ></label
+          >
         </div>
       </div>
       <div v-show="channel.openResourceUrl">
-          <a v-bind:href="channel.openResourceUrl" target="_blank">网页</a>
-        </div>
+        <a v-bind:href="channel.openResourceUrl" target="_blank">网页</a>
+      </div>
       <div v-for="channelData in channelDatas" v-bind:key="channelData._id">
         <div>
           <span>{{ channelData.createTime | formatPass }}</span>
@@ -53,7 +59,7 @@ export default {
   },
   watch: {
     "userChannel.notify": function (nVal) {
-      if(this.userChannel){
+      if (this.userChannel) {
         this.cloud
           .database()
           .collection("ty_user_channel")
@@ -93,6 +99,25 @@ export default {
       .get()
       .then((res) => {
         this.channelDatas = res.data;
+      });
+    // 更新用户频道下的消息为已读
+    db.collection("ty_user_channel_data_message")
+      .where({
+        "channelData.channel._id": this.id,
+      })
+      .update({
+        readed: true,
+      });
+    // 当前渠道下的所有等待通知的消息标记为skip
+    db.collection("ty_user_channel_data_message")
+      .where({
+        "channelData.channel._id": this.id,
+        notify: "wait",
+      })
+      .update({
+        data: {
+          notify: "skip",
+        },
       });
   },
   methods: {
