@@ -6,15 +6,22 @@
         <button v-on:click="sub">订阅</button>
       </div>
       <div v-else>
-        <p>已订阅</p>
-        <button v-on:click="unsub">取消订阅</button>
-        <input
-          type="checkbox"
-          id="notify-switch"
-          v-model="userChannel.notify"
-        />
-        <label for="notify-switch">邮件通知</label>
+        <div>
+          已订阅
+          <button v-on:click="unsub">取消订阅</button>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            id="notify-switch"
+            v-model="userChannel.notify"
+          />
+          <label for="notify-switch">邮件通知</label>
+        </div>
       </div>
+      <div v-show="channel.openResourceUrl">
+          <a v-bind:href="channel.openResourceUrl" target="_blank">网页</a>
+        </div>
       <div v-for="channelData in channelDatas" v-bind:key="channelData._id">
         <div>
           <span>{{ channelData.createTime | formatPass }}</span>
@@ -45,11 +52,15 @@ export default {
   },
   watch: {
     "userChannel.notify": function (nVal) {
-      this.cloud.database().collection("ty_user_channel")
-        .doc(this.userChannel._id)
-        .update({
-          notify: nVal,
-        });
+      if(this.userChannel){
+        this.cloud
+          .database()
+          .collection("ty_user_channel")
+          .doc(this.userChannel._id)
+          .update({
+            notify: nVal,
+          });
+      }
     },
   },
   mounted: function () {
