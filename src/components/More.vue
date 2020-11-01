@@ -1,14 +1,14 @@
 <template>
   <div>
     <div>
+      <div>{{ user.uid }}</div>
       <div v-if="user.loginType == 'ANONYMOUS'">
         <span>游客</span>
-        <button v-on:click="signIn">我有账户</button>
-        <button v-on:click="signUp">注册成为正式用户</button>
+        <button v-on:click="signIn">登录</button>
+        <button v-on:click="signUp">成为正式用户</button>
       </div>
       <div v-else>
-        <span>账户{{ user.uid }}</span>
-        <button v-on:click="updatePassword">修改密码</button>
+        <span>正式用户</span>
         <button v-on:click="signOut">退出登录</button>
       </div>
     </div>
@@ -41,60 +41,50 @@ export default {
         });
     },
     signUp: function () {
-      const email = prompt("请输入邮箱");
-      const password = prompt("请输入密码");
-      //   this.cloudAuth
-      //     .signUpWithEmailAndPassword(email, password)
-      //     .then((item) => {
-      //       console.log("注册成功", item);
-      //       this.user.refresh();
-      //     })
-      //     .catch((error) => {
-      //       console.error("注册失败", error);
-      //     });
-      this.user.updateUsername("sw").then(() => {
-        this.user.refresh().then(() => {
-          console.log(this.user.username);
-          this.user
-            .updatePassword(password)
-            .then(() => {
-              this.user
-                .updateEmail(email)
-                .then(() => {
-                  console.log("关联成功");
-                  this.user.refresh();
-                })
-                .catch((error) => {
-                  console.error("发送邮件失败", error);
-                });
-            })
-            .catch((error) => {
-              console.error("更新密码失败", error);
-            });
+      // 需要先通过updateUsername把匿名用户转换为正式用户
+      this.updateUsername().then(() => {
+        this.setPassword().then(() => {
+          this.updateEmail();
         });
       });
     },
-    updatePassword: function () {
-      const oldPassword = prompt("请输入老密码") || undefined;
-      const password = prompt("请输入新密码");
-      this.cloudAuth.currentUser
-        .updatePassword(password, oldPassword)
+    updateEmail: function () {
+      const email = prompt("请输入邮箱");
+      return this.user
+        .updateEmail(email)
         .then(() => {
-          this.user.refresh();
+          alert("验证邮件已发送");
+          return this.user.refresh();
+        })
+        .catch((error) => {
+          console.error("更新失败", error);
+          return Promise.reject();
+        });
+    },
+    setPassword: function () {
+      if (this.user.hasPassword) {
+        return Promise.resolve();
+      }
+      const password = prompt("请输入密码");
+      return this.cloudAuth.currentUser
+        .updatePassword(password)
+        .then(() => {
+          return this.user.refresh();
         })
         .catch((error) => {
           console.error("更新密码失败", error);
+          return Promise.reject();
         });
     },
     updateUsername: function () {
-      const username = prompt("请输入用户名");
-      this.cloudAuth.currentUser
-        .updateUsername(username)
+      return this.cloudAuth.currentUser
+        .updateUsername(this.user.uid)
         .then(() => {
-          this.user.refresh();
+          return this.user.refresh();
         })
         .catch((error) => {
           console.error("更新用户名失败", error);
+          return Promise.reject();
         });
     },
     signOut() {
@@ -105,7 +95,7 @@ export default {
           .signIn()
           .then((item) => {
             console.log("登录成功", item);
-            this.user = this.cloudAuth.currentUser
+            this.user = this.cloudAuth.currentUser;
           })
           .catch((error) => {
             console.error("登录失败", error);
