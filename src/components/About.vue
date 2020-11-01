@@ -1,0 +1,9 @@
+<template>
+    <div>
+        <ul>
+            <li>爱</li>
+            <li>追</li>
+            <li>更</li>
+        </ul>
+    </div>
+</template>

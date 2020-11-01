@@ -15,6 +15,9 @@
     <p>
       <router-link to="/message-box">消息</router-link>
     </p>
+    <p>
+      <router-link to="/about">关于</router-link>
+    </p>
   </div>
 </template>
 
