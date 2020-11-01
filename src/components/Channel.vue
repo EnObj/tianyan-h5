@@ -2,16 +2,22 @@
   <div>
     <div v-if="channel">
       <h1>{{ channel.name }}-{{ channel.channelTemplate.name }}</h1>
-      <div v-show="!userChannel">
+      <div v-if="!userChannel">
         <button v-on:click="sub">订阅</button>
       </div>
-      <div v-show="userChannel">
+      <div v-else>
         <p>已订阅</p>
         <button v-on:click="unsub">取消订阅</button>
+        <input
+          type="checkbox"
+          id="notify-switch"
+          v-model="userChannel.notify"
+        />
+        <label for="notify-switch">邮件通知</label>
       </div>
       <div v-for="channelData in channelDatas" v-bind:key="channelData._id">
         <div>
-          <span>{{ channelData.createTime|formatPass}}</span>
+          <span>{{ channelData.createTime | formatPass }}</span>
         </div>
         <div
           v-for="attr in channelData.channel.attrs ||
@@ -36,6 +42,15 @@ export default {
       userChannel: null,
       channelDatas: [],
     };
+  },
+  watch: {
+    "userChannel.notify": function (nVal) {
+      this.cloud.database().collection("ty_user_channel")
+        .doc(this.userChannel._id)
+        .update({
+          notify: nVal,
+        });
+    },
   },
   mounted: function () {
     const db = this.cloud.database();
@@ -65,7 +80,6 @@ export default {
       .limit(20)
       .get()
       .then((res) => {
-        console.log(res);
         this.channelDatas = res.data;
       });
   },
