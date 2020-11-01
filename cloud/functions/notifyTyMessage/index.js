@@ -14,16 +14,14 @@ const $ = db.command.aggregate
 // 云函数入口函数
 exports.main = async (event, context) => {
 
-  let testAccount = await nodemailer.createTestAccount();
-
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    host: "smtp.qq.com",
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass, // generated ethereal password
+      user: 'xxx@qq.com', // generated ethereal user
+      pass: 'xxxxxx', // generated ethereal password
     },
   });
 
@@ -64,12 +62,13 @@ exports.main = async (event, context) => {
 
       // send mail with defined transport object
       let info = await transporter.sendMail({
-        from: '"爱追更"', // sender address
+        from: '"爱追更" <enhui_ji@qq.com>', // sender address
         to: userInfo.email, // list of receivers
         subject: "你关注的频道有更新了", // Subject line
+        text: channel.name,
         html: `
           <a href="http://localhost:8080/#/channel/${channel._id}">${channel.name}</a>
-          <span>${(userMessage.channelDatas.length > 1 ? ("等" + userMessage.channelDatas.length + "个活动") : "")} + '有更新</span>
+          <span>${(userMessage.channelDatas.length > 1 ? ("等" + userMessage.channelDatas.length + "个活动") : "") + '有更新'}</span>
           `,
       });
 
