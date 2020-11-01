@@ -8,7 +8,7 @@
         <button v-on:click="signUp">成为正式用户</button>
       </div>
       <div v-else>
-        <span>正式用户</span>
+        <span>正式用户（{{user.email}}）</span>
         <button v-on:click="signOut">退出登录</button>
       </div>
     </div>
