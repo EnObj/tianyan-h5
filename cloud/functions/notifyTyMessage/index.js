@@ -20,8 +20,8 @@ exports.main = async (event, context) => {
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'xxx@qq.com', // generated ethereal user
-      pass: 'xxxxxx', // generated ethereal password
+      user: process.env.MAILER_AUTH_USER, // generated ethereal user
+      pass: process.env.MAILER_AUTH_PASS, // generated ethereal password
     },
   });
 
@@ -67,7 +67,7 @@ exports.main = async (event, context) => {
         subject: "你关注的频道有更新了", // Subject line
         text: channel.name,
         html: `
-          <a href="http://localhost:8080/#/channel/${channel._id}">${channel.name}</a>
+          <a href="${process.env.WEBSITE_HOST}/#/channel/${channel._id}">${channel.name}</a>
           <span>${(userMessage.channelDatas.length > 1 ? ("等" + userMessage.channelDatas.length + "个活动") : "") + '有更新'}</span>
           `,
       });

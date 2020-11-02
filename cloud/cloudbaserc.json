@@ -14,7 +14,11 @@
     {
       "name": "notifyTyMessage",
       "timeout": 30,
-      "envVariables": {},
+      "envVariables": {
+        "MAILER_AUTH_USER": "xxx@qq.com",
+        "MAILER_AUTH_PASS": "xxxxxx",
+        "WEBSITE_HOST": "https://xxx.com"
+      },
       "runtime": "Nodejs10.15",
       "memorySize": 128,
       "handler": "index.main",
