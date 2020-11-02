@@ -1,15 +1,61 @@
 {
-  "envId": "dev-4f5fdb",
+  "envId": "dev-9g0suwuw61afb9f3",
   "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
   "functionRoot": "./functions",
   "functions": [
     {
-      "name": "node-app",
-      "timeout": 5,
+      "name": "loadWebDocument",
+      "timeout": 30,
       "envVariables": {},
       "runtime": "Nodejs10.15",
       "memorySize": 128,
       "handler": "index.main"
+    },
+    {
+      "name": "notifyTyMessage",
+      "timeout": 30,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memorySize": 128,
+      "handler": "index.main",
+      "triggers": [
+        {
+          "name": "tyNotifyTyMessageTrigger",
+          "type": "timer",
+          "config": "0 0/3 * * * * *"
+        }
+      ]
+    },
+    {
+      "name": "readAllTyUserMessage",
+      "timeout": 3,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memorySize": 128,
+      "handler": "index.main"
+    },
+    {
+      "name": "resolveTyChannel",
+      "timeout": 30,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memorySize": 128,
+      "handler": "index.main"
+    },
+    {
+      "name": "tyChannelListener",
+      "timeout": 30,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memorySize": 128,
+      "handler": "index.main",
+      "triggers": [
+        {
+          "name": "tyChannelListenerTrigger",
+          "type": "timer",
+          "config": "0/30 * * * * * *"
+        }
+      ]
     }
   ],
   "framework": {
