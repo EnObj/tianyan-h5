@@ -2,7 +2,7 @@
   <div v-if="channelTemplate">
     <h1>{{ channelTemplate.name }}</h1>
     <p>{{ channelTemplate.desc }}</p>
-    <div>
+    <div v-if="channelTemplate.keyName">
       <input
         v-bind:placeholder="'请输入' + channelTemplate.keyName"
         v-on:keyup.enter="search($event.target.value)"
