@@ -69,7 +69,7 @@ const router = new VueRouter({
 function signIn() {
   // 链接腾讯云
   const cloud = Vue.prototype.cloud = cloudbase.init({
-    env: "dev-4f5fdb",
+    env: "dev-9g0suwuw61afb9f3",
   })
   const cloudAuth = Vue.prototype.cloudAuth = cloud.auth()
   if (cloudAuth.hasLoginState()) {
