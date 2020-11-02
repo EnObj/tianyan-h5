@@ -3,8 +3,8 @@
     <p>所有追更</p>
     <div v-for="userChannel in userChannels" v-bind:key="userChannel._id">
       <router-link v-bind:to="'/channel/' + userChannel.channel._id"
-        >{{ userChannel.channel.name }}-</router-link
-      ><router-link
+        >{{ userChannel.channel.name }}</router-link
+      >-<router-link
         v-bind:to="
           '/channel-template/' + userChannel.channel.channelTemplate._id
         "
