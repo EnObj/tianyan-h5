@@ -4,7 +4,7 @@
       <h1>
         {{ channel.name }}-<router-link
           v-bind:to="'/channel-template/' + channel.channelTemplate._id"
-          >{{ userChannel.channel.channelTemplate.name }}</router-link
+          >{{ channel.channelTemplate.name }}</router-link
         >
       </h1>
       <div v-if="!userChannel">
@@ -92,6 +92,25 @@ export default {
       .get()
       .then((res) => {
         this.userChannel = res.data[0] || null;
+        // 更新用户频道下的消息为已读
+        db.collection("ty_user_channel_data_message")
+          .where({
+            "channelData.channel._id": this.id,
+          })
+          .update({
+            readed: true,
+          });
+        // 当前渠道下的所有等待通知的消息标记为skip
+        db.collection("ty_user_channel_data_message")
+          .where({
+            "channelData.channel._id": this.id,
+            notify: "wait",
+          })
+          .update({
+            data: {
+              notify: "skip",
+            },
+          });
       });
     // 加载channelData
     db.collection("ty_channel_data")
@@ -104,25 +123,6 @@ export default {
       .get()
       .then((res) => {
         this.channelDatas = res.data;
-      });
-    // 更新用户频道下的消息为已读
-    db.collection("ty_user_channel_data_message")
-      .where({
-        "channelData.channel._id": this.id,
-      })
-      .update({
-        readed: true,
-      });
-    // 当前渠道下的所有等待通知的消息标记为skip
-    db.collection("ty_user_channel_data_message")
-      .where({
-        "channelData.channel._id": this.id,
-        notify: "wait",
-      })
-      .update({
-        data: {
-          notify: "skip",
-        },
       });
   },
   methods: {

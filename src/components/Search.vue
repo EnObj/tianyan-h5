@@ -26,6 +26,15 @@
         打开
       </button>
     </div>
+    <div v-show="showNewChannelDoor">
+      <p>定制</p>
+      <div>
+        <router-link
+          v-bind:to="{ path: '/new-channel', query: { url: keyword } }"
+          >{{ keyword }}</router-link
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,6 +49,7 @@ export default {
       channels: [],
       maybeChannels: [],
       finishedSearchCount: 0,
+      showNewChannelDoor: false,
     };
   },
   mounted() {
@@ -54,15 +64,18 @@ export default {
     });
   },
   watch: {
-    keyword: function(nVal){
+    keyword: function (nVal) {
       if (nVal) {
         this.search(nVal);
       }
-    }
+    },
   },
   methods: {
     search(keyword) {
-      console.log('搜索：' + keyword)
+      console.log("搜索：" + keyword);
+      if (/^https?:\/\//.test(keyword)) {
+        this.showNewChannelDoor = true;
+      }
       this.channels = [];
       this.maybeChannels = [];
       this.finishedSearchCount = 0;

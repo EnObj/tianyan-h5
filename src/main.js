@@ -6,6 +6,7 @@ import Explore from './components/Explore.vue'
 import Search from './components/Search.vue'
 import More from './components/More.vue'
 import Channel from './components/Channel.vue'
+import NewChannel from './components/NewChannel.vue'
 import MessageBox from './components/MessageBox.vue'
 import About from './components/About.vue'
 import ChannelTemplate from './components/ChannelTemplate.vue'
@@ -55,6 +56,7 @@ const routes = [
   { path: '/search', component: Search, props: (route) => ({ keyword: route.query.keyword }) },
   { path: '/more', component: More },
   { path: '/channel/:id', component: Channel, props: true },
+  { path: '/new-channel', component: NewChannel, props: (route) => ({ url: route.query.url }) },
   { path: '/channel-template/:id', component: ChannelTemplate, props: true },
   { path: '/message-box', component: MessageBox },
   { path: '/about', component: About },
