@@ -21,8 +21,8 @@
         <button
           v-on:click="
             openMaybeChannel(
-              maybeChannel.maybeChannel,
-              channel.channelTemplate._id
+              maybeChannel.name,
+              maybeChannel.channelTemplate._id
             )
           "
         >
