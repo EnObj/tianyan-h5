@@ -3,6 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Zhui from './components/Zhui.vue'
 import Explore from './components/Explore.vue'
+import Search from './components/Search.vue'
 import More from './components/More.vue'
 import Channel from './components/Channel.vue'
 import MessageBox from './components/MessageBox.vue'
@@ -51,6 +52,7 @@ Vue.config.productionTip = false
 const routes = [
   { path: '/zhui', component: Zhui },
   { path: '/explore', component: Explore },
+  { path: '/search', component: Search, props: (route) => ({ keyword: route.query.keyword }) },
   { path: '/more', component: More },
   { path: '/channel/:id', component: Channel, props: true },
   { path: '/channel-template/:id', component: ChannelTemplate, props: true },
