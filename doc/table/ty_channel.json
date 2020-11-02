@@ -1,0 +1,37 @@
+{
+  "name": "渠道表",
+  "desc": "用户选择渠道模版并填写参数后生成，成为平台ugc资产，后来者用户可以直接匹配。",
+  "index": [{
+    "name": "ty_channel_index_template",
+    "fields": [{
+      "name": "channelTemplate._id",
+      "sort": 1
+    }]
+  },{
+    "name": "ty_channel_index_template_show",
+    "fields": [{
+      "name": "channelTemplate._id",
+      "sort": 1
+    },{
+      "name": "show",
+      "sort": 1
+    }]
+  }],
+  "auth": "所有用户可读",
+  "example": {
+    "_id": "ty_channel_1",
+    "channelTemplate": {
+      "注意": "此处是某个channelTemplate对象，结构见ty_channel_template.json表"
+    },
+    "key": "用青春去旅行",
+    "name": "用青春去旅行",
+    "show": true,
+    "resourceUrl": "https://api.bilibili.com/x/space/arc/search?mid=208557615&ps=30&tid=0&pn=1&keyword=&order=pubdate&jsonp=jsonp",
+    "openResourceUrl": "https://space.bilibili.com/208557615",
+    "createBy": "user_1",
+    "disabled": true,
+    "beforeDisabled": 3,
+    "nextListenTime": 123456789,
+    "createTime": 123456789
+  }
+}

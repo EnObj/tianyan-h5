@@ -1,0 +1,24 @@
+{
+  "name": "渠道模版表",
+  "auth": "所有用户可读",
+  "desc": "resourceType/attrs/mintTimeSpace可被channel同名属性复写，sort小于0在站点列表中隐藏。",
+  "example": {
+    "_id": "ty_channel_template_1",
+    "name": "b站up主有更新",
+    "logo": "/image/logo/bili_uper.svg",
+    "resourceType": "json",
+    "attrs": [{
+      "name": "投稿视频数",
+      "path": "data.page.count",
+      "replaceRegExp": "\\d{1,3}"
+    }],
+    "openResourceUrlPath": "data.list[0].url",
+    "minTimeSpace": 300000,
+    "keyName": "up主名字",
+    "keyHelp": "打开某某APP-找到你喜欢的用户-选择分享-复制链接",
+    "mainColor": "#FF9933",
+    "dataDisplay": "show/hidden",
+    "resourceRestorer": "jsonp",
+    "sort": 2
+  }
+}
