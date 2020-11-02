@@ -6,25 +6,29 @@
         $router.replace({ query: { keyword: $event.target.value } })
       "
     />
-    <p>已收录</p>
-    <div v-for="channel in channels" v-bind:key="channel._id">
-      <router-link v-bind:to="'/channel/' + channel._id"
-        >{{ channel.name }}-{{ channel.channelTemplate.name }}</router-link
-      >
+    <div v-show="channels.length">
+      <p>已收录</p>
+      <div v-for="channel in channels" v-bind:key="channel._id">
+        <router-link v-bind:to="'/channel/' + channel._id"
+          >{{ channel.name }}-{{ channel.channelTemplate.name }}</router-link
+        >
+      </div>
     </div>
-    <p>建议</p>
-    <div v-for="maybeChannel in maybeChannels" v-bind:key="maybeChannel._id">
-      {{ maybeChannel.name }}-{{ maybeChannel.channelTemplate.name }}
-      <button
-        v-on:click="
-          openMaybeChannel(
-            maybeChannel.maybeChannel,
-            channel.channelTemplate._id
-          )
-        "
-      >
-        打开
-      </button>
+    <div v-show="maybeChannels.length">
+      <p>建议</p>
+      <div v-for="maybeChannel in maybeChannels" v-bind:key="maybeChannel._id">
+        {{ maybeChannel.name }}-{{ maybeChannel.channelTemplate.name }}
+        <button
+          v-on:click="
+            openMaybeChannel(
+              maybeChannel.maybeChannel,
+              channel.channelTemplate._id
+            )
+          "
+        >
+          打开
+        </button>
+      </div>
     </div>
     <div v-show="showNewChannelDoor">
       <p>定制</p>
