@@ -7,6 +7,7 @@ import More from './components/More.vue'
 import Channel from './components/Channel.vue'
 import MessageBox from './components/MessageBox.vue'
 import About from './components/About.vue'
+import ChannelTemplate from './components/ChannelTemplate.vue'
 import cloudbase from "@cloudbase/js-sdk";
 
 // 应用路由插件
@@ -52,6 +53,7 @@ const routes = [
   { path: '/explore', component: Explore },
   { path: '/more', component: More },
   { path: '/channel/:id', component: Channel, props: true },
+  { path: '/channel-template/:id', component: ChannelTemplate, props: true },
   { path: '/message-box', component: MessageBox },
   { path: '/about', component: About },
 ]

@@ -1,7 +1,12 @@
 <template>
   <div>
     <div v-if="channel">
-      <h1>{{ channel.name }}-{{ channel.channelTemplate.name }}</h1>
+      <h1>
+        {{ channel.name }}-<router-link
+          v-bind:to="'/channel-template/' + channel.channelTemplate._id"
+          >{{ userChannel.channel.channelTemplate.name }}</router-link
+        >
+      </h1>
       <div v-if="!userChannel">
         <button v-on:click="sub">订阅</button>
       </div>
