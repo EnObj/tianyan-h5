@@ -58,17 +58,23 @@
           </div>
         </div>
       </div>
-      <div v-for="channelData in channelDatas" v-bind:key="channelData._id">
-        <div>
+      <div
+        v-for="channelData in channelDatas"
+        v-bind:key="channelData._id"
+        class="flex-start channel-data"
+      >
+        <div class="not-importent">
           <span>{{ channelData.createTime | formatPass }}</span>
         </div>
-        <div
-          v-for="attr in channelData.channel.attrs ||
-          channelData.channel.channelTemplate.attrs"
-          v-bind:key="attr.name"
-        >
-          <span>{{ attr.name }}</span>
-          <span>{{ channelData.data[attr.name] }}</span>
+        <div class="datas">
+          <div
+            v-for="attr in channelData.channel.attrs ||
+            channelData.channel.channelTemplate.attrs"
+            v-bind:key="attr.name"
+          >
+            <span>{{ attr.name }}</span>
+            <span class="not-importent data-value">{{ channelData.data[attr.name] }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -223,5 +229,20 @@ export default {
 }
 .notify-switch-on {
   color: #008cba;
+}
+.channel-data {
+  margin: 15px 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.datas {
+  margin-top: 5px;
+  background: #fff;
+  word-break: break-all;
+  border-radius: 15px;
+  padding: 15px;
+}
+.data-value{
+  margin-left: 5px;
 }
 </style>
