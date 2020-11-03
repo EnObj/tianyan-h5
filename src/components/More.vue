@@ -16,6 +16,9 @@
       <router-link to="/message-box">消息</router-link>
     </p>
     <p>
+      <a href="https://support.qq.com/product/290950" target="_blank">反馈</a>
+    </p>
+    <p>
       <router-link to="/about">关于</router-link>
     </p>
   </div>
