@@ -1,32 +1,45 @@
 <template>
   <div>
-    <p>所有追更</p>
-    <div v-for="userChannel in userChannels" v-bind:key="userChannel._id">
-      <router-link v-bind:to="'/channel/' + userChannel.channel._id"
-        >{{ userChannel.channel.name }}</router-link
-      >-<router-link
-        v-bind:to="
-          '/channel-template/' + userChannel.channel.channelTemplate._id
-        "
-        >{{ userChannel.channel.channelTemplate.name }}</router-link
-      >
-      <div v-if="userChannel.channelDataMessage">
-        {{ userChannel.channelDataMessage.createTime | formatPass }}
-        <span v-show="!userChannel.channelDataMessage.readed">新</span>
+    <div v-if="userChannels.length">
+      <div v-for="userChannel in userChannels" v-bind:key="userChannel._id">
+        <router-link v-bind:to="'/channel/' + userChannel.channel._id">{{
+          userChannel.channel.name
+        }}</router-link
+        >-<router-link
+          v-bind:to="
+            '/channel-template/' + userChannel.channel.channelTemplate._id
+          "
+          >{{ userChannel.channel.channelTemplate.name }}</router-link
+        >
+        <div v-if="userChannel.channelDataMessage">
+          {{ userChannel.channelDataMessage.createTime | formatPass }}
+          <span v-show="!userChannel.channelDataMessage.readed">新</span>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            v-bind:id="userChannel._id"
+            v-model="userChannel.notify"
+            v-bind:disabled="!cloudAuth.currentUser.email"
+            v-on:change="switchNotify(userChannel._id, $event)"
+          />
+          <label v-bind:for="userChannel._id"
+            >邮件通知<router-link
+              v-show="!cloudAuth.currentUser.email"
+              to="/more"
+              >（此操作需要登录）</router-link
+            ></label
+          >
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <p>还没有任何订阅</p>
+      <div>
+        <router-link to="/explore">探索</router-link>
       </div>
       <div>
-        <input
-          type="checkbox"
-          v-bind:id="userChannel._id"
-          v-model="userChannel.notify"
-          v-bind:disabled="!cloudAuth.currentUser.email"
-          v-on:change="switchNotify(userChannel._id, $event)"
-        />
-        <label v-bind:for="userChannel._id"
-          >邮件通知<router-link v-show="!cloudAuth.currentUser.email" to="/more"
-            >（此操作需要登录）</router-link
-          ></label
-        >
+        <router-link to="/about">“爱追更”是什么？</router-link>
       </div>
     </div>
   </div>
@@ -50,8 +63,8 @@ export default {
         .where({})
         .orderBy("top", "desc")
         .orderBy("updateTime", "desc")
-    ).then((list) => {
-      this.userChannels = list;
+    ).then(() => {
+      // this.userChannels = list;
       // 加载消息
       this.userChannels.forEach(
         function (userChannel) {
