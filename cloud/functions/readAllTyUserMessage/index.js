@@ -18,8 +18,6 @@ exports.main = async (event, context) => {
     _openid: userInfo.uid,
     readed: false
   }).update({
-    data: {
-      readed: true
-    }
+    readed: true
   })
 }
