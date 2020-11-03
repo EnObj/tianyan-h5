@@ -1,38 +1,62 @@
 <template>
-  <div>
+  <div class="channel">
     <div v-if="channel">
       <h1>
-        {{ channel.name }}-<router-link
-          v-bind:to="'/channel-template/' + channel.channelTemplate._id"
-          >{{ channel.channelTemplate.name }}</router-link
-        >
+        {{ channel.name }}
       </h1>
-      <div v-if="!userChannel">
-        <button v-on:click="sub">订阅</button>
-      </div>
-      <div v-else>
-        <div>
-          已订阅
-          <button v-on:click="unsub">取消订阅</button>
+      <div class="flex-start cells">
+        <div class="cell channel-template">
+          <div class="cell-icon">
+            <router-link
+              v-bind:to="'/channel-template/' + channel.channelTemplate._id"
+            >
+              <i class="fi-folder"></i>
+            </router-link>
+          </div>
+          <div class="not-importent">
+            {{ channel.channelTemplate.name }}
+          </div>
         </div>
-        <div>
-          <input
-            type="checkbox"
-            id="notify-switch"
-            v-model="userChannel.notify"
-            v-bind:disabled="!cloudAuth.currentUser.email"
-          />
-          <label for="notify-switch"
-            >邮件通知<router-link
-              v-show="!cloudAuth.currentUser.email"
-              to="/more"
-              >（此操作需要登录）</router-link
-            ></label
+        <div class="cell" v-if="channel.openResourceUrl">
+          <div class="cell-icon">
+            <a v-bind:href="channel.openResourceUrl" target="_blank"
+              ><i class="fi-link"></i
+            ></a>
+          </div>
+          <div class="not-importent">网页</div>
+        </div>
+        <div v-if="userChannel" class="notify-switch cell">
+          <div
+            class="cell-icon"
+            v-bind:class="{ 'notify-switch-on': userChannel.notify }"
           >
+            <div
+              v-if="cloudAuth.currentUser.email"
+              v-on:click="
+                userChannel.notify = !userChannel.notify;
+                switchNotify();
+              "
+            >
+              <i class="fi-mail"></i>
+            </div>
+            <div v-else v-on:click="$router.push('/more')">
+              <i class="fi-mail"></i>
+            </div>
+          </div>
+          <div class="not-importent">通知我</div>
         </div>
       </div>
-      <div v-show="channel.openResourceUrl">
-        <a v-bind:href="channel.openResourceUrl" target="_blank">网页</a>
+      <div>
+        <div v-if="!userChannel">
+          <button v-on:click="sub" class="button small expand">订阅</button>
+        </div>
+        <div v-else>
+          <div>
+            <button v-on:click="unsub" class="button secondary small expand">
+              已订阅
+            </button>
+          </div>
+        </div>
       </div>
       <div v-for="channelData in channelDatas" v-bind:key="channelData._id">
         <div>
@@ -158,6 +182,46 @@ export default {
           this.userChannel = null;
         });
     },
+    switchNotify: function () {
+      if (this.userChannel) {
+        this.cloud
+          .database()
+          .collection("ty_user_channel")
+          .doc(this.userChannel._id)
+          .update({
+            notify: this.userChannel.notify,
+          });
+      }
+    },
   },
 };
 </script>
+
+<style scoped>
+.channel {
+  padding: 15px;
+}
+.cells {
+  margin: 20px 0;
+}
+.cell {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 15px;
+}
+.cell-icon {
+  font-size: 30px;
+  color: #aaa;
+  border-radius: 5px;
+  background: #eee;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 5px;
+  line-height: 50px;
+}
+.notify-switch-on {
+  color: #008cba;
+}
+</style>
