@@ -1,38 +1,52 @@
 <template>
-  <div>
+  <div class="search">
     <input
+      placeholder="输入你关心的人"
       v-bind:value="keyword"
       v-on:keyup.enter="
         $router.replace({ query: { keyword: $event.target.value } })
       "
     />
     <div v-show="channels.length">
-      <p>已收录</p>
-      <div v-for="channel in channels" v-bind:key="channel._id">
-        <router-link v-bind:to="'/channel/' + channel._id"
-          >{{ channel.name }}-{{ channel.channelTemplate.name }}</router-link
-        >
+      <div class="not-importent">已收录</div>
+      <div
+        v-for="channel in channels"
+        v-bind:key="channel._id"
+        class="padding-box channel"
+      >
+        <div>
+          <router-link v-bind:to="'/channel/' + channel._id">{{
+            channel.name
+          }}</router-link>
+        </div>
+        <div class="not-importent">{{ channel.channelTemplate.name }}</div>
       </div>
     </div>
     <div v-show="maybeChannels.length">
-      <p>建议</p>
-      <div v-for="maybeChannel in maybeChannels" v-bind:key="maybeChannel._id">
-        {{ maybeChannel.name }}-{{ maybeChannel.channelTemplate.name }}
-        <button
-          v-on:click="
-            openMaybeChannel(
-              maybeChannel.name,
-              maybeChannel.channelTemplate._id
-            )
-          "
-        >
-          打开
-        </button>
+      <div class="not-importent">建议</div>
+      <div
+        v-for="maybeChannel in maybeChannels"
+        v-bind:key="maybeChannel._id"
+        class="padding-box channel"
+      >
+        <div>
+          <a
+            v-on:click="
+              openMaybeChannel(
+                maybeChannel.name,
+                maybeChannel.channelTemplate._id
+              )
+            "
+          >
+            {{ maybeChannel.name }}
+          </a>
+        </div>
+        <div class="not-importent">{{ maybeChannel.channelTemplate.name }}</div>
       </div>
     </div>
     <div v-show="showNewChannelDoor">
-      <p>定制</p>
-      <div>
+      <div class="not-importent">定制</div>
+      <div class="padding-box channel" style="word-break:break-all;">
         <router-link
           v-bind:to="{ path: '/new-channel', query: { url: keyword } }"
           >{{ keyword }}</router-link
@@ -142,3 +156,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.search {
+  padding: 15px;
+}
+.channel{
+  margin: 10px 0;
+}
+</style>

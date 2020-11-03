@@ -7,7 +7,7 @@
       <!-- <div class="inp"> -->
         <input class="inp"
           v-on:keyup.enter="search($event.target.value)"
-          placeholder="输入关键词"
+          placeholder="输入你关心的人"
         />
       <!-- </div> -->
     </div>
