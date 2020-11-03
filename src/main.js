@@ -71,7 +71,10 @@ function signIn() {
   const cloud = Vue.prototype.cloud = cloudbase.init({
     env: "dev-9g0suwuw61afb9f3",
   })
-  const cloudAuth = Vue.prototype.cloudAuth = cloud.auth()
+  const cloudAuth = Vue.prototype.cloudAuth = cloud.auth({
+    persistence: 'local'
+  })
+  // 避免重复登录
   if (cloudAuth.hasLoginState()) {
     console.log('无需重复登录')
     return Promise.resolve()
