@@ -8,7 +8,7 @@
         }}</router-link
       >
       <div>
-        <span>{{message.createTime|formatPass}}</span>
+        <span>{{ message.createTime | formatPass }}</span>
       </div>
       <div
         v-for="attr in message.channelData.channel.attrs ||
@@ -40,6 +40,15 @@ export default {
       .get()
       .then((res) => {
         this.messages = res.data;
+      });
+
+    // 全部已读
+    this.cloud
+      .callFunction({
+        name: "readAllTyUserMessage",
+      })
+      .then((res) => {
+        console.log(res.result);
       });
   },
 };

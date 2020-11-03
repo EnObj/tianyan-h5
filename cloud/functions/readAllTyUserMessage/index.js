@@ -1,19 +1,21 @@
 // 云函数入口文件
-const cloud = require('wx-server-sdk')
+const tcb = require('@cloudbase/node-sdk')
 
-cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
+const cloud = tcb.init({
+  env: tcb.SYMBOL_CURRENT_ENV
 })
+
+const auth = cloud.auth()
 
 const db = cloud.database()
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  // 查询用户信息
+  const { userInfo } = await auth.getEndUserInfo()
 
   return db.collection('ty_user_channel_data_message').where({
-    _openid: openid,
+    _openid: userInfo.uid,
     readed: false
   }).update({
     data: {
