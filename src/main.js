@@ -51,6 +51,7 @@ Vue.filter('formatPass', function (pass) {
 Vue.config.productionTip = false
 
 const routes = [
+  { path: '/', redirect: '/zhui' },
   { path: '/zhui', component: Zhui },
   { path: '/explore', component: Explore },
   { path: '/search', component: Search, props: (route) => ({ keyword: route.query.keyword }) },

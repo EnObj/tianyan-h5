@@ -3,7 +3,7 @@
     <nav class="top-bar" data-topbar>
       <ul class="title-area">
         <li class="name">
-          <h1><a href="#">爱追更</a></h1>
+          <h1><a href="#/zhui">爱追更</a></h1>
         </li>
         <li class="toggle-topbar menu-icon">
           <a href="#"><span></span></a>
@@ -12,9 +12,9 @@
 
       <section class="top-bar-section">
         <ul class="left">
-          <li class="active"><router-link to="/zhui">追更</router-link></li>
-          <li><router-link to="/explore">探索</router-link></li>
-          <li><router-link to="/more">更多</router-link></li>
+          <li v-bind:class="{active:$route.path=='/zhui'}"><router-link to="/zhui">追更</router-link></li>
+          <li v-bind:class="{active:$route.path=='/explore'}"><router-link to="/explore">探索</router-link></li>
+          <li v-bind:class="{active:$route.path=='/more'}"><router-link to="/more">更多</router-link></li>
         </ul>
       </section>
     </nav>
