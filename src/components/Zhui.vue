@@ -48,12 +48,19 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <p>还没有任何订阅</p>
-      <div>
-        <router-link to="/explore">探索</router-link>
+    <div v-else-if="showExplore">
+      <div class="empty-tip abs-center">
+        <div
+          class="abs-center-content flex-start"
+          style="flex-direction: column"
+        >
+          <p class="nothing not-importent">还没有任何订阅</p>
+          <div class="door">
+            <router-link to="/explore" style="color: #fff">探索</router-link>
+          </div>
+        </div>
       </div>
-      <div>
+      <div class="not-importent flex-around">
         <router-link to="/about">“爱追更”是什么？</router-link>
       </div>
     </div>
@@ -67,6 +74,7 @@ export default {
   data: () => {
     return {
       userChannels: [],
+      showExplore: false,
     };
   },
   mounted: function () {
@@ -170,7 +178,7 @@ export default {
 
 .door {
   padding: 10px 30px;
-  background: #07c160;
+  background: #008CBA;
   border-radius: 20px;
   margin-top: 20px;
   color: #fff;
