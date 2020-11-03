@@ -63,8 +63,8 @@ export default {
         .where({})
         .orderBy("top", "desc")
         .orderBy("updateTime", "desc")
-    ).then(() => {
-      // this.userChannels = list;
+    ).then((list) => {
+      this.userChannels = list;
       // 加载消息
       this.userChannels.forEach(
         function (userChannel) {
