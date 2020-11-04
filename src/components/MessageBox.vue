@@ -1,23 +1,49 @@
 <template>
-  <div>
+  <div class="message-box">
     <h1>消息列表</h1>
-    <div v-for="message in messages" v-bind:key="message._id">
-      <router-link v-bind:to="'/channel/' + message.channelData.channel._id"
-        >{{ message.channelData.channel.name }}-{{
-          message.channelData.channel.channelTemplate.name
-        }}</router-link
-      >
-      <div>
-        <span>{{ message.createTime | formatPass }}</span>
-      </div>
+    <div
+      v-for="message in messages"
+      v-bind:key="message._id"
+      class="flex-start message"
+    >
       <div
-        v-for="attr in message.channelData.channel.attrs ||
-        message.channelData.channel.channelTemplate.attrs"
-        v-bind:key="attr.name"
+        class="logo"
+        v-bind:style="{
+          background:
+            message.channelData.channel.channelTemplate.mainColor || 'gray',
+        }"
       >
-        <span>{{ attr.name }}</span>
-        <span>{{ message.channelData.data[attr.name] }}</span>
+        <div class="text-logo">
+          {{ message.channelData.channel.channelTemplate.name.substr(0, 1) }}
+        </div>
       </div>
+      <div class="flex-start channel-data">
+        <router-link
+          v-bind:to="'/channel/' + message.channelData.channel._id"
+          >{{ message.channelData.channel.name }}</router-link
+        >
+        <div class="not-importent">
+          <span>{{ message.createTime | formatPass }}</span>
+        </div>
+        <div class="datas">
+          <div
+            v-for="attr in message.channelData.channel.attrs ||
+            message.channelData.channel.channelTemplate.attrs"
+            v-bind:key="attr.name"
+            class="data"
+          >
+            <span>{{ attr.name }}</span>
+            <span class="not-importent data-value">{{
+              message.channelData.data[attr.name]
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-show="more">
+      <button v-on:click="loadMessages(messages)" class="button expand round">
+        加载更多
+      </button>
     </div>
   </div>
 </template>
@@ -28,19 +54,13 @@ export default {
   data: function () {
     return {
       messages: [],
+      loaded: false,
+      more: false,
+      pageSize: 20
     };
   },
   mounted: function () {
-    this.cloud
-      .database()
-      .collection("ty_user_channel_data_message")
-      .where({})
-      .orderBy("createTime", "desc")
-      .limit(20)
-      .get()
-      .then((res) => {
-        this.messages = res.data;
-      });
+    this.loadMessages();
 
     // 全部已读
     this.cloud
@@ -51,5 +71,66 @@ export default {
         console.log(res.result);
       });
   },
+  methods: {
+    loadMessages(messages = []) {
+      this.cloud
+        .database()
+        .collection("ty_user_channel_data_message")
+        .where({})
+        .orderBy("createTime", "desc")
+        .skip(messages.length)
+        .limit(this.pageSize)
+        .get()
+        .then((res) => {
+          this.messages = messages.concat(res.data);
+          (this.more = res.data.length == this.pageSize), (this.loaded = true);
+        });
+    },
+  },
 };
 </script>
+
+<style scoped>
+.message-box {
+  padding: 15px;
+}
+.channel-data {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.datas {
+  margin-top: 5px;
+  background: #fff;
+  word-break: break-all;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.data-value {
+  margin-left: 5px;
+}
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: gray;
+  padding: 5px;
+  display: flex;
+  flex: none;
+  margin-right: 10px;
+}
+.text-logo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin: auto;
+}
+.message {
+  align-items: flex-start;
+  margin: 15px 0;
+}
+.data-value {
+  margin-left: 5px;
+}
+</style>
