@@ -1,5 +1,5 @@
 <template>
-  <div v-if="channelTemplate">
+  <div v-if="channelTemplate" class="channel-template">
     <h1>{{ channelTemplate.name }}</h1>
     <p>{{ channelTemplate.desc }}</p>
     <div v-if="channelTemplate.keyName">
@@ -7,8 +7,11 @@
         v-bind:placeholder="'请输入' + channelTemplate.keyName"
         v-on:keyup.enter="search($event.target.value)"
       />
-      <div v-for="advice in advices" v-bind:key="advice">
-        建议：<button v-on:click="search(advice)">{{ advice }}</button>
+      <div v-if="advices.length">
+        <p class="not-importent">建议</p>
+        <div v-for="advice in advices" v-bind:key="advice">
+          <button v-on:click="search(advice)">{{ advice }}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -62,3 +65,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.channel-template {
+  padding: 15px;
+}
+</style>
