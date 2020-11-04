@@ -12,14 +12,21 @@
       <div
         v-for="channel in channels"
         v-bind:key="channel._id"
-        class="padding-box channel"
+        v-on:click="$router.push('/channel/' + channel._id)"
+        class="padding-box channel flex-start"
       >
+        <ChannelTemplateLogo
+          v-bind:main-color="channel.channelTemplate.mainColor"
+          v-bind:text="channel.channelTemplate.name.substr(0, 1)"
+        />
         <div>
-          <router-link v-bind:to="'/channel/' + channel._id">{{
-            channel.name
-          }}</router-link>
+          <div>
+            <router-link v-bind:to="'/channel/' + channel._id">{{
+              channel.name
+            }}</router-link>
+          </div>
+          <div class="not-importent">{{ channel.channelTemplate.name }}</div>
         </div>
-        <div class="not-importent">{{ channel.channelTemplate.name }}</div>
       </div>
     </div>
     <div v-show="maybeChannels.length">
@@ -27,30 +34,37 @@
       <div
         v-for="maybeChannel in maybeChannels"
         v-bind:key="maybeChannel._id"
-        class="padding-box channel"
+        v-on:click="
+          openMaybeChannel(maybeChannel.name, maybeChannel.channelTemplate._id)
+        "
+        class="padding-box channel flex-start"
       >
+        <ChannelTemplateLogo
+          v-bind:main-color="maybeChannel.channelTemplate.mainColor"
+          v-bind:text="maybeChannel.channelTemplate.name.substr(0, 1)"
+        />
         <div>
-          <a
-            v-on:click="
-              openMaybeChannel(
-                maybeChannel.name,
-                maybeChannel.channelTemplate._id
-              )
-            "
-          >
-            {{ maybeChannel.name }}
-          </a>
+          <div>
+            <a>
+              {{ maybeChannel.name }}
+            </a>
+          </div>
+          <div class="not-importent">
+            {{ maybeChannel.channelTemplate.name }}
+          </div>
         </div>
-        <div class="not-importent">{{ maybeChannel.channelTemplate.name }}</div>
       </div>
     </div>
     <div v-show="showNewChannelDoor">
       <div class="not-importent">定制</div>
-      <div class="padding-box channel" style="word-break:break-all;">
-        <router-link
-          v-bind:to="{ path: '/new-channel', query: { url: keyword } }"
-          >{{ keyword }}</router-link
-        >
+      <div class="padding-box channel flex-start" style="word-break: break-all">
+        <ChannelTemplateLogo v-bind:text="'链'" />
+        <div>
+          <router-link
+            v-bind:to="{ path: '/new-channel', query: { url: keyword } }"
+            >{{ keyword }}</router-link
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -58,6 +72,7 @@
 
 <script>
 import CloudUtils from "./CloudUtils";
+import ChannelTemplateLogo from "./ChannelTemplateLogo";
 export default {
   name: "Search",
   props: ["keyword"],
@@ -70,6 +85,7 @@ export default {
       showNewChannelDoor: false,
     };
   },
+  components: { ChannelTemplateLogo },
   mounted() {
     CloudUtils.getAll(
       this.cloud.database().collection("ty_channel_template").where({})
@@ -91,6 +107,7 @@ export default {
   methods: {
     search(keyword) {
       console.log("搜索：" + keyword);
+      this.showNewChannelDoor = false;
       if (/^https?:\/\//.test(keyword)) {
         this.showNewChannelDoor = true;
       }
@@ -161,7 +178,7 @@ export default {
 .search {
   padding: 15px;
 }
-.channel{
+.channel {
   margin: 10px 0;
 }
 </style>

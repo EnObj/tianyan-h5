@@ -6,17 +6,14 @@
       v-bind:key="message._id"
       class="flex-start message"
     >
-      <div
-        class="logo"
-        v-bind:style="{
-          background:
-            message.channelData.channel.channelTemplate.mainColor || 'gray',
-        }"
-      >
-        <div class="text-logo">
-          {{ message.channelData.channel.channelTemplate.name.substr(0, 1) }}
-        </div>
-      </div>
+      <ChannelTemplateLogo
+        v-bind:main-color="
+          message.channelData.channel.channelTemplate.mainColor
+        "
+        v-bind:text="
+          message.channelData.channel.channelTemplate.name.substr(0, 1)
+        "
+      />
       <div class="flex-start channel-data">
         <router-link
           v-bind:to="'/channel/' + message.channelData.channel._id"
@@ -49,6 +46,7 @@
 </template>
 
 <script>
+import ChannelTemplateLogo from "./ChannelTemplateLogo";
 export default {
   name: "MessageBox",
   data: function () {
@@ -56,9 +54,10 @@ export default {
       messages: [],
       loaded: false,
       more: false,
-      pageSize: 20
+      pageSize: 20,
     };
   },
+  components: { ChannelTemplateLogo },
   mounted: function () {
     this.loadMessages();
 
@@ -109,22 +108,6 @@ export default {
 
 .data-value {
   margin-left: 5px;
-}
-.logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: gray;
-  padding: 5px;
-  display: flex;
-  flex: none;
-  margin-right: 10px;
-}
-.text-logo {
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-  margin: auto;
 }
 .message {
   align-items: flex-start;
