@@ -88,6 +88,7 @@ export default {
         .orderBy("updateTime", "desc")
     ).then((list) => {
       this.userChannels = list;
+      this.showExplore = true;
       // 加载消息
       this.userChannels.forEach(
         function (userChannel) {
@@ -178,7 +179,7 @@ export default {
 
 .door {
   padding: 10px 30px;
-  background: #008CBA;
+  background: #008cba;
   border-radius: 20px;
   margin-top: 20px;
   color: #fff;
