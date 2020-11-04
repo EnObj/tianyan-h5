@@ -6,7 +6,7 @@
           <h1><a href="#/zhui">爱追更</a></h1>
         </li>
         <li class="toggle-topbar menu-icon">
-          <a href="#"><span></span></a>
+          <a href="#"><span>Menu</span></a>
         </li>
       </ul>
 
