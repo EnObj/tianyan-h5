@@ -47,10 +47,10 @@
         </div>
       </div>
       <div>
-        <div v-if="!userChannel">
+        <div v-if="!userChannel" key="sub">
           <button v-on:click="sub" class="button small expand">订阅</button>
         </div>
-        <div v-else>
+        <div v-else key="unsub">
           <div>
             <button v-on:click="unsub" class="button secondary small expand">
               已订阅
