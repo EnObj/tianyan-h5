@@ -115,9 +115,4 @@ export default {
   height: 100vh;
   opacity: 0.2;
 }
-
-#app {
-  background: #f6f6f6;
-  min-height: 100vh;
-}
 </style>
