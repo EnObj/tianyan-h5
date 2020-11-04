@@ -66,16 +66,21 @@ export default {
   methods: {
     signIn: function () {
       const email = prompt("请输入邮箱");
-      const password = prompt("请输入密码");
-      this.cloudAuth
-        .signInWithEmailAndPassword(email, password)
-        .then((item) => {
-          console.log("登录成功", item);
-          this.user = item.user;
-        })
-        .catch((error) => {
-          console.error("登录失败", error);
-        });
+      if(email){
+        const password = prompt("请输入密码");
+        if(password){
+          this.cloudAuth
+            .signInWithEmailAndPassword(email, password)
+            .then((item) => {
+              console.log("登录成功", item);
+              this.user = item.user;
+            })
+            .catch((error) => {
+              console.error("登录失败", error);
+              alert('邮箱或密码错误')
+            });
+        }
+      }
     },
     signUp: function () {
       // 需要先通过updateUsername把匿名用户转换为正式用户
@@ -86,32 +91,38 @@ export default {
       });
     },
     updateEmail: function () {
-      const email = prompt("请输入邮箱");
-      return this.user
-        .updateEmail(email)
-        .then(() => {
-          alert("验证邮件已发送");
-          return this.user.refresh();
-        })
-        .catch((error) => {
-          console.error("更新失败", error);
-          return Promise.reject();
-        });
+      const email = prompt("请输入登录邮箱");
+      if(email){
+        return this.user
+          .updateEmail(email)
+          .then(() => {
+            alert("验证邮件已发送");
+            return this.user.refresh();
+          })
+          .catch((error) => {
+            console.error("更新失败", error);
+            return Promise.reject();
+          });
+      }
+      return Promise.reject();
     },
     setPassword: function () {
       if (this.user.hasPassword) {
         return Promise.resolve();
       }
-      const password = prompt("请输入密码");
-      return this.cloudAuth.currentUser
-        .updatePassword(password)
-        .then(() => {
-          return this.user.refresh();
-        })
-        .catch((error) => {
-          console.error("更新密码失败", error);
-          return Promise.reject();
-        });
+      const password = prompt("请设置登录密码");
+      if(password){
+        return this.cloudAuth.currentUser
+          .updatePassword(password)
+          .then(() => {
+            return this.user.refresh();
+          })
+          .catch((error) => {
+            console.error("更新密码失败", error);
+            return Promise.reject();
+          });
+      }
+      return Promise.reject()
     },
     updateUsername: function () {
       return this.cloudAuth.currentUser
