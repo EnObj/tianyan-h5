@@ -1,19 +1,41 @@
 <template>
-  <div>
+  <div class="more">
     <div>
-      <div>{{ user.uid }}</div>
-      <div v-if="user.loginType == 'ANONYMOUS'">
-        <span>游客</span>
-        <button v-on:click="signIn">登录</button>
-        <button v-on:click="signUp">成为正式用户</button>
+      <div>
+        <div class="user-head">
+          <div style="margin: auto">
+            <i class="fi-torso"></i>
+          </div>
+        </div>
+        <div class="not-importent">
+          <div v-if="user.loginType == 'ANONYMOUS'" key="user-youke">
+            <span>游客</span>
+          </div>
+          <div v-else key="user-email">
+            <span>{{ user.email }}</span>
+          </div>
+        </div>
       </div>
-      <div v-else>
-        <span>正式用户（{{user.email}}）</span>
-        <button v-on:click="signOut">退出登录</button>
+      <div class="login-area">
+        <ul
+          class="button-group round"
+          v-if="user.loginType == 'ANONYMOUS'"
+          key="no-eamil"
+        >
+          <li><button v-on:click="signIn" class="button">登录</button></li>
+          <li>
+            <button v-on:click="signUp" class="button">注册</button>
+          </li>
+        </ul>
+        <ul class="button-group round" v-else key="with-eamil">
+          <li>
+            <button v-on:click="signOut" class="button alert">退出登录</button>
+          </li>
+        </ul>
       </div>
     </div>
     <p>
-      <router-link to="/message-box">消息</router-link>
+      <router-link to="/message-box">消息<span class="label alert round" v-show="lastUnreadedMessage">新</span></router-link>
     </p>
     <p>
       <a href="https://support.qq.com/product/290950" target="_blank">反馈</a>
@@ -30,7 +52,16 @@ export default {
   data: function () {
     return {
       user: this.cloudAuth.currentUser,
+      lastUnreadedMessage: null
     };
+  },
+  mounted(){
+    // 查询最新一条未读消息
+    this.cloud.database().collection('ty_user_channel_data_message').where({
+      readed: false
+    }).orderBy('createTime', 'desc').limit(1).get().then(res=>{
+      this.lastUnreadedMessage = res.data[0] || null
+    })
   },
   methods: {
     signIn: function () {
@@ -111,3 +142,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.more {
+  padding: 15px;
+  text-align: center;
+}
+.user-head {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  font-size: 40px;
+  margin: 10px auto;
+  color: gray;
+}
+.login-area{
+  margin: 10px 0;
+}
+</style>
