@@ -1,20 +1,24 @@
 <template>
-  <div v-if="document">
+  <div v-if="document" class="new-channel">
     <h1>{{ document.title }}</h1>
-    <div v-for="item in document.list" v-bind:key="item.insideId">
-      <div v-if="item.type == 'text' || item.type == 'div'" v-bind:style="{paddingLeft:item.depth*20 + 'px'}">
-        <input
-          type="checkbox"
-          v-bind:id="item.insideId"
-          v-bind:value="item.selector"
-          v-model="checkedSelectors"
-        />
-        <label v-bind:for="item.insideId">{{
-          item.type == "text" ? item.content : ">>"
-        }}</label>
-      </div>
+    <div
+      v-for="item in textAndDivList"
+      v-bind:key="item.insideId"
+      v-bind:style="{ paddingLeft: item.depth * 20 + 'px' }"
+    >
+      <input
+        type="checkbox"
+        v-bind:id="item.insideId"
+        v-bind:value="item.selector"
+        v-model="checkedSelectors"
+      />
+      <label v-bind:for="item.insideId">{{
+        item.type == "text" ? item.content : ">>"
+      }}</label>
     </div>
-    <button v-on:click="submit">确定</button>
+    <div>
+      <button v-on:click="submit" class="button expand round">确定</button>
+    </div>
   </div>
 </template>
 
@@ -56,6 +60,13 @@ export default {
         console.error(err);
       });
   },
+  computed: {
+    textAndDivList: function () {
+      return this.document.list.filter((item) => {
+        return item.type == "text" || item.type == "div";
+      });
+    },
+  },
   methods: {
     submit: function () {
       this.cloud
@@ -90,3 +101,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.new-channel {
+  padding: 15px;
+}
+</style>
