@@ -58,6 +58,7 @@
           <div class="not-importent">通知我</div>
         </div>
       </div>
+      <el-divider content-position="left"><i class="el-icon-time"></i></el-divider>
       <div class="channel-datas">
         <div
           v-for="channelData in channelDatas"
@@ -241,7 +242,7 @@ export default {
 }
 .datas {
   margin-top: 5px;
-  background: #fff;
+  background: #f6f6f6;
   word-break: break-all;
   border-radius: 15px;
   padding: 15px;

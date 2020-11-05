@@ -44,13 +44,13 @@
       </div>
     </div>
     <p>
-      <router-link to="/message-box">消息<span class="label alert round" v-show="lastUnreadedMessage">新</span></router-link>
+      <el-link v-on:click="$router.push('/message-box')" type="primary">消息<span class="label alert round" v-show="lastUnreadedMessage">新</span></el-link>
     </p>
     <p>
-      <a href="https://support.qq.com/product/290950" target="_blank">反馈</a>
+      <el-link href="https://support.qq.com/product/290950" target="_blank" type="primary">反馈</el-link>
     </p>
     <p>
-      <router-link to="/about">关于</router-link>
+      <el-link v-on:click="$router.push('/about')" type="primary">关于</el-link>
     </p>
   </div>
 </template>

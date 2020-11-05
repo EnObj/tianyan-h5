@@ -22,9 +22,9 @@
         />
         <div>
           <div>
-            <router-link v-bind:to="'/channel/' + channel._id">{{
+            {{
               channel.name
-            }}</router-link>
+            }}
           </div>
           <div class="not-importent">{{ channel.channelTemplate.name }}</div>
         </div>

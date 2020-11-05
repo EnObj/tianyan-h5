@@ -8,7 +8,7 @@
     <h2>第3章 更</h2>
     <p>TA更新动态，你第一时间收到通知，把爱的首赞及留言放在前排</p>
     <div style="margin-top:50px;">
-        <button v-on:click="$router.push('/explore')" class="button expand round">现在就去找到TA</button>
+        <el-button v-on:click="$router.push('/explore')" type="primary">现在就去找到TA</el-button>
     </div>
   </div>
 </template>
