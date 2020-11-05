@@ -34,6 +34,11 @@ export default {
     };
   },
   mounted: function () {
+    const loading = this.$loading({
+      lock: true,
+      text: "Loading",
+      spinner: "el-icon-loading",
+    });
     this.cloud
       .callFunction({
         name: "loadWebDocument",
@@ -56,8 +61,10 @@ export default {
           });
           this.document = res.result.document;
         }
+        loading.close();
       })
       .catch((err) => {
+        loading.close();
         console.error(err);
       });
   },
@@ -70,6 +77,11 @@ export default {
   },
   methods: {
     submit: function () {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+      });
       this.cloud
         .callFunction({
           name: "resolveTyChannel",
@@ -89,6 +101,7 @@ export default {
           },
         })
         .then((res) => {
+          loading.close();
           if (!res.result.errCode) {
             this.$router.replace("/channel/" + res.result.channel._id);
           } else {
@@ -96,6 +109,7 @@ export default {
           }
         })
         .catch((err) => {
+          loading.close();
           console.error(err);
         });
     },
