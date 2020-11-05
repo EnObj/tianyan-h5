@@ -59,6 +59,7 @@ export default {
           })
           .catch((error) => {
             console.error("登录失败", error);
+            loading.close();
             this.$message.error("邮箱或密码错误");
           });
       } else {
