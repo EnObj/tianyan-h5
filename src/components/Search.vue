@@ -8,6 +8,9 @@
       "
       class="inp"
     />
+    <div style="margin-bottom:20px" v-show="searchProgress != 0 && searchProgress != 100">
+      <el-progress v-bind:percentage="searchProgress" v-bind:show-text="false" v-bind:stroke-width="3"></el-progress>
+    </div>
     <div v-show="channels.length">
       <div class="not-importent">已收录</div>
       <div
@@ -101,6 +104,14 @@ export default {
         this.search(nVal);
       }
     },
+  },
+  computed: {
+    searchProgress(){
+      if(this.templates.length){
+        return Math.floor(this.finishedSearchCount/this.templates.length * 100)
+      }
+      return 0
+    }
   },
   methods: {
     search(keyword) {
