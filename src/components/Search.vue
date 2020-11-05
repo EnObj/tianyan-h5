@@ -6,6 +6,7 @@
       v-on:keyup.enter="
         $router.replace({ query: { keyword: $event.target.value } })
       "
+      class="inp"
     />
     <div v-show="channels.length">
       <div class="not-importent">已收录</div>
@@ -180,5 +181,15 @@ export default {
 }
 .channel {
   margin: 10px 0;
+}
+.inp {
+  display: block;
+  border: 2px #aaa solid;
+  height: 50px;
+  border-radius: 15px;
+  margin: 20px auto;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
 </style>

@@ -2,21 +2,28 @@
   <div class="sign-in">
     <h1>登录</h1>
     <div>
-      <label
-        >邮箱
-        <input type="text" v-model.lazy.trim="account" />
-      </label>
-      <label
-        >密码
-        <input type="password" v-model.lazy.trim="password" />
-      </label>
+      <p>
+        <el-input
+          placeholder="邮箱"
+          prefix-icon="el-icon-user"
+          v-model.lazy.trim="account"
+        >
+        </el-input>
+      </p>
+      <p>
+        <el-input
+          placeholder="密码"
+          prefix-icon="el-icon-key"
+          v-model.lazy.trim="password"
+          show-password
+        >
+        </el-input>
+      </p>
       <div class="flex-start">
         <div>
-          <button type="button" class="button round" v-on:click="signIn">
-            登录
-          </button>
+          <el-button type="primary" v-on:click="signIn"> 登录 </el-button>
         </div>
-        <p class="not-importent" style="margin-left:10px;">
+        <p class="not-importent" style="margin-left: 10px">
           <router-link to="/sign-up">注册</router-link>
         </p>
       </div>

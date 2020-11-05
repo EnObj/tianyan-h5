@@ -2,19 +2,26 @@
   <div class="sign-up">
     <h1>注册</h1>
     <div>
-      <label
-        >邮箱
-        <input type="text" v-model.lazy.trim="account" />
-      </label>
-      <label
-        >密码（包含字母和数字，长度要求8～32位）
-        <input type="password" v-model.lazy.trim="password" />
-      </label>
+      <p>
+        <el-input
+          placeholder="邮箱"
+          prefix-icon="el-icon-user"
+          v-model.lazy.trim="account"
+        >
+        </el-input>
+      </p>
+      <p>
+        <el-input
+          placeholder="密码（包含字母和数字，长度要求8～32位）"
+          prefix-icon="el-icon-key"
+          v-model.lazy.trim="password"
+          show-password
+        >
+        </el-input>
+      </p>
       <div class="flex-start">
         <div>
-          <button type="button" class="button round" v-on:click="signUp">
-            注册
-          </button>
+          <el-button type="primary" v-on:click="signUp"> 注册 </el-button>
         </div>
         <p class="not-importent" style="margin-left: 10px">
           <router-link to="/sign-in">登录</router-link>
@@ -66,7 +73,7 @@ export default {
         })
         .catch((error) => {
           console.error("更新密码失败", error);
-          alert('密码不合法')
+          alert("密码不合法");
           return Promise.reject();
         });
     },

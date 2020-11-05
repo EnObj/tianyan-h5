@@ -44,6 +44,8 @@ export default {
   height: 50px;
   border-radius: 15px;
   margin: 40px auto;
-  max-width: 500px;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
 </style>

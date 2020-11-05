@@ -1,16 +1,28 @@
 <template>
   <div class="channel">
     <div v-if="channel">
-      <h1>
-        {{ channel.name }}
-      </h1>
+      <div class="flex-between">
+        <h1>
+          {{ channel.name }}
+        </h1>
+        <div style="flex:none;">
+          <div v-if="!userChannel" key="sub">
+            <el-button v-on:click="sub" type="primary" round>订阅</el-button>
+          </div>
+          <div v-else key="unsub">
+            <div>
+              <el-button v-on:click="unsub" round> 已订阅 </el-button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="flex-start cells">
         <div class="cell channel-template">
           <div class="cell-icon">
             <router-link
               v-bind:to="'/channel-template/' + channel.channelTemplate._id"
             >
-              <i class="fi-folder"></i>
+              <i class="el-icon-folder"></i>
             </router-link>
           </div>
           <div class="not-importent">
@@ -20,7 +32,7 @@
         <div class="cell" v-if="channel.openResourceUrl">
           <div class="cell-icon">
             <a v-bind:href="channel.openResourceUrl" target="_blank"
-              ><i class="fi-link"></i
+              ><i class="el-icon-link"></i
             ></a>
           </div>
           <div class="not-importent">网页</div>
@@ -37,43 +49,35 @@
                 switchNotify();
               "
             >
-              <i class="fi-mail"></i>
+              <i class="el-icon-bell"></i>
             </div>
             <div v-else v-on:click="$router.push('/more')">
-              <i class="fi-mail"></i>
+              <i class="el-icon-bell"></i>
             </div>
           </div>
           <div class="not-importent">通知我</div>
         </div>
       </div>
-      <div>
-        <div v-if="!userChannel" key="sub">
-          <button v-on:click="sub" class="button small expand">订阅</button>
-        </div>
-        <div v-else key="unsub">
-          <div>
-            <button v-on:click="unsub" class="button secondary small expand">
-              已订阅
-            </button>
+      <div class="channel-datas">
+        <div
+          v-for="channelData in channelDatas"
+          v-bind:key="channelData._id"
+          class="flex-start channel-data"
+        >
+          <div class="not-importent">
+            <span>{{ channelData.createTime | formatPass }}</span>
           </div>
-        </div>
-      </div>
-      <div
-        v-for="channelData in channelDatas"
-        v-bind:key="channelData._id"
-        class="flex-start channel-data"
-      >
-        <div class="not-importent">
-          <span>{{ channelData.createTime | formatPass }}</span>
-        </div>
-        <div class="datas">
-          <div
-            v-for="attr in channelData.channel.attrs ||
-            channelData.channel.channelTemplate.attrs"
-            v-bind:key="attr.name"
-          >
-            <span>{{ attr.name }}</span>
-            <span class="not-importent data-value">{{ channelData.data[attr.name] }}</span>
+          <div class="datas">
+            <div
+              v-for="attr in channelData.channel.attrs ||
+              channelData.channel.channelTemplate.attrs"
+              v-bind:key="attr.name"
+            >
+              <span>{{ attr.name }}</span>
+              <span class="not-importent data-value">{{
+                channelData.data[attr.name]
+              }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -208,7 +212,7 @@ export default {
   padding: 15px;
 }
 .cells {
-  margin: 20px 0;
+  margin: 0;
 }
 .cell {
   text-align: center;
@@ -242,7 +246,10 @@ export default {
   border-radius: 15px;
   padding: 15px;
 }
-.data-value{
+.data-value {
   margin-left: 5px;
+}
+.channel-datas{
+  margin: 20px 0;
 }
 </style>

@@ -40,10 +40,10 @@
               switchNotify(userChannel._id, userChannel.notify);
             "
           >
-            <i class="fi-mail"></i>
+            <i class="el-icon-bell"></i>
           </div>
           <div v-else v-on:click="$router.push('/sign-in')">
-            <i class="fi-mail">请登录</i>
+            <i class="el-icon-bell">请登录</i>
           </div>
         </div>
       </div>
@@ -135,8 +135,7 @@ export default {
   font-size: 10px;
 }
 .user-channels {
-  /* padding: 15px; */
-  padding-bottom: 1px;
+  padding: 15px 0;
 }
 .user-channel {
   max-width: 100%;

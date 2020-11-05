@@ -4,7 +4,7 @@
       <div>
         <div class="user-head">
           <div style="margin: auto">
-            <i class="fi-torso"></i>
+            <i class="el-icon-user-solid"></i>
           </div>
         </div>
         <div class="not-importent">
@@ -17,7 +17,16 @@
         </div>
       </div>
       <div class="login-area">
-        <ul
+        <el-button-group v-if="user.loginType == 'ANONYMOUS'"
+          key="no-eamil">
+          <el-button type="primary" v-on:click="$router.push('/sign-in')">登录</el-button>
+          <el-button type="primary" v-on:click="$router.push('/sign-up')">注册</el-button>
+        </el-button-group>
+        <el-button-group v-else
+          key="with-eamil">
+          <el-button type="danger" v-on:click="signOut">退出登录</el-button>
+        </el-button-group>
+        <!-- <ul
           class="button-group round"
           v-if="user.loginType == 'ANONYMOUS'"
           key="no-eamil"
@@ -31,7 +40,7 @@
           <li>
             <button v-on:click="signOut" class="button alert">退出登录</button>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <p>

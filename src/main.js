@@ -12,10 +12,15 @@ import About from './components/About.vue'
 import SignIn from './components/SignIn.vue'
 import SignUp from './components/SignUp.vue'
 import ChannelTemplate from './components/ChannelTemplate.vue'
-import cloudbase from "@cloudbase/js-sdk";
+import cloudbase from "@cloudbase/js-sdk"
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import './assets/my-style.css'
 
 // 应用路由插件
 Vue.use(VueRouter)
+// 应用UI
+Vue.use(ElementUI)
 
 // 过滤器
 function formatNumber(n) {
