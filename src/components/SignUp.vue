@@ -94,6 +94,6 @@ export default {
 
 <style scoped>
 .sign-up {
-  padding: 15px;
+  padding: 0px;
 }
 </style>

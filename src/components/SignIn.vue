@@ -59,6 +59,6 @@ export default {
 
 <style scoped>
 .sign-in {
-  padding: 15px;
+  padding: 0px;
 }
 </style>
