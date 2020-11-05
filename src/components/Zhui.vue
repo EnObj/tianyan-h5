@@ -13,9 +13,7 @@
       >
         <div class="flex-start" style="flex: auto; overflow: hidden">
           <div class="channel-name no-wrap">
-            {{
-              userChannel.channel.name
-            }}
+            {{ userChannel.channel.name }}
           </div>
           <div
             v-if="userChannel.channelDataMessage"
@@ -56,13 +54,13 @@
           style="flex-direction: column"
         >
           <p class="nothing not-importent">还没有任何订阅</p>
-          <div class="door">
-            <router-link to="/explore" style="color: #fff">探索</router-link>
-          </div>
+          <el-button type="primary" round v-on:click="$router.push('/explore')"
+            >探索</el-button
+          >
         </div>
       </div>
       <div class="not-importent flex-around">
-        <router-link to="/about">“爱追更”是什么？</router-link>
+        <el-link v-on:click="$router.push('/about')" type="primary">“爱追更”是什么？</el-link>
       </div>
     </div>
   </div>

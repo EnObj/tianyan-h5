@@ -24,7 +24,7 @@
           <el-button type="primary" v-on:click="signUp"> 注册 </el-button>
         </div>
         <p class="not-importent" style="margin-left: 10px">
-          <router-link to="/sign-in">登录</router-link>
+          <el-link v-on:click="$router.push('/sign-in')" type="primary">登录</el-link>
         </p>
       </div>
     </div>
