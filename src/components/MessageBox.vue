@@ -86,7 +86,7 @@ export default {
 
 <style scoped>
 .message-box {
-  padding: 15px;
+  padding: 0;
 }
 .channel-data {
   flex-direction: column;

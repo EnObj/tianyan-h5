@@ -210,7 +210,7 @@ export default {
 
 <style scoped>
 .channel {
-  padding: 15px;
+  padding: 0px;
 }
 .cells {
   margin: 0;

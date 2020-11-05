@@ -134,7 +134,7 @@ export default {
   font-size: 10px;
 }
 .user-channels {
-  padding: 15px 0;
+  padding: 0;
 }
 .user-channel {
   max-width: 100%;
@@ -144,6 +144,7 @@ export default {
   border-left: gray 10px solid;
   border-radius: 10px;
   padding: 15px 10px;
+  margin: 10px 0;
 }
 .channel-name {
   margin-left: 5px;

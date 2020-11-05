@@ -1,16 +1,14 @@
 <template>
-  <div class="main abs-center">
-    <div class="abs-center-content" style="flex:auto;">
-      <div class="logo">
-        <img src="./../assets/explore.png" />
-      </div>
+  <div class="main">
+      <h1>
+        探索
+      </h1>
       <!-- <div class="inp"> -->
         <input class="inp"
           v-on:keyup.enter="search($event.target.value)"
           placeholder="输入你关心的人"
         />
       <!-- </div> -->
-    </div>
   </div>
 </template>
 
@@ -27,8 +25,8 @@ export default {
 
 <style scoped>
 .main {
-  padding: 30px;
-  min-height: 70vh;
+  padding: 0px;
+  /* min-height: 50vh; */
 }
 
 .logo {
@@ -43,7 +41,7 @@ export default {
   border: 2px #aaa solid;
   height: 50px;
   border-radius: 15px;
-  margin: 40px auto;
+  margin-top: 30px;
   width: 100%;
   padding: 0 15px;
   box-sizing: border-box;

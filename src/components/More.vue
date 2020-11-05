@@ -165,20 +165,20 @@ export default {
 
 <style scoped>
 .more {
-  padding: 15px;
+  /* padding: 15px; */
   text-align: center;
 }
 .user-head {
   height: 60px;
   width: 60px;
   border-radius: 50%;
-  background: #fff;
+  background: #f6f6f6;
   display: flex;
   font-size: 40px;
   margin: 10px auto;
   color: gray;
 }
 .login-area{
-  margin: 10px 0;
+  margin: 20px 0 10px;
 }
 </style>

@@ -4,6 +4,7 @@
     <p>{{ channelTemplate.desc }}</p>
     <div v-if="channelTemplate.keyName">
       <input
+        class="inp"
         v-bind:placeholder="'请输入' + channelTemplate.keyName"
         v-on:keyup.enter="search($event.target.value)"
       />
@@ -68,6 +69,16 @@ export default {
 
 <style scoped>
 .channel-template {
-  padding: 15px;
+  padding: 0;
+}
+.inp {
+  display: block;
+  border: 2px #aaa solid;
+  height: 50px;
+  border-radius: 15px;
+  margin-top: 30px;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
 </style>

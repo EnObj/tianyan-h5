@@ -15,6 +15,6 @@
 
 <style scoped>
 .about {
-  padding: 10px 20px;
+  padding: 0px;
 }
 </style>

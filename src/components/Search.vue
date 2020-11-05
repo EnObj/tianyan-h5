@@ -174,7 +174,7 @@ export default {
 
 <style scoped>
 .search {
-  padding: 15px;
+  padding: 0px;
 }
 .channel {
   margin: 10px 0;
@@ -184,7 +184,7 @@ export default {
   border: 2px #aaa solid;
   height: 50px;
   border-radius: 15px;
-  margin: 20px auto;
+  margin-bottom: 20px;
   width: 100%;
   padding: 0 15px;
   box-sizing: border-box;
