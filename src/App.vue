@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <el-dropdown @command="openPage">
+    <el-tabs v-bind:value="$route.path" @tab-click="openPage">
+      <el-tab-pane label="爱追更" name="/zhui"></el-tab-pane>
+      <el-tab-pane label="探索" name="/explore"></el-tab-pane>
+      <el-tab-pane label="更多" name="/more"></el-tab-pane>
+    </el-tabs>
+    <!-- <el-dropdown @command="openPage">
       <span class="el-dropdown-link">
         爱追更<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
@@ -9,7 +14,7 @@
         <el-dropdown-item command="explore">探索</el-dropdown-item>
         <el-dropdown-item command="more">更多</el-dropdown-item>
       </el-dropdown-menu>
-    </el-dropdown>
+    </el-dropdown> -->
     <router-view></router-view>
   </div>
 </template>
@@ -19,7 +24,7 @@ export default {
   name: "App",
   methods: {
     openPage(page) {
-      this.$router.push('/' + page);
+      this.$router.push(page.name);
     },
   },
 };
