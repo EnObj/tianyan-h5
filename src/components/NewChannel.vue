@@ -5,6 +5,7 @@
       v-for="item in textAndDivList"
       v-bind:key="item.insideId"
       v-bind:style="{ paddingLeft: item.depth * 20 + 'px' }"
+      class="item"
     >
       <input
         type="checkbox"
@@ -12,12 +13,12 @@
         v-bind:value="item.selector"
         v-model="checkedSelectors"
       />
-      <label v-bind:for="item.insideId">{{
-        item.type == "text" ? item.content : ">>"
-      }}</label>
+      <label v-bind:for="item.insideId">
+        {{ item.type == "text" ? item.content : ">>" }}</label
+      >
     </div>
-    <div>
-      <button v-on:click="submit" class="button expand round">确定</button>
+    <div style="margin: 15px 0">
+      <el-button type="primary" round v-on:click="submit">确定</el-button>
     </div>
   </div>
 </template>
@@ -104,6 +105,9 @@ export default {
 
 <style scoped>
 .new-channel {
-  padding: 15px;
+  padding: 0;
+}
+.item {
+  word-break: break-all;
 }
 </style>

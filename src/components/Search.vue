@@ -60,11 +60,8 @@
       <div class="not-importent">定制</div>
       <div class="padding-box channel flex-start" style="word-break: break-all">
         <ChannelTemplateLogo v-bind:text="'链'" />
-        <div>
-          <router-link
-            v-bind:to="{ path: '/new-channel', query: { url: keyword } }"
-            >{{ keyword }}</router-link
-          >
+        <div v-on:click="$router.push({ path: '/new-channel', query: { url: keyword } })">
+          {{ keyword }}
         </div>
       </div>
     </div>
