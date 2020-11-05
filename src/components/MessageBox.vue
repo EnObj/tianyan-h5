@@ -1,5 +1,5 @@
 <template>
-  <div class="message-box">
+  <div class="message-box" style="overflow:auto">
     <h1>消息列表</h1>
     <div
       v-for="message in messages"
@@ -34,7 +34,7 @@
         </div>
       </div>
     </div>
-    <div v-show="more" style="text-align:center;">
+    <div v-show="more" class="load-more">
       <el-link v-on:click="loadMessages(messages)" type="primary">加载更多</el-link>
     </div>
     <div class="nothing not-importent" v-show="loaded && !messages.length">
@@ -117,5 +117,9 @@ export default {
 .nothing{
   margin-top: 25vh;
   text-align: center;
+}
+.load-more{
+  text-align: center;
+  margin: 20px 0;
 }
 </style>
