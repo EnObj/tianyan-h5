@@ -37,6 +37,9 @@
     <div v-show="more" style="text-align:center;">
       <el-link v-on:click="loadMessages(messages)" type="primary">加载更多</el-link>
     </div>
+    <div class="nothing not-importent" v-show="loaded && !messages.length">
+      啥也没有
+    </div>
   </div>
 </template>
 
@@ -110,5 +113,9 @@ export default {
 }
 .data-value {
   margin-left: 5px;
+}
+.nothing{
+  margin-top: 25vh;
+  text-align: center;
 }
 </style>
