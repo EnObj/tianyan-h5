@@ -15,10 +15,7 @@
         "
       />
       <div class="flex-start channel-data">
-        <router-link
-          v-bind:to="'/channel/' + message.channelData.channel._id"
-          >{{ message.channelData.channel.name }}</router-link
-        >
+        <el-link v-on:click="$router.push('/channel/' + message.channelData.channel._id)" type="primary">{{ message.channelData.channel.name }}</el-link>
         <div class="not-importent">
           <span>{{ message.createTime | formatPass }}</span>
         </div>
@@ -37,10 +34,8 @@
         </div>
       </div>
     </div>
-    <div v-show="more">
-      <button v-on:click="loadMessages(messages)" class="button expand round">
-        加载更多
-      </button>
+    <div v-show="more" style="text-align:center;">
+      <el-link v-on:click="loadMessages(messages)" type="primary">加载更多</el-link>
     </div>
   </div>
 </template>
@@ -100,7 +95,7 @@ export default {
 
 .datas {
   margin-top: 5px;
-  background: #fff;
+  background: #f6f6f6;
   word-break: break-all;
   border-radius: 15px;
   padding: 15px;
