@@ -4,6 +4,7 @@
       <div
         v-for="userChannel in userChannels"
         v-bind:key="userChannel._id"
+        v-on:click="$router.push('/channel/' + userChannel.channel._id)"
         class="user-channel padding-box flex-between"
         v-bind:style="{
           borderLeftColor:
@@ -12,9 +13,9 @@
       >
         <div class="flex-start" style="flex: auto; overflow: hidden">
           <div class="channel-name no-wrap">
-            <router-link v-bind:to="'/channel/' + userChannel.channel._id">{{
+            {{
               userChannel.channel.name
-            }}</router-link>
+            }}
           </div>
           <div
             v-if="userChannel.channelDataMessage"
@@ -35,14 +36,14 @@
         >
           <div
             v-if="cloudAuth.currentUser.email"
-            v-on:click="
+            v-on:click.stop="
               userChannel.notify = !userChannel.notify;
               switchNotify(userChannel._id, userChannel.notify);
             "
           >
             <i class="el-icon-bell"></i>
           </div>
-          <div v-else v-on:click="$router.push('/sign-in')">
+          <div v-else v-on:click.stop="$router.push('/sign-in')">
             <i class="el-icon-bell">请登录</i>
           </div>
         </div>
@@ -155,7 +156,7 @@ export default {
   color: #ddd;
 }
 .notify-on {
-  color: #008cba;
+  color: #409eff;
 }
 .channel-template {
   margin-top: 5px;
