@@ -1,15 +1,23 @@
 <template>
   <div class="search">
-    <input
-      placeholder="输入你关心的人"
-      v-bind:value="keyword"
-      v-on:keyup.enter="
-        $router.replace({ query: { keyword: $event.target.value } })
-      "
-      class="inp"
-    />
-    <div style="margin-bottom:20px" v-show="searchProgress != 0 && searchProgress != 100">
-      <el-progress v-bind:percentage="searchProgress" v-bind:show-text="false" v-bind:stroke-width="3"></el-progress>
+    <div class="inp">
+      <el-input
+        placeholder="输入你关心的人"
+        v-model="keywordVal"
+        clearable
+        prefix-icon="el-icon-search"
+        v-on:change="$router.replace({ query: { keyword: keywordVal } })"
+      />
+    </div>
+    <div
+      style="margin-bottom: 20px"
+      v-show="searchProgress != 0 && searchProgress != 100"
+    >
+      <el-progress
+        v-bind:percentage="searchProgress"
+        v-bind:show-text="false"
+        v-bind:stroke-width="3"
+      ></el-progress>
     </div>
     <div v-show="channels.length">
       <div class="not-importent">已收录</div>
@@ -25,9 +33,7 @@
         />
         <div>
           <div>
-            {{
-              channel.name
-            }}
+            {{ channel.name }}
           </div>
           <div class="not-importent">{{ channel.channelTemplate.name }}</div>
         </div>
@@ -63,7 +69,11 @@
       <div class="not-importent">定制</div>
       <div class="padding-box channel flex-start" style="word-break: break-all">
         <ChannelTemplateLogo v-bind:text="'链'" />
-        <div v-on:click="$router.push({ path: '/new-channel', query: { url: keyword } })">
+        <div
+          v-on:click="
+            $router.push({ path: '/new-channel', query: { url: keyword } })
+          "
+        >
           {{ keyword }}
         </div>
       </div>
@@ -84,6 +94,7 @@ export default {
       maybeChannels: [],
       finishedSearchCount: 0,
       showNewChannelDoor: false,
+      keywordVal: this.keyword
     };
   },
   components: { ChannelTemplateLogo },
@@ -106,12 +117,14 @@ export default {
     },
   },
   computed: {
-    searchProgress(){
-      if(this.templates.length){
-        return Math.floor(this.finishedSearchCount/this.templates.length * 100)
+    searchProgress() {
+      if (this.templates.length) {
+        return Math.floor(
+          (this.finishedSearchCount / this.templates.length) * 100
+        );
       }
-      return 0
-    }
+      return 0;
+    },
   },
   methods: {
     search(keyword) {
@@ -191,13 +204,6 @@ export default {
   margin: 10px 0;
 }
 .inp {
-  display: block;
-  border: 2px #aaa solid;
-  height: 50px;
-  border-radius: 15px;
   margin-bottom: 20px;
-  width: 100%;
-  padding: 0 15px;
-  box-sizing: border-box;
 }
 </style>

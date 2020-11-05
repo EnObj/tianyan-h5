@@ -1,20 +1,30 @@
 <template>
   <div class="main">
-      <h1>
-        探索
-      </h1>
-      <!-- <div class="inp"> -->
-        <input class="inp"
+    <h1>探索</h1>
+    <!-- <div class="inp"> -->
+    <!-- <input class="inp"
           v-on:keyup.enter="search($event.target.value)"
           placeholder="输入你关心的人"
-        />
-      <!-- </div> -->
+        /> -->
+    <el-input
+      placeholder="输入你关心的人"
+      v-model="keyword"
+      clearable
+      prefix-icon="el-icon-search"
+      v-on:change="search(keyword)"
+    />
+    <!-- </div> -->
   </div>
 </template>
 
 <script>
 export default {
   name: "Explore",
+  data() {
+    return {
+      keyword: "",
+    };
+  },
   methods: {
     search: function (keyword) {
       this.$router.push({ path: "/search", query: { keyword } });
