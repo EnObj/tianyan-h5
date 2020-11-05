@@ -10,6 +10,7 @@ import NewChannel from './components/NewChannel.vue'
 import MessageBox from './components/MessageBox.vue'
 import About from './components/About.vue'
 import SignIn from './components/SignIn.vue'
+import SignUp from './components/SignUp.vue'
 import ChannelTemplate from './components/ChannelTemplate.vue'
 import cloudbase from "@cloudbase/js-sdk";
 
@@ -63,6 +64,7 @@ const routes = [
   { path: '/message-box', component: MessageBox },
   { path: '/about', component: About },
   { path: '/sign-in', component: SignIn },
+  { path: '/sign-up', component: SignUp },
 ]
 
 const router = new VueRouter({

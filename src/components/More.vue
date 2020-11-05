@@ -24,7 +24,7 @@
         >
           <li><button v-on:click="$router.push('/sign-in')" class="button">登录</button></li>
           <li>
-            <button v-on:click="signUp" class="button">注册</button>
+            <button v-on:click="$router.push('/sign-up')" class="button">注册</button>
           </li>
         </ul>
         <ul class="button-group round" v-else key="with-eamil">
