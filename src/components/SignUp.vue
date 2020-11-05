@@ -10,7 +10,7 @@
         >
         </el-input>
       </p>
-      <p>
+      <p v-show="!user.hasPassword">
         <el-input
           placeholder="密码（包含字母和数字，长度要求8～32位）"
           prefix-icon="el-icon-key"
@@ -24,7 +24,9 @@
           <el-button type="primary" v-on:click="signUp"> 注册 </el-button>
         </div>
         <p class="not-importent" style="margin-left: 10px">
-          <el-link v-on:click="$router.push('/sign-in')" type="primary">登录</el-link>
+          <el-link v-on:click="$router.push('/sign-in')" type="primary"
+            >登录</el-link
+          >
         </p>
       </div>
     </div>
@@ -43,22 +45,45 @@ export default {
   },
   methods: {
     signUp: function () {
-      // 需要先通过updateUsername把匿名用户转换为正式用户
-      this.updateUsername().then(() => {
-        this.setPassword().then(() => {
-          this.updateEmail();
+      if (this.account && (this.user.hasPassword || this.password)) {
+        // 需要先通过updateUsername把匿名用户转换为正式用户
+        this.updateUsername().then(() => {
+          this.setPassword().then(() => {
+            this.updateEmail();
+          });
         });
-      });
+      } else {
+        this.$message({
+          message: "账户名或密码不能为空",
+          type: "warning",
+        });
+      }
     },
     updateEmail: function () {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+      });
       return this.user
         .updateEmail(this.account)
         .then(() => {
-          alert("验证邮件已发送");
-          return this.user.refresh();
+          loading.close();
+          this.$message({
+            message: "验证邮件已发送",
+            type: "success",
+          });
+          return this.user.refresh().then(()=>{
+            this.$router.push('/sign-in')
+          })
         })
         .catch((error) => {
+          loading.close();
           console.error("更新失败", error);
+          this.$message({
+            message: "请重新输入邮箱",
+            type: "warning",
+          });
           return Promise.reject();
         });
     },

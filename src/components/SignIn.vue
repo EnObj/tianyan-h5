@@ -24,7 +24,9 @@
           <el-button type="primary" v-on:click="signIn"> 登录 </el-button>
         </div>
         <p class="not-importent" style="margin-left: 10px">
-          <el-link v-on:click="$router.push('/sign-up')" type="primary">注册</el-link>
+          <el-link v-on:click="$router.push('/sign-up')" type="primary"
+            >注册</el-link
+          >
         </p>
       </div>
     </div>
@@ -42,16 +44,29 @@ export default {
   },
   methods: {
     signIn() {
-      this.cloudAuth
-        .signInWithEmailAndPassword(this.account, this.password)
-        .then((item) => {
-          console.log("登录成功", item);
-          this.$router.back();
-        })
-        .catch((error) => {
-          console.error("登录失败", error);
-          alert("邮箱或密码错误");
+      if (this.account && this.password) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
         });
+        this.cloudAuth
+          .signInWithEmailAndPassword(this.account, this.password)
+          .then((item) => {
+            console.log("登录成功", item);
+            loading.close();
+            this.$router.back();
+          })
+          .catch((error) => {
+            console.error("登录失败", error);
+            this.$message.error("邮箱或密码错误");
+          });
+      } else {
+        this.$message({
+          message: "账户名或密码不能为空",
+          type: "warning",
+        });
+      }
     },
   },
 };
