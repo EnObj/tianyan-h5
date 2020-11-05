@@ -73,9 +73,9 @@ export default {
             message: "验证邮件已发送",
             type: "success",
           });
-          return this.user.refresh().then(()=>{
-            this.$router.push('/sign-in')
-          })
+          return this.user.refresh().then(() => {
+            this.$router.push("/sign-in");
+          });
         })
         .catch((error) => {
           loading.close();
@@ -91,14 +91,24 @@ export default {
       if (this.user.hasPassword) {
         return Promise.resolve();
       }
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+      });
       return this.cloudAuth.currentUser
         .updatePassword(this.password)
         .then(() => {
+          loading.close();
           return this.user.refresh();
         })
         .catch((error) => {
+          loading.close();
           console.error("更新密码失败", error);
-          alert("密码不合法");
+          this.$message({
+            message: "密码不合法",
+            type: "warning",
+          });
           return Promise.reject();
         });
     },
