@@ -22,7 +22,7 @@
           v-if="user.loginType == 'ANONYMOUS'"
           key="no-eamil"
         >
-          <li><button v-on:click="signIn" class="button">登录</button></li>
+          <li><button v-on:click="$router.push('/sign-in')" class="button">登录</button></li>
           <li>
             <button v-on:click="signUp" class="button">注册</button>
           </li>

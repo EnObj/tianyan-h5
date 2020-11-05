@@ -42,7 +42,7 @@
           >
             <i class="fi-mail"></i>
           </div>
-          <div v-else v-on:click="$router.push('/more')">
+          <div v-else v-on:click="$router.push('/sign-in')">
             <i class="fi-mail">请登录</i>
           </div>
         </div>
