@@ -15,7 +15,8 @@
       "name": "notifyTyMessage",
       "timeout": 30,
       "envVariables": {
-        "MAILER_AUTH_USER": "xxx@qq.com",
+        "MAILER_HOST": "smtp.xxx.com",
+        "MAILER_AUTH_USER": "xxx@xxx.com",
         "MAILER_AUTH_PASS": "xxxxxx",
         "WEBSITE_HOST": "https://xxx.com"
       },

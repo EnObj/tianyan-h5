@@ -16,9 +16,9 @@ exports.main = async (event, context) => {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "smtp.qq.com",
+    host: process.env.MAILER_HOST,
     port: 587,
-    secure: false, // true for 465, false for other ports
+    secure: true, // true for 465, false for other ports
     auth: {
       user: process.env.MAILER_AUTH_USER, // generated ethereal user
       pass: process.env.MAILER_AUTH_PASS, // generated ethereal password
@@ -62,7 +62,7 @@ exports.main = async (event, context) => {
 
       // send mail with defined transport object
       let info = await transporter.sendMail({
-        from: '"爱追更" <enhui_ji@qq.com>', // sender address
+        from: `"爱追更" <${process.env.MAILER_AUTH_USER}>`, // sender address
         to: userInfo.email, // list of receivers
         subject: "你关注的频道有更新了", // Subject line
         text: channel.name,
