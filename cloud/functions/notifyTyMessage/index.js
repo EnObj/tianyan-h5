@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     host: process.env.MAILER_HOST,
-    port: 587,
+    port: process.env.MAILER_PORT ? +process.env.MAILER_PORT : 465,
     secure: true, // true for 465, false for other ports
     auth: {
       user: process.env.MAILER_AUTH_USER, // generated ethereal user
@@ -67,7 +67,7 @@ exports.main = async (event, context) => {
         subject: "你关注的频道有更新了", // Subject line
         text: channel.name,
         html: `
-          <a href="${process.env.WEBSITE_HOST}/#/channel/${channel._id}">${channel.name}</a>
+          <a href="${process.env.WEBSITE_HOST}/zhuigeng/index.html#/channel/${channel._id}">${channel.name}</a>
           <span>${(userMessage.channelDatas.length > 1 ? ("等" + userMessage.channelDatas.length + "个活动") : "") + '有更新'}</span>
           `,
       });
