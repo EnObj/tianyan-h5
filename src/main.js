@@ -13,14 +13,27 @@ import SignIn from './components/SignIn.vue'
 import SignUp from './components/SignUp.vue'
 import ChannelTemplate from './components/ChannelTemplate.vue'
 import cloudbase from "@cloudbase/js-sdk"
-import ElementUI from 'element-ui'
+import { Card, Link, Badge, Divider, Button, Tabs, TabPane, Input, ButtonGroup, Progress, Loading, Message } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/my-style.css'
 
 // 应用路由插件
 Vue.use(VueRouter)
 // 应用UI
-Vue.use(ElementUI)
+Vue.component(Card.name, Card);
+Vue.component(Link.name, Link);
+Vue.component(Badge.name, Badge);
+Vue.component(Divider.name, Divider);
+Vue.component(Button.name, Button);
+Vue.component(Tabs.name, Tabs);
+Vue.use(TabPane);
+Vue.use(Input);
+Vue.use(ButtonGroup);
+Vue.use(Progress);
+Vue.use(Loading.directive);
+
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$message = Message;
 
 // 过滤器
 function formatNumber(n) {
@@ -79,7 +92,9 @@ const router = new VueRouter({
 function signIn() {
   // 链接腾讯云
   const cloud = Vue.prototype.cloud = cloudbase.init({
-    env: "xxx",
+    // env: "xxx",
+    // env: "xmrl-y0wtp", // 开发环境
+    env: "dev-9g0suwuw61afb9f3", // 生产环境
   })
   const cloudAuth = Vue.prototype.cloudAuth = cloud.auth({
     persistence: 'local'
