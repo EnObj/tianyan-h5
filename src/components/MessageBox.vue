@@ -15,7 +15,11 @@
         "
       />
       <div class="flex-start channel-data">
-        <el-link v-on:click="$router.push('/channel/' + message.channelData.channel._id)" type="primary">{{ message.channelData.channel.name }}</el-link>
+        <el-badge is-dot :hidden="message.readed">
+          <div>
+            <el-link v-on:click="$router.push('/channel/' + message.channelData.channel._id)" type="primary">{{ message.channelData.channel.name }}</el-link>
+          </div>
+        </el-badge>
         <div class="not-importent">
           <span>{{ message.createTime | formatPass }}</span>
         </div>
