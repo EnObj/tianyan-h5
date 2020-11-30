@@ -128,6 +128,7 @@ export default {
   },
   methods: {
     search(keyword) {
+      const loading = this.$loading();
       console.log("搜索：" + keyword);
       this.showNewChannelDoor = false;
       if (/^https?:\/\//.test(keyword)) {
@@ -148,6 +149,10 @@ export default {
           })
           .then((res) => {
             this.finishedSearchCount++;
+            // 关闭加载遮罩
+            if(this.finishedSearchCount == 1){
+              loading.close();
+            }
             if (!res.result.errCode) {
               this.channels = this.channels.concat([res.result.channel]);
             } else {
@@ -168,6 +173,10 @@ export default {
           })
           .catch((err) => {
             this.finishedSearchCount++;
+            // 关闭加载遮罩
+            if(this.finishedSearchCount == 1){
+              loading.close();
+            }
             console.error(err);
           });
       });
