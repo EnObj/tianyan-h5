@@ -45,6 +45,7 @@
             <i class="el-icon-bell">请登录</i>
           </div>
         </div>
+        <div class="top" v-if="userChannel.top"></div>
       </div>
     </div>
     <div v-else-if="showExplore">
@@ -190,5 +191,14 @@ export default {
 .message {
   flex: none;
   margin-left: 10px;
+}
+.top{
+  position: absolute;
+  right: -11px;
+  top: -11px;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  background: #aaa;
 }
 </style>

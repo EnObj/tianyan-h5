@@ -37,10 +37,10 @@
           </div>
           <div class="not-importent">网页</div>
         </div>
-        <div v-if="userChannel" class="notify-switch cell">
+        <div v-if="userChannel" class="notify-switch cell" key="notify">
           <div
             class="cell-icon"
-            v-bind:class="{ 'notify-switch-on': userChannel.notify }"
+            v-bind:class="{ 'switch-on': userChannel.notify }"
           >
             <div
               v-if="cloudAuth.currentUser.email"
@@ -56,6 +56,19 @@
             </div>
           </div>
           <div class="not-importent">通知我</div>
+        </div>
+        <div v-if="userChannel" class="cell" key="top">
+          <div
+            class="cell-icon"
+            v-bind:class="{ 'switch-on': userChannel.top }"
+            v-on:click="
+                userChannel.top = !userChannel.top;
+                switchTop();
+              "
+          >
+            <i class="el-icon-top"></i>
+          </div>
+          <div class="not-importent">置顶</div>
         </div>
       </div>
       <el-divider content-position="left"><i class="el-icon-time"></i></el-divider>
@@ -204,6 +217,18 @@ export default {
           });
       }
     },
+    switchTop: function () {
+      if (this.userChannel) {
+        this.cloud
+          .database()
+          .collection("ty_user_channel")
+          .doc(this.userChannel._id)
+          .update({
+            top: this.userChannel.top,
+            updateTime: Date.now()
+          });
+      }
+    },
   },
 };
 </script>
@@ -232,7 +257,7 @@ export default {
   margin-bottom: 5px;
   line-height: 50px;
 }
-.notify-switch-on {
+.switch-on {
   color: #008cba;
 }
 .channel-data {
