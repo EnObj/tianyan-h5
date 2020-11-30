@@ -77,6 +77,7 @@ export default {
     };
   },
   mounted: function () {
+    const loading = this.$loading();
     const db = this.cloud.database();
     // 加载频道
     CloudUtils.getAll(
@@ -86,6 +87,8 @@ export default {
         .orderBy("top", "desc")
         .orderBy("updateTime", "desc")
     ).then((list) => {
+      // 关闭遮罩
+      loading.close();
       this.userChannels = list;
       this.showExplore = true;
       // 加载消息
