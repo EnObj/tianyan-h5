@@ -1,68 +1,73 @@
 <template>
   <div class="more">
-    <div>
+    <div class="main">
       <div>
-        <div class="user-head">
-          <div style="margin: auto">
-            <i class="el-icon-user-solid"></i>
+        <div>
+          <div class="user-head">
+            <div style="margin: auto">
+              <i class="el-icon-user-solid"></i>
+            </div>
+          </div>
+          <div class="not-importent">
+            <div v-if="user.loginType == 'ANONYMOUS'" key="user-youke">
+              <span>游客</span>
+            </div>
+            <div v-else key="user-email">
+              <span>{{ user.email }}</span>
+            </div>
           </div>
         </div>
-        <div class="not-importent">
-          <div v-if="user.loginType == 'ANONYMOUS'" key="user-youke">
-            <span>游客</span>
-          </div>
-          <div v-else key="user-email">
-            <span>{{ user.email }}</span>
-          </div>
+        <div class="login-area">
+          <el-button-group v-if="user.loginType == 'ANONYMOUS'" key="no-eamil">
+            <el-button type="primary" v-on:click="$router.push('/sign-in')"
+              >登录</el-button
+            >
+            <el-button type="primary" v-on:click="$router.push('/sign-up')"
+              >注册</el-button
+            >
+          </el-button-group>
+          <el-button-group v-else key="with-eamil">
+            <el-button type="info" v-on:click="signOut">退出登录</el-button>
+          </el-button-group>
+          <!-- <ul
+            class="button-group round"
+            v-if="user.loginType == 'ANONYMOUS'"
+            key="no-eamil"
+          >
+            <li><button v-on:click="$router.push('/sign-in')" class="button">登录</button></li>
+            <li>
+              <button v-on:click="$router.push('/sign-up')" class="button">注册</button>
+            </li>
+          </ul>
+          <ul class="button-group round" v-else key="with-eamil">
+            <li>
+              <button v-on:click="signOut" class="button alert">退出登录</button>
+            </li>
+          </ul> -->
         </div>
       </div>
-      <div class="login-area">
-        <el-button-group v-if="user.loginType == 'ANONYMOUS'" key="no-eamil">
-          <el-button type="primary" v-on:click="$router.push('/sign-in')"
-            >登录</el-button
+      <p>
+        <el-badge v-bind:value="'新'" class="item" v-bind:hidden="!lastUnreadedMessage">
+          <el-link v-on:click="$router.push('/message-box')" type="primary"
+            >消息</el-link
           >
-          <el-button type="primary" v-on:click="$router.push('/sign-up')"
-            >注册</el-button
-          >
-        </el-button-group>
-        <el-button-group v-else key="with-eamil">
-          <el-button type="info" v-on:click="signOut">退出登录</el-button>
-        </el-button-group>
-        <!-- <ul
-          class="button-group round"
-          v-if="user.loginType == 'ANONYMOUS'"
-          key="no-eamil"
+        </el-badge>
+      </p>
+      <p>
+        <el-link
+          href="https://support.qq.com/product/290950"
+          target="_blank"
+          type="primary"
+          >反馈</el-link
         >
-          <li><button v-on:click="$router.push('/sign-in')" class="button">登录</button></li>
-          <li>
-            <button v-on:click="$router.push('/sign-up')" class="button">注册</button>
-          </li>
-        </ul>
-        <ul class="button-group round" v-else key="with-eamil">
-          <li>
-            <button v-on:click="signOut" class="button alert">退出登录</button>
-          </li>
-        </ul> -->
-      </div>
+      </p>
+      <p>
+        <el-link v-on:click="$router.push('/about')" type="primary">关于</el-link>
+      </p>
     </div>
-    <p>
-      <el-badge v-bind:value="'新'" class="item" v-bind:hidden="!lastUnreadedMessage">
-        <el-link v-on:click="$router.push('/message-box')" type="primary"
-          >消息</el-link
-        >
-      </el-badge>
-    </p>
-    <p>
-      <el-link
-        href="https://support.qq.com/product/290950"
-        target="_blank"
-        type="primary"
-        >反馈</el-link
-      >
-    </p>
-    <p>
-      <el-link v-on:click="$router.push('/about')" type="primary">关于</el-link>
-    </p>
+    <div class="not-importent to-enobj">
+      power by <el-link href="https://enobj.cn" type="info">enobj.cn</el-link>
+    </div>
   </div>
 </template>
 
@@ -198,5 +203,9 @@ export default {
 }
 .login-area {
   margin: 20px 0;
+}
+.main{
+  min-height: 80vh;
+  margin-top: 20px;
 }
 </style>
