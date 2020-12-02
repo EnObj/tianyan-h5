@@ -168,6 +168,7 @@ export default {
         });
     },
     signOut() {
+      const loading = this.$loading()
       this.cloudAuth.signOut().then(() => {
         // 再以匿名用户登录
         this.cloudAuth
@@ -180,6 +181,7 @@ export default {
           .catch((error) => {
             console.error("登录失败", error);
           });
+        loading.close()
       });
     },
   },
