@@ -7,6 +7,7 @@
       class="flex-start message"
     >
       <ChannelTemplateLogo
+        :style="{visibility: message.sameChannel ? 'hidden': 'visible'}"
         v-bind:main-color="
           message.channelData.channel.channelTemplate.mainColor
         "
@@ -15,7 +16,7 @@
         "
       />
       <div class="flex-start channel-data">
-        <el-badge is-dot :hidden="message.readed">
+        <el-badge is-dot :hidden="message.readed" v-if="!message.sameChannel">
           <div>
             <el-link v-on:click="$router.push('/channel/' + message.channelData.channel._id)" type="primary">{{ message.channelData.channel.name }}</el-link>
           </div>
@@ -74,6 +75,7 @@ export default {
   },
   methods: {
     loadMessages(messages = []) {
+      const loading = this.$loading();
       this.cloud
         .database()
         .collection("ty_user_channel_data_message")
@@ -83,9 +85,26 @@ export default {
         .limit(this.pageSize)
         .get()
         .then((res) => {
+          // 标记连续
+          res.data.forEach(function(message, index){
+            var newMessage = res.data[index-1]
+            if(index==0){
+              newMessage = messages[messages.length-1]
+            }
+            if(newMessage && newMessage.channelData.channel._id == message.channelData.channel._id){
+              message.sameChannel = true
+            }
+          })
           this.messages = messages.concat(res.data);
-          (this.more = res.data.length == this.pageSize), (this.loaded = true);
-        });
+          this.more = res.data.length == this.pageSize;
+          this.loaded = true;
+
+          // 关闭loading
+          loading.close()
+        }).catch(()=>{
+          // 关闭loading
+          loading.close()
+        })
     },
   },
 };
