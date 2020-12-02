@@ -5,7 +5,7 @@
         <h1>
           {{ channel.name }}
         </h1>
-        <div style="flex:none;">
+        <div style="flex: none">
           <div v-if="!userChannel" key="sub">
             <el-button v-on:click="sub" type="primary" round>订阅</el-button>
           </div>
@@ -61,17 +61,16 @@
           <div
             class="cell-icon"
             v-bind:class="{ 'switch-on': userChannel.top }"
-            v-on:click="
-                userChannel.top = !userChannel.top;
-                switchTop();
-              "
+            v-on:click="switchTop()"
           >
             <i class="el-icon-top"></i>
           </div>
           <div class="not-importent">置顶</div>
         </div>
       </div>
-      <el-divider content-position="left"><i class="el-icon-time"></i></el-divider>
+      <el-divider content-position="left"
+        ><i class="el-icon-time"></i
+      ></el-divider>
       <div class="channel-datas">
         <div
           v-for="channelData in channelDatas"
@@ -219,13 +218,17 @@ export default {
     },
     switchTop: function () {
       if (this.userChannel) {
+        if (!("top" in this.userChannel)) {
+          this.$set(this.userChannel, "top", false);
+        }
+        this.userChannel.top = !this.userChannel.top;
         this.cloud
           .database()
           .collection("ty_user_channel")
           .doc(this.userChannel._id)
           .update({
             top: this.userChannel.top,
-            updateTime: Date.now()
+            updateTime: Date.now(),
           });
       }
     },
@@ -275,7 +278,7 @@ export default {
 .data-value {
   margin-left: 5px;
 }
-.channel-datas{
+.channel-datas {
   margin: 20px 0;
 }
 </style>
