@@ -10,7 +10,7 @@
         >
         </el-input>
       </p>
-      <p v-show="!user.hasPassword">
+      <p>
         <el-input
           placeholder="密码（包含字母和数字，长度要求8～32位）"
           prefix-icon="el-icon-key"
