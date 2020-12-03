@@ -7,7 +7,7 @@
           placeholder="输入你关心的人"
         /> -->
     <el-input
-      placeholder="输入你关心的人"
+      placeholder="搜索你关心的人"
       v-model="keyword"
       clearable
       prefix-icon="el-icon-search"

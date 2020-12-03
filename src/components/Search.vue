@@ -2,7 +2,7 @@
   <div class="search">
     <div class="inp">
       <el-input
-        placeholder="输入你关心的人"
+        placeholder="搜索你关心的人"
         v-model="keywordVal"
         clearable
         prefix-icon="el-icon-search"
