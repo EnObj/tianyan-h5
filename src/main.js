@@ -13,7 +13,7 @@ import SignIn from './components/SignIn.vue'
 import SignUp from './components/SignUp.vue'
 import ChannelTemplate from './components/ChannelTemplate.vue'
 import cloudbase from "@cloudbase/js-sdk"
-import { Card, Link, Badge, Divider, Button, Tabs, TabPane, Input, ButtonGroup, Progress, Loading, Message, Icon } from 'element-ui';
+import { Card, Link, Badge, Divider, Button, Tabs, TabPane, Input, ButtonGroup, Progress, Loading, Message, Icon, Row, Col } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/my-style.css'
 
@@ -31,6 +31,8 @@ Vue.use(Input);
 Vue.use(ButtonGroup);
 Vue.use(Progress);
 Vue.use(Icon);
+Vue.use(Row);
+Vue.use(Col);
 Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;
