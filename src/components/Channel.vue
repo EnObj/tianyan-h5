@@ -121,58 +121,64 @@ export default {
           });
       }
     },
+    id: function () {
+      this.initChannel();
+    },
   },
-  mounted: function () {
-    const db = this.cloud.database();
-    // 加载channel
-    db.collection("ty_channel")
-      .doc(this.id)
-      .get()
-      .then((res) => {
-        this.channel = res.data[0];
-      });
-    // 加载用户channel
-    db.collection("ty_user_channel")
-      .where({
-        "channel._id": this.id,
-      })
-      .get()
-      .then((res) => {
-        this.userChannel = res.data[0] || null;
-        // 更新用户频道下的消息为已读
-        db.collection("ty_user_channel_data_message")
-          .where({
-            "channelData.channel._id": this.id,
-          })
-          .update({
-            readed: true,
-          });
-        // 当前渠道下的所有等待通知的消息标记为skip
-        db.collection("ty_user_channel_data_message")
-          .where({
-            "channelData.channel._id": this.id,
-            notify: "wait",
-          })
-          .update({
-            data: {
-              notify: "skip",
-            },
-          });
-      });
-    // 加载channelData
-    db.collection("ty_channel_data")
-      .where({
-        "channel._id": this.id,
-        dataChanged: true,
-      })
-      .orderBy("createTime", "desc")
-      .limit(20)
-      .get()
-      .then((res) => {
-        this.channelDatas = res.data;
-      });
+  created: function () {
+    this.initChannel();
   },
   methods: {
+    initChannel() {
+      const db = this.cloud.database();
+      // 加载channel
+      db.collection("ty_channel")
+        .doc(this.id)
+        .get()
+        .then((res) => {
+          this.channel = res.data[0];
+        });
+      // 加载用户channel
+      db.collection("ty_user_channel")
+        .where({
+          "channel._id": this.id,
+        })
+        .get()
+        .then((res) => {
+          this.userChannel = res.data[0] || null;
+          // 更新用户频道下的消息为已读
+          db.collection("ty_user_channel_data_message")
+            .where({
+              "channelData.channel._id": this.id,
+            })
+            .update({
+              readed: true,
+            });
+          // 当前渠道下的所有等待通知的消息标记为skip
+          db.collection("ty_user_channel_data_message")
+            .where({
+              "channelData.channel._id": this.id,
+              notify: "wait",
+            })
+            .update({
+              data: {
+                notify: "skip",
+              },
+            });
+        });
+      // 加载channelData
+      db.collection("ty_channel_data")
+        .where({
+          "channel._id": this.id,
+          dataChanged: true,
+        })
+        .orderBy("createTime", "desc")
+        .limit(20)
+        .get()
+        .then((res) => {
+          this.channelDatas = res.data;
+        });
+    },
     sub: function () {
       console.log("sub");
       this.cloud
