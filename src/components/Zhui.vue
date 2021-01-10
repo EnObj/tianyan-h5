@@ -4,7 +4,7 @@
       <div
         v-for="userChannel in userChannels"
         v-bind:key="userChannel._id"
-        v-on:click="$router.push('/channel/' + userChannel.channel._id)"
+        v-on:click="openChannel(userChannel)"
         class="user-channel padding-box flex-between"
         v-bind:style="{
           borderLeftColor:
@@ -34,10 +34,7 @@
         >
           <div
             v-if="cloudAuth.currentUser.email"
-            v-on:click.stop="
-              userChannel.notify = !userChannel.notify;
-              switchNotify(userChannel._id, userChannel.notify);
-            "
+            v-on:click.stop="switchNotify(userChannel._id)"
           >
             <i class="el-icon-bell"></i>
           </div>
@@ -68,59 +65,25 @@
 </template>
 
 <script>
-import CloudUtils from "./CloudUtils";
+import { mapState } from 'vuex'
 export default {
   name: "Zhui",
   data: () => {
     return {
-      userChannels: [],
-      showExplore: false,
+      showExplore: true,
     };
   },
-  mounted: function () {
-    const loading = this.$loading();
-    const db = this.cloud.database();
-    // 加载频道
-    CloudUtils.getAll(
-      db
-        .collection("ty_user_channel")
-        .where({})
-        .orderBy("top", "desc")
-        .orderBy("updateTime", "desc")
-    ).then((list) => {
-      // 关闭遮罩
-      loading.close();
-      this.userChannels = list;
-      this.showExplore = true;
-      // 加载消息
-      this.userChannels.forEach(
-        function (userChannel) {
-          db.collection("ty_user_channel_data_message")
-            .where({
-              "channelData.channel._id": userChannel.channel._id,
-            })
-            .orderBy("createTime", "desc")
-            .limit(1)
-            .get()
-            .then(
-              function (res) {
-                this.$set(userChannel, `channelDataMessage`, res.data[0]);
-              }.bind(this)
-            );
-        }.bind(this)
-      );
-    });
-  },
+  computed: mapState(['userChannels']),
   methods: {
-    switchNotify: function (userChannelId, notify) {
-      this.cloud
-        .database()
-        .collection("ty_user_channel")
-        .doc(userChannelId)
-        .update({
-          notify,
-        });
+    switchNotify: function (userChannelId) {
+      this.$store.dispatch('switchUserChannelNotify', {db: this.cloud
+          .database(), userChannelId: userChannelId})
     },
+    openChannel(userChannel){
+      // 清空消息标记
+      userChannel.channelDataMessage = null
+      this.$router.push('/channel/' + userChannel.channel._id)
+    }
   },
 };
 </script>

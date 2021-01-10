@@ -8,7 +8,9 @@
             <el-tab-pane label="探索" name="/explore"></el-tab-pane>
             <el-tab-pane label="更多" name="/more"></el-tab-pane>
           </el-tabs>
-          <router-view></router-view>
+          <keep-alive include="Zhui">
+            <router-view></router-view>
+          </keep-alive>
         </div>
       </el-col>
     </el-row>
@@ -23,6 +25,14 @@ export default {
       this.$router.push(page.name);
     },
   },
+  created(){
+    const loading = this.$loading();
+    const db = this.cloud.database();
+    this.$store.dispatch('loadUserChannels', db).then(function(){
+      // 关闭遮罩
+      loading.close();
+    }.bind(this))
+  }
 };
 </script>
 

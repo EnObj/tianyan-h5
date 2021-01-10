@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import Zhui from './components/Zhui.vue'
@@ -16,9 +17,12 @@ import cloudbase from "@cloudbase/js-sdk"
 import { Card, Link, Badge, Divider, Button, Tabs, TabPane, Input, ButtonGroup, Progress, Loading, Message, Icon, Row, Col } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/my-style.css'
+import CloudUtils from "./components/CloudUtils";
 
 // 应用路由插件
 Vue.use(VueRouter)
+// 应用状态管理器
+Vue.use(Vuex)
 // 应用UI
 Vue.component(Card.name, Card);
 Vue.component(Link.name, Link);
@@ -92,12 +96,133 @@ const router = new VueRouter({
   routes // （缩写）相当于 routes: routes
 })
 
+const store = new Vuex.Store({
+  state: {
+    userChannels: [],
+  },
+  getters: {
+    userChannelOfChannel(state) {
+      return (channelId) => {
+        return state.userChannels.find(userChannel => {
+          return userChannel.channel._id == channelId
+        })
+      }
+    }
+  },
+  mutations: {
+    setUserChannels(state, userChannels) {
+      state.userChannels = userChannels
+    },
+    setUserChannelDataMessage(state, { userChannelLocation, userChannelDataMessage }) {
+      state.userChannels[userChannelLocation].channelDataMessage = userChannelDataMessage
+    },
+    setUserChannelNotify(state, { userChannelId, notify }) {
+      const userChannel = state.userChannels.find(userChannel => {
+        return userChannel._id == userChannelId
+      })
+      userChannel.notify = notify
+    },
+    addUserChannel(state, userChannel) {
+      state.userChannels.push(userChannel)
+    },
+    deleteUserChannel(state, userChannelId) {
+      state.userChannels = state.userChannels.filter(userChannel => {
+        return userChannel._id != userChannelId
+      })
+    },
+    userChannelBeTop(state, userChannelId) {
+      const userChannelLocation = state.userChannels.findIndex(userChannel => {
+        return userChannel._id == userChannelId
+      })
+      const [userChannel] = state.userChannels.splice(userChannelLocation, 1)
+      userChannel.top = true
+      state.userChannels.unshift(userChannel)
+    },
+    userChannelNotTop(state, userChannelId) {
+      const userChannelLocation = state.userChannels.findIndex(userChannel => {
+        return userChannel._id == userChannelId
+      })
+      const [userChannel] = state.userChannels.splice(userChannelLocation, 1)
+      userChannel.top = false
+
+      const notTopUserChannelLocation = state.userChannels.findIndex(userChannel => {
+        return !userChannel.top
+      })
+      state.userChannels.splice(notTopUserChannelLocation == -1 ? state.userChannels.length: notTopUserChannelLocation, 0, userChannel)
+    },
+  },
+  actions: {
+    loadUserChannels({ commit, dispatch }, db) {
+      // 加载频道
+      return CloudUtils.getAll(
+        db
+          .collection("ty_user_channel")
+          .where({})
+          .orderBy("top", "desc")
+          .orderBy("updateTime", "desc")
+      ).then((list) => {
+        commit('setUserChannels', list)
+        // 加载消息（异步）
+        list.forEach(
+          function (userChannel, index) {
+            dispatch('loadUserChannelDataMessage', { db, channelId: userChannel.channel._id, index })
+          }
+        );
+      });
+    },
+    loadUserChannelDataMessage({ commit }, { db, channelId, index }) {
+      return db.collection("ty_user_channel_data_message")
+        .where({
+          "channelData.channel._id": channelId,
+        })
+        .orderBy("createTime", "desc")
+        .limit(1)
+        .get()
+        .then(
+          function (res) {
+            commit('setUserChannelDataMessage', { userChannelLocation: index, userChannelDataMessage: res.data[0] })
+          }
+        );
+    },
+    switchUserChannelNotify({ commit, state }, { db, userChannelId }) {
+      const userChannel = state.userChannels.find(userChannel => {
+        return userChannel._id == userChannelId
+      })
+      const notify = !userChannel.notify
+      commit('setUserChannelNotify', { userChannelId, notify: notify })
+      // 更新数据库
+      return db.collection("ty_user_channel")
+        .doc(userChannelId)
+        .update({
+          notify,
+        });
+    },
+    switchUserChannelTop({ state, commit }, { db, userChannelId }) {
+      const userChannel = state.userChannels.find(userChannel => {
+        return userChannel._id == userChannelId
+      })
+      const top = !userChannel.top
+      if (top) {
+        commit('userChannelBeTop', userChannelId)
+      } else {
+        commit('userChannelNotTop', userChannelId)
+      }
+      // 更新数据库
+      return db.collection("ty_user_channel")
+        .doc(userChannelId)
+        .update({
+          top,
+        })
+    }
+  }
+})
+
 function signIn() {
   // 链接腾讯云
   const cloud = Vue.prototype.cloud = cloudbase.init({
     // env: "xxx",
-    // env: "xmrl-y0wtp", // 开发环境
-    env: "dev-9g0suwuw61afb9f3", // 生产环境
+    env: "xmrl-y0wtp", // 开发环境
+    // env: "dev-9g0suwuw61afb9f3", // 生产环境
   })
   const cloudAuth = Vue.prototype.cloudAuth = cloud.auth({
     persistence: 'local'
@@ -123,6 +248,7 @@ signIn().then(() => {
   // 链接成功后再实例化app
   new Vue({
     render: h => h(App),
-    router
+    router,
+    store
   }).$mount('#app')
 })

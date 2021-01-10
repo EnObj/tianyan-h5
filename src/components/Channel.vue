@@ -44,10 +44,7 @@
           >
             <div
               v-if="cloudAuth.currentUser.email"
-              v-on:click="
-                userChannel.notify = !userChannel.notify;
-                switchNotify();
-              "
+              v-on:click="switchNotify"
             >
               <i class="el-icon-bell"></i>
             </div>
@@ -61,7 +58,7 @@
           <div
             class="cell-icon"
             v-bind:class="{ 'switch-on': userChannel.top }"
-            v-on:click="switchTop()"
+            v-on:click="switchTop"
           >
             <i class="el-icon-top"></i>
           </div>
@@ -105,22 +102,15 @@ export default {
   data: function () {
     return {
       channel: null,
-      userChannel: null,
       channelDatas: [],
     };
   },
+  computed:{
+    userChannel(){
+      return this.$store.getters.userChannelOfChannel(this.id)
+    }
+  },
   watch: {
-    "userChannel.notify": function (nVal) {
-      if (this.userChannel) {
-        this.cloud
-          .database()
-          .collection("ty_user_channel")
-          .doc(this.userChannel._id)
-          .update({
-            notify: nVal,
-          });
-      }
-    },
     id: function () {
       this.initChannel();
     },
@@ -138,33 +128,24 @@ export default {
         .then((res) => {
           this.channel = res.data[0];
         });
-      // 加载用户channel
-      db.collection("ty_user_channel")
+      // 更新用户频道下的消息为已读
+      db.collection("ty_user_channel_data_message")
         .where({
-          "channel._id": this.id,
+          "channelData.channel._id": this.id,
         })
-        .get()
-        .then((res) => {
-          this.userChannel = res.data[0] || null;
-          // 更新用户频道下的消息为已读
-          db.collection("ty_user_channel_data_message")
-            .where({
-              "channelData.channel._id": this.id,
-            })
-            .update({
-              readed: true,
-            });
-          // 当前渠道下的所有等待通知的消息标记为skip
-          db.collection("ty_user_channel_data_message")
-            .where({
-              "channelData.channel._id": this.id,
-              notify: "wait",
-            })
-            .update({
-              data: {
-                notify: "skip",
-              },
-            });
+        .update({
+          readed: true,
+        });
+      // 当前渠道下的所有等待通知的消息标记为skip
+      db.collection("ty_user_channel_data_message")
+        .where({
+          "channelData.channel._id": this.id,
+          notify: "wait",
+        })
+        .update({
+          data: {
+            notify: "skip",
+          },
         });
       // 加载channelData
       db.collection("ty_channel_data")
@@ -196,7 +177,7 @@ export default {
             .doc(res.id)
             .get()
             .then((res) => {
-              this.userChannel = res.data[0];
+              this.$store.commit('addUserChannel', res.data[0])
             });
         });
     },
@@ -208,34 +189,19 @@ export default {
         .doc(this.userChannel._id)
         .remove()
         .then(() => {
-          this.userChannel = null;
+          this.$store.commit('deleteUserChannel', this.userChannel._id)
         });
     },
     switchNotify: function () {
       if (this.userChannel) {
-        this.cloud
-          .database()
-          .collection("ty_user_channel")
-          .doc(this.userChannel._id)
-          .update({
-            notify: this.userChannel.notify,
-          });
+        this.$store.dispatch('switchUserChannelNotify', {db: this.cloud
+          .database(), userChannelId: this.userChannel._id})
       }
     },
     switchTop: function () {
       if (this.userChannel) {
-        if (!("top" in this.userChannel)) {
-          this.$set(this.userChannel, "top", false);
-        }
-        this.userChannel.top = !this.userChannel.top;
-        this.cloud
-          .database()
-          .collection("ty_user_channel")
-          .doc(this.userChannel._id)
-          .update({
-            top: this.userChannel.top,
-            updateTime: Date.now(),
-          });
+        this.$store.dispatch('switchUserChannelTop', {db: this.cloud
+          .database(), userChannelId: this.userChannel._id})
       }
     },
   },
