@@ -135,7 +135,9 @@ export default {
         })
         .update({
           readed: true,
-        });
+        }).then(()=>{
+          this.$store.commit('deleteUserChannelDataMessage', {channelId: this.id})
+        })
       // 当前渠道下的所有等待通知的消息标记为skip
       db.collection("ty_user_channel_data_message")
         .where({

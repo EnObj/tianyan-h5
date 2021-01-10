@@ -111,10 +111,25 @@ const store = new Vuex.Store({
   },
   mutations: {
     setUserChannels(state, userChannels) {
-      state.userChannels = userChannels
+      state.userChannels = userChannels.map(userchannel=>{
+        userchannel.channelDataMessage = null
+        if(!('top' in userchannel)){
+          userchannel.top = false
+        }
+        if(!('notify' in userchannel)){
+          userchannel.notify = false
+        }
+        return userchannel
+      })
     },
     setUserChannelDataMessage(state, { userChannelLocation, userChannelDataMessage }) {
       state.userChannels[userChannelLocation].channelDataMessage = userChannelDataMessage
+    },
+    deleteUserChannelDataMessage(state, { channelId }){
+      const userChannel = state.userChannels.find(userChannel => {
+        return userChannel.channel._id == channelId
+      })
+      userChannel.channelDataMessage = null
     },
     setUserChannelNotify(state, { userChannelId, notify }) {
       const userChannel = state.userChannels.find(userChannel => {
