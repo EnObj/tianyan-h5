@@ -19,6 +19,7 @@
     "mainColor": "#FF9933",
     "dataDisplay": "show/hidden",
     "resourceRestorer": "jsonp",
-    "sort": 2
+    "sort": 2,
+    "showPost": true
   }
 }

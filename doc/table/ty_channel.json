@@ -32,6 +32,7 @@
     "disabled": true,
     "beforeDisabled": 3,
     "nextListenTime": 123456789,
-    "createTime": 123456789
+    "createTime": 123456789,
+    "showPost": true
   }
 }

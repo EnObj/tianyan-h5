@@ -1,0 +1,23 @@
+{
+    "name": "渠道作品表",
+    "auth": "所有用户可读",
+    "index": [{
+      "name": "ty_channel_post_index_channel_time",
+      "fields": [{
+        "name": "channel._id",
+        "sort": 1
+      },{
+        "name": "postTime",
+        "sort": 1
+      }]
+    }],
+    "example": {
+      "_id":"ty_channel_post_1",
+      "channel": {
+        "注意": "此处是某个channel对象，结构见ty_channel.json表"
+      },
+      "content":"今天为大家分享一个好玩的事情...",
+      "openResourceUrl": "https://space.bilibili.com/208557615",
+      "postTime": 123456789
+    }
+  }
