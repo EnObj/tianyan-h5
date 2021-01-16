@@ -9,6 +9,7 @@ import More from './components/More.vue'
 import Channel from './components/Channel.vue'
 import NewChannel from './components/NewChannel.vue'
 import MessageBox from './components/MessageBox.vue'
+import ChannelPostBox from './components/ChannelPostBox.vue'
 import About from './components/About.vue'
 import SignIn from './components/SignIn.vue'
 import SignUp from './components/SignUp.vue'
@@ -87,6 +88,7 @@ const routes = [
   { path: '/new-channel', component: NewChannel, props: (route) => ({ url: route.query.url }) },
   { path: '/channel-template/:id', component: ChannelTemplate, props: true },
   { path: '/message-box', component: MessageBox },
+  { path: '/channel-post-box/:id', component: ChannelPostBox, props: true },
   { path: '/about', component: About },
   { path: '/sign-in', component: SignIn },
   { path: '/sign-up', component: SignUp },

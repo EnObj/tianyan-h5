@@ -61,6 +61,14 @@
           "config": "0/30 * * * * * *"
         }
       ]
+    },
+    {
+      "name": "loadTyChannelPost",
+      "timeout": 30,
+      "envVariables": {},
+      "runtime": "Nodejs10.15",
+      "memorySize": 128,
+      "handler": "index.main"
     }
   ],
   "framework": {

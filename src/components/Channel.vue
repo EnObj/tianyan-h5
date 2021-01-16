@@ -64,6 +64,16 @@
           </div>
           <div class="not-importent">置顶</div>
         </div>
+        <div class="cell" v-if="channel.channelTemplate.showPost || channel.showPost">
+          <div class="cell-icon">
+            <router-link
+              v-bind:to="'/channel-post-box/' + channel._id"
+            >
+              <i class="el-icon-key"></i>
+            </router-link>
+          </div>
+          <div class="not-importent">考古</div>
+        </div>
       </div>
       <el-divider content-position="left"
         ><i class="el-icon-time"></i
