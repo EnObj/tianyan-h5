@@ -131,7 +131,8 @@ const store = new Vuex.Store({
       const userChannel = state.userChannels.find(userChannel => {
         return userChannel.channel._id == channelId
       })
-      userChannel.channelDataMessage = null
+      if(userChannel)
+        userChannel.channelDataMessage = null
     },
     setUserChannelNotify(state, { userChannelId, notify }) {
       const userChannel = state.userChannels.find(userChannel => {
