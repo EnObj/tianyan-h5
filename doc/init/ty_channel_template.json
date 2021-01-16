@@ -27,7 +27,8 @@
   "keyName": "up主名字",
   "dataDisplay": "show",
   "mainColor": "#fb7299",
-  "sort": 800
+  "sort": 800,
+  "showPost": true
 } 
 {
   "_id": "qqmusic_singer",
