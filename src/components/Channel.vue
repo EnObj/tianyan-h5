@@ -22,7 +22,7 @@
             <router-link
               v-bind:to="'/channel-template/' + channel.channelTemplate._id"
             >
-              <i class="el-icon-folder"></i>
+              <i class="el-icon-folder switch-on"></i>
             </router-link>
           </div>
           <div class="not-importent">
@@ -32,7 +32,7 @@
         <div class="cell" v-if="channel.openResourceUrl">
           <div class="cell-icon">
             <a v-bind:href="channel.openResourceUrl" target="_blank"
-              ><i class="el-icon-link"></i
+              ><i class="el-icon-link switch-on"></i
             ></a>
           </div>
           <div class="not-importent">网页</div>
@@ -69,7 +69,7 @@
             <router-link
               v-bind:to="'/channel-post-box/' + channel._id"
             >
-              <i class="el-icon-key"></i>
+              <i class="el-icon-key switch-on"></i>
             </router-link>
           </div>
           <div class="not-importent">考古</div>
