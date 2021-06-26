@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="flex-between">
+      <h1>爱追更</h1>
+      <div>
+        <el-button icon="el-icon-search" circle @click="$router.push('/explore')"></el-button>
+        <el-button icon="el-icon-more" circle @click="$router.push('/more')"></el-button>
+      </div>
+    </div>
     <div v-if="userChannels.length" class="user-channels">
       <div
         v-for="userChannel in userChannels"

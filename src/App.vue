@@ -3,11 +3,11 @@
     <el-row type="flex" justify="space-around">
       <el-col :xs="24" :sm="20" :md="16" :lg="12">
         <div class="main">
-          <el-tabs :value="activeTab" @tab-click="openPage">
+          <!-- <el-tabs :value="activeTab" @tab-click="openPage">
             <el-tab-pane label="爱追更" name="zhui"></el-tab-pane>
             <el-tab-pane label="探索" name="explore"></el-tab-pane>
             <el-tab-pane label="更多" name="more"></el-tab-pane>
-          </el-tabs>
+          </el-tabs> -->
           <keep-alive include="Zhui">
             <router-view></router-view>
           </keep-alive>

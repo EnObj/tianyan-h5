@@ -1,5 +1,6 @@
 <template>
   <div class="search">
+    <h1>搜索</h1>
     <div class="inp">
       <el-input
         placeholder="搜索你关心的人"

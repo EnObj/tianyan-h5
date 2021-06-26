@@ -1,5 +1,6 @@
 <template>
   <div class="more">
+    <h1>更多</h1>
     <div class="main">
       <p>
         <el-badge
