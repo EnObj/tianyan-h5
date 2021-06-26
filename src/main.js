@@ -13,24 +13,7 @@ import ChannelPostBox from "./components/ChannelPostBox.vue";
 import About from "./components/About.vue";
 import ChannelTemplate from "./components/ChannelTemplate.vue";
 import cloudbase from "@cloudbase/js-sdk";
-import {
-  Card,
-  Link,
-  Badge,
-  Divider,
-  Button,
-  Tabs,
-  TabPane,
-  Input,
-  ButtonGroup,
-  Progress,
-  Loading,
-  Message,
-  Icon,
-  Row,
-  Col,
-  Dialog,
-} from "element-ui";
+import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./assets/my-style.css";
 import CloudUtils from "./components/CloudUtils";
@@ -43,26 +26,9 @@ Vue.use(VueRouter);
 // 应用状态管理器
 Vue.use(Vuex);
 // 应用UI
-Vue.component(Card.name, Card);
-Vue.component(Link.name, Link);
-Vue.component(Badge.name, Badge);
-Vue.component(Divider.name, Divider);
-Vue.component(Button.name, Button);
-Vue.component(Tabs.name, Tabs);
-Vue.use(TabPane);
-Vue.use(Input);
-Vue.use(ButtonGroup);
-Vue.use(Progress);
-Vue.use(Icon);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Dialog);
-Vue.use(Loading.directive);
+Vue.use(ElementUI);
 
 Vue.use(UserProfile);
-
-Vue.prototype.$loading = Loading.service;
-Vue.prototype.$message = Message;
 
 // 过滤器
 function formatNumber(n) {
