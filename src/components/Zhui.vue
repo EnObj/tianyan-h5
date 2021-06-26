@@ -38,7 +38,7 @@
           >
             <i class="el-icon-bell"></i>
           </div>
-          <div v-else v-on:click.stop="$router.push('/sign-in')">
+          <div v-else v-on:click.stop="$router.push('/cloud')">
             <i class="el-icon-bell">请登录</i>
           </div>
         </div>

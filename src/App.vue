@@ -3,14 +3,11 @@
     <el-row type="flex" justify="space-around">
       <el-col :xs="24" :sm="20" :md="16" :lg="12">
         <div class="main">
-          <div class="flex-between">
-            <el-tabs v-bind:value="$route.path" @tab-click="openPage">
-              <el-tab-pane label="爱追更" name="/zhui"></el-tab-pane>
-              <el-tab-pane label="探索" name="/explore"></el-tab-pane>
-              <el-tab-pane label="更多" name="/more"></el-tab-pane>
-            </el-tabs>
-            <user-profile></user-profile>
-          </div>
+          <el-tabs :value="activeTab" @tab-click="openPage">
+            <el-tab-pane label="爱追更" name="zhui"></el-tab-pane>
+            <el-tab-pane label="探索" name="explore"></el-tab-pane>
+            <el-tab-pane label="更多" name="more"></el-tab-pane>
+          </el-tabs>
           <keep-alive include="Zhui">
             <router-view></router-view>
           </keep-alive>
@@ -25,7 +22,7 @@ export default {
   name: "App",
   methods: {
     openPage(page) {
-      this.$router.push(page.name);
+      this.$router.push("/" + page.name).catch(console.error);
     },
     loadUserChannels() {
       const loading = this.$loading();
@@ -38,10 +35,17 @@ export default {
       );
     },
   },
+  computed: {
+    activeTab() {
+      return this.$route.path.substr(1);
+    },
+  },
   created() {
     this.cloudAuth.onLoginStateChanged(
-      function() {
-        this.loadUserChannels();
+      function(loginState) {
+        if (loginState) {
+          this.loadUserChannels();
+        }
       }.bind(this)
     );
   },

@@ -48,7 +48,7 @@
             >
               <i class="el-icon-bell"></i>
             </div>
-            <div v-else v-on:click="$router.push('/more')">
+            <div v-else v-on:click="$router.push('/cloud')">
               <i class="el-icon-bell"></i>
             </div>
           </div>

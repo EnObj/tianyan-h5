@@ -17,9 +17,15 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./assets/my-style.css";
 import CloudUtils from "./components/CloudUtils";
-import { UserProfile } from "enobjui";
+import EoCloud from "./components/EoCloud.vue";
 
-// Vue.use(HelloWorld);
+// 链接云服务
+const cloud = (Vue.prototype.cloud = cloudbase.init({
+  env: process.env.VUE_APP_CLOUD_NAME,
+}));
+const cloudAuth = (Vue.prototype.cloudAuth = cloud.auth({
+  persistence: "local",
+}));
 
 // 应用路由插件
 Vue.use(VueRouter);
@@ -27,8 +33,6 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 // 应用UI
 Vue.use(ElementUI);
-
-Vue.use(UserProfile);
 
 // 过滤器
 function formatNumber(n) {
@@ -93,10 +97,20 @@ const routes = [
   { path: "/message-box", component: MessageBox },
   { path: "/channel-post-box/:id", component: ChannelPostBox, props: true },
   { path: "/about", component: About },
+  { path: "/cloud", component: EoCloud },
 ];
 
 const router = new VueRouter({
   routes, // （缩写）相当于 routes: routes
+});
+
+// 路由守卫，登录验证
+router.beforeEach((to, from, next) => {
+  if (to.path !== "/cloud" && !cloudAuth.hasLoginState()) {
+    next("/cloud");
+  } else {
+    next();
+  }
 });
 
 const store = new Vuex.Store({
@@ -258,39 +272,8 @@ const store = new Vuex.Store({
   },
 });
 
-function signIn() {
-  // 链接腾讯云
-  const cloud = (Vue.prototype.cloud = cloudbase.init({
-    // env: "xxx",
-    env: "xmrl-y0wtp", // 开发环境
-    // env: "dev-9g0suwuw61afb9f3", // 生产环境
-  }));
-  const cloudAuth = (Vue.prototype.cloudAuth = cloud.auth({
-    persistence: "local",
-  }));
-  // 避免重复登录
-  if (cloudAuth.hasLoginState()) {
-    console.log("无需重复登录");
-    return Promise.resolve();
-  }
-  return cloudAuth
-    .anonymousAuthProvider()
-    .signIn()
-    .then((item) => {
-      console.log("登录成功", item);
-      return Promise.resolve();
-    })
-    .catch((error) => {
-      console.error("登录失败", error);
-      return Promise.reject();
-    });
-}
-
-signIn().then(() => {
-  // 链接成功后再实例化app
-  new Vue({
-    render: (h) => h(App),
-    router,
-    store,
-  }).$mount("#app");
-});
+new Vue({
+  render: (h) => h(App),
+  router,
+  store,
+}).$mount("#app");
