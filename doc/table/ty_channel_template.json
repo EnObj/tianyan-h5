@@ -10,7 +10,8 @@
     "attrs": [{
       "name": "投稿视频数",
       "path": "data.page.count",
-      "replaceRegExp": "\\d{1,3}"
+      "replaceRegExp": "\\d{1,3}",
+      "invalidValues": ["0",""]
     }],
     "openResourceUrlPath": "data.list[0].url",
     "minTimeSpace": 300000,
