@@ -12,7 +12,7 @@ const db = cloud.database()
 const $ = db.command.aggregate
 
 // 云函数入口函数
-exports.main = async (event, context) => {
+exports.main = async () => {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
@@ -92,11 +92,11 @@ exports.main = async (event, context) => {
     }
 
     // 把代表渠道的订阅标记关了
-    await db.collection('ty_user_channel').where({
-      _openid: userMessage._id,
-      'channel._id': channel._id
-    }).update({
-      notify: false
-    })
+    // await db.collection('ty_user_channel').where({
+    //   _openid: userMessage._id,
+    //   'channel._id': channel._id
+    // }).update({
+    //   notify: false
+    // })
   }
 }
