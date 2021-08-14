@@ -18,7 +18,10 @@
   "_id": "bili_uper",
   "attrs": [{
     "path": "data.page.count",
-    "name": "投稿视频数"
+    "name": "投稿视频数",
+    "invalidValues": [
+      "0"
+    ]
   }],
   "name": "b站up主",
   "logo": "/image/logo/bili_uper.svg",
@@ -34,15 +37,24 @@
   "_id": "qqmusic_singer",
   "attrs": [{
       "path": "body > div.main > div.mod_data > div > ul > li:nth-child(1) > a > strong",
-      "name": "歌曲"
+      "name": "歌曲",
+      "invalidValues": [
+        ""
+      ]
     },
     {
       "path": "body > div.main > div.mod_data > div > ul > li:nth-child(2) > a > strong",
-      "name": "专辑"
+      "name": "专辑",
+      "invalidValues": [
+        ""
+      ]
     },
     {
       "path": "body > div.main > div.mod_data > div > ul > li:nth-child(3) > a > strong",
-      "name": "MV"
+      "name": "MV",
+      "invalidValues": [
+        ""
+      ]
     }
   ],
   "name": "QQ音乐人",
@@ -160,7 +172,10 @@
   "_id": "jd_item",
   "attrs": [{
       "path": "#priceSale",
-      "name": "价格"
+      "name": "价格",
+      "invalidValues": [
+        ""
+      ]
     }
   ],
   "name": "京东商品",
@@ -177,7 +192,10 @@
   "attrs": [{
       "path": "div.whats-new__latest > div > p",
       "name": "版本号",
-      "replaceRegExp": "版本\\s"
+      "replaceRegExp": "版本\\s",
+      "invalidValues": [
+        ""
+      ]
     }
   ],
   "name": "苹果应用商店app",
