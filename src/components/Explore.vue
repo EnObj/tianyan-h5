@@ -1,11 +1,10 @@
 <template>
   <div class="main">
+    <el-breadcrumb style="margin-top:20px;">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>探索</el-breadcrumb-item>
+    </el-breadcrumb>
     <h1>探索</h1>
-    <!-- <div class="inp"> -->
-    <!-- <input class="inp"
-          v-on:keyup.enter="search($event.target.value)"
-          placeholder="输入你关心的人"
-        /> -->
     <el-input
       placeholder="搜索你关心的人"
       v-model="keyword"
@@ -13,7 +12,6 @@
       prefix-icon="el-icon-search"
       v-on:change="search(keyword)"
     />
-    <!-- </div> -->
   </div>
 </template>
 
@@ -27,7 +25,7 @@ export default {
   },
   methods: {
     search: function (keyword) {
-      this.$router.push({ path: "/search", query: { keyword } });
+      this.$router.replace({ path: "/search", query: { keyword } });
     },
   },
 };

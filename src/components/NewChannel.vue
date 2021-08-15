@@ -1,5 +1,9 @@
 <template>
   <div v-if="document" class="new-channel">
+    <el-breadcrumb style="margin-top:20px;">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>DIY</el-breadcrumb-item>
+    </el-breadcrumb>
     <h1>{{ document.title }}</h1>
     <div
       v-for="item in textAndDivList"

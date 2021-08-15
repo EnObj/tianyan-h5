@@ -1,6 +1,14 @@
 <template>
   <div class="channel">
     <div v-if="channel">
+      <el-breadcrumb style="margin-top:20px;">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item
+          :to="{ path: '/channel-template/' + channel.channelTemplate._id }"
+          >{{ channel.channelTemplate.name }}</el-breadcrumb-item
+        >
+        <el-breadcrumb-item>频道</el-breadcrumb-item>
+      </el-breadcrumb>
       <div class="flex-between">
         <h1>
           {{ channel.name }}

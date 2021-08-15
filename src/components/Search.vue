@@ -1,5 +1,10 @@
 <template>
   <div class="search">
+    <el-breadcrumb style="margin-top:20px;">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/explore' }">探索</el-breadcrumb-item>
+      <el-breadcrumb-item>搜索</el-breadcrumb-item>
+    </el-breadcrumb>
     <h1>搜索</h1>
     <div class="inp">
       <el-input

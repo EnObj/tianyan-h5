@@ -1,5 +1,9 @@
 <template>
   <div class="message-box" style="overflow:auto">
+    <el-breadcrumb style="margin-top:20px;">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>消息</el-breadcrumb-item>
+    </el-breadcrumb>
     <h1>消息列表</h1>
     <div
       v-for="message in messages"

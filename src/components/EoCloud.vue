@@ -1,5 +1,9 @@
 <template>
   <div class="hello-world">
+    <el-breadcrumb style="margin-top:20px;">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>账户</el-breadcrumb-item>
+    </el-breadcrumb>
     <h1>上云</h1>
     <div class="user">
       <div class="user-icon">

@@ -1,5 +1,9 @@
 <template>
   <div class="about">
+    <el-breadcrumb style="margin-top:20px;">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>关于</el-breadcrumb-item>
+    </el-breadcrumb>
     <h1>关于爱追更</h1>
     <h2>第1章 爱</h2>
     <p>在茫茫网络世界中，你发现了真爱，TA不定期发布动态</p>
