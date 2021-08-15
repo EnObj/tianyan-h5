@@ -17,9 +17,7 @@ const db = cloud.database();
 // 云函数入口函数
 exports.main = async event => {
     const mainStart = Date.now();
-    const {
-        channelQueryWhere = { _id: "60173c665f5c36dc013cd3b71f785415" }
-    } = event;
+    const { channelQueryWhere = {} } = event;
 
     // 构造查询条件
     const query = db.collection("ty_channel").where(
