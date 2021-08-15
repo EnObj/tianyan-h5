@@ -42,10 +42,7 @@
             class="cell-icon"
             v-bind:class="{ 'switch-on': userChannel.notify }"
           >
-            <div
-              v-if="cloudAuth.currentUser.email"
-              v-on:click="switchNotify"
-            >
+            <div v-if="cloudAuth.currentUser.email" v-on:click="switchNotify">
               <i class="el-icon-bell"></i>
             </div>
             <div v-else v-on:click="$router.push('/cloud')">
@@ -64,11 +61,12 @@
           </div>
           <div class="not-importent">置顶</div>
         </div>
-        <div class="cell" v-if="channel.channelTemplate.showPost || channel.showPost">
+        <div
+          class="cell"
+          v-if="channel.channelTemplate.showPost || channel.showPost"
+        >
           <div class="cell-icon">
-            <router-link
-              v-bind:to="'/channel-post-box/' + channel._id"
-            >
+            <router-link v-bind:to="'/channel-post-box/' + channel._id">
               <i class="el-icon-key switch-on"></i>
             </router-link>
           </div>
@@ -76,8 +74,10 @@
         </div>
       </div>
       <el-divider content-position="left"
-        ><i class="el-icon-time"></i
-      ></el-divider>
+        ><i class="el-icon-time"></i>&nbsp;<span style="color:gray;">{{
+          nextListenTime
+        }}</span></el-divider
+      >
       <div class="channel-datas">
         <div
           v-for="channelData in channelDatas"
@@ -90,7 +90,7 @@
           <div class="datas">
             <div
               v-for="attr in channelData.channel.attrs ||
-              channelData.channel.channelTemplate.attrs"
+                channelData.channel.channelTemplate.attrs"
               v-bind:key="attr.name"
             >
               <span>{{ attr.name }}</span>
@@ -109,23 +109,33 @@
 export default {
   name: "Channel",
   props: ["id"],
-  data: function () {
+  data: function() {
     return {
       channel: null,
       channelDatas: [],
     };
   },
-  computed:{
-    userChannel(){
-      return this.$store.getters.userChannelOfChannel(this.id)
-    }
+  computed: {
+    userChannel() {
+      return this.$store.getters.userChannelOfChannel(this.id);
+    },
+    nextListenTime() {
+      if (this.channel) {
+        if (this.channel.disabled) {
+          return "不再扫描";
+        }
+        const time = new Date(this.channel.nextListenTime);
+        return `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+      }
+      return "";
+    },
   },
   watch: {
-    id: function () {
+    id: function() {
       this.initChannel();
     },
   },
-  created: function () {
+  created: function() {
     this.initChannel();
   },
   methods: {
@@ -145,9 +155,12 @@ export default {
         })
         .update({
           readed: true,
-        }).then(()=>{
-          this.$store.commit('deleteUserChannelDataMessage', {channelId: this.id})
         })
+        .then(() => {
+          this.$store.commit("deleteUserChannelDataMessage", {
+            channelId: this.id,
+          });
+        });
       // 当前渠道下的所有等待通知的消息标记为skip
       db.collection("ty_user_channel_data_message")
         .where({
@@ -172,7 +185,7 @@ export default {
           this.channelDatas = res.data;
         });
     },
-    sub: function () {
+    sub: function() {
       console.log("sub");
       this.cloud
         .database()
@@ -189,11 +202,11 @@ export default {
             .doc(res.id)
             .get()
             .then((res) => {
-              this.$store.commit('addUserChannel', res.data[0])
+              this.$store.commit("addUserChannel", res.data[0]);
             });
         });
     },
-    unsub: function () {
+    unsub: function() {
       console.log("unsub");
       this.cloud
         .database()
@@ -201,19 +214,23 @@ export default {
         .doc(this.userChannel._id)
         .remove()
         .then(() => {
-          this.$store.commit('deleteUserChannel', this.userChannel._id)
+          this.$store.commit("deleteUserChannel", this.userChannel._id);
         });
     },
-    switchNotify: function () {
+    switchNotify: function() {
       if (this.userChannel) {
-        this.$store.dispatch('switchUserChannelNotify', {db: this.cloud
-          .database(), userChannelId: this.userChannel._id})
+        this.$store.dispatch("switchUserChannelNotify", {
+          db: this.cloud.database(),
+          userChannelId: this.userChannel._id,
+        });
       }
     },
-    switchTop: function () {
+    switchTop: function() {
       if (this.userChannel) {
-        this.$store.dispatch('switchUserChannelTop', {db: this.cloud
-          .database(), userChannelId: this.userChannel._id})
+        this.$store.dispatch("switchUserChannelTop", {
+          db: this.cloud.database(),
+          userChannelId: this.userChannel._id,
+        });
       }
     },
   },
