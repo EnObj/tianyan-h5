@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "depl": "tcb storage upload ./dist enobj/tianyan -e dev-9g0suwuw61afb9f3 && cp -R ./dist/index.html /Users/jienhui/github/EnObj.github.io/zhuigeng/index.html && cd /Users/jienhui/github/EnObj.github.io && git add . && git commit -m 'test' && git push"
+    "depl": "npm run build && tcb storage upload ./dist enobj/tianyan -e dev-9g0suwuw61afb9f3 && cp -R ./dist/index.html /Users/jienhui/github/EnObj.github.io/zhuigeng/index.html && cd /Users/jienhui/github/EnObj.github.io && git add . && git commit -m 'test' && git push"
   },
   "dependencies": {
     "@cloudbase/js-sdk": "^1.3.3",
