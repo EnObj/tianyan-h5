@@ -27,44 +27,34 @@
         v-for="userChannel in userChannels"
         v-bind:key="userChannel._id"
         v-on:click="openChannel(userChannel)"
-        class="user-channel padding-box flex-between"
-        v-bind:style="{
-          borderLeftColor:
-            userChannel.channel.channelTemplate.mainColor || 'gray',
-        }"
+        class="user-channel"
       >
-        <div class="flex-start" style="flex: auto; overflow: hidden">
-          <div class="channel-name no-wrap">
-            {{ userChannel.channel.name }}
-          </div>
+        <div class="channel-logo-c">
           <div
-            v-if="userChannel.channelDataMessage"
-            v-show="!userChannel.channelDataMessage.readed"
-            class="unreaded"
-            v-bind:style="{
-              background:
+            class="channel-logo"
+            :style="{
+              borderColor:
                 userChannel.channel.channelTemplate.mainColor || 'gray',
             }"
           >
-            <span>新</span>
+            <el-badge
+              is-dot
+              style="margin:auto;display:block;"
+              :hidden="
+                !userChannel.channelDataMessage ||
+                  userChannel.channelDataMessage.readed
+              "
+            >
+              <div class="notify" :class="{ 'notify-on': userChannel.notify }">
+                <i class="el-icon-bell"></i>
+              </div>
+            </el-badge>
+            <div class="top" v-if="userChannel.top"></div>
           </div>
         </div>
-        <div
-          style="flex: none"
-          class="notify"
-          v-bind:class="{ 'notify-on': userChannel.notify }"
-        >
-          <div
-            v-if="cloudAuth.currentUser.email"
-            v-on:click.stop="switchNotify(userChannel._id)"
-          >
-            <i class="el-icon-bell"></i>
-          </div>
-          <div v-else v-on:click.stop="$router.push('/cloud')">
-            <i class="el-icon-bell">请登录</i>
-          </div>
+        <div class="channel-name no-wrap">
+          {{ userChannel.channel.name }}
         </div>
-        <div class="top" v-if="userChannel.top"></div>
       </div>
     </div>
     <div v-else-if="userChannelsLoaded">
@@ -147,28 +137,44 @@ export default {
   font-size: 10px;
 }
 .user-channels {
-  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  grid-gap: 18px;
 }
 .user-channel {
-  max-width: 100%;
   box-sizing: border-box;
-  position: relative;
   overflow: hidden;
-  border-left: gray 10px solid;
-  border-radius: 10px;
-  padding: 15px 10px;
-  margin: 10px 0;
 }
 .channel-name {
-  margin-left: 5px;
+  font-size: 12px;
+  color: gray;
+  text-align: center;
+  margin-top: 5px;
+}
+.channel-logo-c {
+  border-radius: 5px;
+  position: relative;
+  padding: 50%;
+}
+.channel-logo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+  border-left: 2px solid rgba(0, 0, 0, 0);
+  display: flex;
 }
 .notify {
-  padding: 0 10px 0 15px;
-  font-size: 20px;
+  margin: auto;
+  font-size: 26px;
   color: #ddd;
 }
 .notify-on {
-  color: #409eff;
+  color: #008cba;
 }
 .channel-template {
   margin-top: 5px;
