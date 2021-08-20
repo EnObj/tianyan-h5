@@ -14,11 +14,6 @@
           @click="$router.push('/message-box')"
         ></el-button>
         <el-button
-          icon="el-icon-info"
-          circle
-          @click="$router.push('/about')"
-        ></el-button>
-        <el-button
           icon="el-icon-user-solid"
           circle
           @click="$router.push('/cloud')"
