@@ -45,10 +45,11 @@
                   userChannel.channelDataMessage.readed
               "
             >
-              <div class="notify" :class="{ 'notify-on': userChannel.notify }">
-                <i class="el-icon-bell"></i>
-              </div>
+              <div class="logo-temp">{{userChannel.channel.name.substr(0,1)}}</div>
             </el-badge>
+            <div class="notify" :class="{ 'notify-on': userChannel.notify }">
+              <i class="el-icon-bell"></i>
+            </div>
             <div class="top" v-if="userChannel.top"></div>
           </div>
         </div>
@@ -165,13 +166,21 @@ export default {
   background: #eee;
   border-radius: 5px;
   overflow: hidden;
-  border-left: 2px solid rgba(0, 0, 0, 0);
+  border-left: 3px solid rgba(0, 0, 0, 0);
   display: flex;
 }
 .notify {
-  margin: auto;
-  font-size: 26px;
+  font-size: 18px;
   color: #ddd;
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+}
+.logo-temp{
+  margin: auto;
+  font-size: 22px;
+  font-weight: 600;
+  color: #4e4848;
 }
 .notify-on {
   color: #008cba;
