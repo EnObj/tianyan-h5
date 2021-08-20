@@ -98,20 +98,22 @@ export default {
     };
   },
   computed: mapState(["userChannels", "userChannelsLoaded"]),
-  created() {
-    // 查询最新一条未读消息
-    this.cloud
-      .database()
-      .collection("ty_user_channel_data_message")
-      .where({
-        readed: false,
-      })
-      .orderBy("createTime", "desc")
-      .limit(1)
-      .get()
-      .then((res) => {
-        this.lastUnreadedMessage = res.data[0] || null;
-      });
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      // 查询最新一条未读消息
+      vm.cloud
+        .database()
+        .collection("ty_user_channel_data_message")
+        .where({
+          readed: false,
+        })
+        .orderBy("createTime", "desc")
+        .limit(1)
+        .get()
+        .then((res) => {
+          vm.lastUnreadedMessage = res.data[0] || null;
+        });
+    });
   },
   methods: {
     switchNotify: function(userChannelId) {
