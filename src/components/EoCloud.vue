@@ -4,7 +4,7 @@
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>账户</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1>上云</h1>
+    <h1>账户</h1>
     <div class="user">
       <div class="user-icon">
         <img :src="require('../assets/' + userIcon)" alt="头像" />

@@ -6,6 +6,7 @@
         <el-button icon="el-icon-search" circle @click="$router.push('/explore')"></el-button>
         <el-button icon="el-icon-message-solid" circle @click="$router.push('/message-box')"></el-button>
         <el-button icon="el-icon-info" circle @click="$router.push('/about')"></el-button>
+        <el-button icon="el-icon-user-solid" circle @click="$router.push('/cloud')"></el-button>
       </div>
     </div>
     <div v-if="userChannels.length" class="user-channels">
