@@ -2,17 +2,19 @@
   <div>
     <div class="flex-between">
       <h1>爱追更</h1>
-      <div>
+      <div class="btns">
         <el-button
           icon="el-icon-search"
           circle
           @click="$router.push('/explore')"
         ></el-button>
-        <el-button
-          icon="el-icon-message-solid"
-          circle
-          @click="$router.push('/message-box')"
-        ></el-button>
+        <el-badge is-dot v-bind:hidden="!lastUnreadedMessage">
+          <el-button
+            icon="el-icon-s-comment"
+            circle
+            @click="$router.push('/message-box')"
+          ></el-button>
+        </el-badge>
         <el-button
           icon="el-icon-user-solid"
           circle
@@ -91,9 +93,26 @@ import { mapState } from "vuex";
 export default {
   name: "Zhui",
   data: () => {
-    return {};
+    return {
+      lastUnreadedMessage: null,
+    };
   },
   computed: mapState(["userChannels", "userChannelsLoaded"]),
+  created() {
+    // 查询最新一条未读消息
+    this.cloud
+      .database()
+      .collection("ty_user_channel_data_message")
+      .where({
+        readed: false,
+      })
+      .orderBy("createTime", "desc")
+      .limit(1)
+      .get()
+      .then((res) => {
+        this.lastUnreadedMessage = res.data[0] || null;
+      });
+  },
   methods: {
     switchNotify: function(userChannelId) {
       this.$store.dispatch("switchUserChannelNotify", {
@@ -111,6 +130,9 @@ export default {
 </script>
 
 <style scoped>
+.btns::v-deep .el-button {
+  margin-left: 10px;
+}
 .explore {
   height: 100px;
 }
