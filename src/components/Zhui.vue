@@ -3,10 +3,26 @@
     <div class="flex-between">
       <h1>爱追更</h1>
       <div>
-        <el-button icon="el-icon-search" circle @click="$router.push('/explore')"></el-button>
-        <el-button icon="el-icon-message-solid" circle @click="$router.push('/message-box')"></el-button>
-        <el-button icon="el-icon-info" circle @click="$router.push('/about')"></el-button>
-        <el-button icon="el-icon-user-solid" circle @click="$router.push('/cloud')"></el-button>
+        <el-button
+          icon="el-icon-search"
+          circle
+          @click="$router.push('/explore')"
+        ></el-button>
+        <el-button
+          icon="el-icon-message-solid"
+          circle
+          @click="$router.push('/message-box')"
+        ></el-button>
+        <el-button
+          icon="el-icon-info"
+          circle
+          @click="$router.push('/about')"
+        ></el-button>
+        <el-button
+          icon="el-icon-user-solid"
+          circle
+          @click="$router.push('/cloud')"
+        ></el-button>
       </div>
     </div>
     <div v-if="userChannels.length" class="user-channels">
@@ -54,7 +70,7 @@
         <div class="top" v-if="userChannel.top"></div>
       </div>
     </div>
-    <div v-else-if="showExplore">
+    <div v-else-if="userChannelsLoaded">
       <div class="empty-tip abs-center">
         <div
           class="abs-center-content flex-start"
@@ -67,32 +83,34 @@
         </div>
       </div>
       <div class="not-importent flex-around">
-        <el-link v-on:click="$router.push('/about')" type="primary">“爱追更”是什么？</el-link>
+        <el-link v-on:click="$router.push('/about')" type="primary"
+          >“爱追更”是什么？</el-link
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   name: "Zhui",
   data: () => {
-    return {
-      showExplore: true,
-    };
+    return {};
   },
-  computed: mapState(['userChannels']),
+  computed: mapState(["userChannels", "userChannelsLoaded"]),
   methods: {
-    switchNotify: function (userChannelId) {
-      this.$store.dispatch('switchUserChannelNotify', {db: this.cloud
-          .database(), userChannelId: userChannelId})
+    switchNotify: function(userChannelId) {
+      this.$store.dispatch("switchUserChannelNotify", {
+        db: this.cloud.database(),
+        userChannelId: userChannelId,
+      });
     },
-    openChannel(userChannel){
+    openChannel(userChannel) {
       // 清空消息标记
-      userChannel.channelDataMessage = null
-      this.$router.push('/channel/' + userChannel.channel._id)
-    }
+      userChannel.channelDataMessage = null;
+      this.$router.push("/channel/" + userChannel.channel._id);
+    },
   },
 };
 </script>
@@ -164,7 +182,7 @@ export default {
   flex: none;
   margin-left: 10px;
 }
-.top{
+.top {
   position: absolute;
   right: -11px;
   top: -11px;

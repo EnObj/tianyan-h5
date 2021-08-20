@@ -116,6 +116,7 @@ router.beforeEach((to, from, next) => {
 const store = new Vuex.Store({
   state: {
     userChannels: [],
+    userChannelsLoaded: false,
   },
   getters: {
     userChannelOfChannel(state) {
@@ -128,6 +129,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     setUserChannels(state, userChannels) {
+      state.userChannelsLoaded = true;
       state.userChannels = userChannels.map((userchannel) => {
         userchannel.channelDataMessage = null;
         if (!("top" in userchannel)) {
