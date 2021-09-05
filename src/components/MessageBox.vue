@@ -35,7 +35,7 @@
             v-bind:key="attr.name"
             class="data"
           >
-            <span>{{ attr.name }}</span>
+            <!-- <span>{{ attr.name }}</span> -->
             <span class="not-importent data-value">{{
               message.channelData.data[attr.name]
             }}</span>
@@ -127,8 +127,8 @@ export default {
   margin-top: 5px;
   background: #f6f6f6;
   word-break: break-all;
-  border-radius: 15px;
-  padding: 15px;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .data-value {
@@ -139,7 +139,7 @@ export default {
   margin: 15px 0;
 }
 .data-value {
-  margin-left: 5px;
+  margin-left: 0px;
 }
 .nothing{
   margin-top: 25vh;
