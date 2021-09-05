@@ -15,11 +15,22 @@
         </h1>
         <div style="flex: none">
           <div v-if="!userChannel" key="sub">
-            <el-button v-on:click="sub" type="primary" round>订阅</el-button>
+            <el-button
+              v-on:click="sub"
+              type="primary"
+              icon="el-icon-plus"
+              circle
+            ></el-button>
           </div>
           <div v-else key="unsub">
             <div>
-              <el-button v-on:click="unsub" round> 已订阅 </el-button>
+              <el-button
+                type="default"
+                v-on:click="unsub"
+                icon="el-icon-check"
+                circle
+              >
+              </el-button>
             </div>
           </div>
         </div>
@@ -33,7 +44,7 @@
               <i class="el-icon-folder switch-on"></i>
             </router-link>
           </div>
-          <div class="not-importent">
+          <div class="not-importent channel-template-name">
             {{ channel.channelTemplate.name }}
           </div>
         </div>
@@ -101,7 +112,7 @@
                 channelData.channel.channelTemplate.attrs"
               v-bind:key="attr.name"
             >
-              <span>{{ attr.name }}</span>
+              <!-- <span>{{ attr.name }}</span> -->
               <span class="not-importent data-value">{{
                 channelData.data[attr.name]
               }}</span>
@@ -281,13 +292,19 @@ export default {
   margin-top: 5px;
   background: #f6f6f6;
   word-break: break-all;
-  border-radius: 15px;
-  padding: 15px;
+  border-radius: 5px;
+  padding: 10px;
 }
 .data-value {
-  margin-left: 5px;
+  margin-left: 0px;
 }
 .channel-datas {
   margin: 20px 0;
+}
+.channel-template-name {
+  width: 50px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>
