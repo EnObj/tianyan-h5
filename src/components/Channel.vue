@@ -13,7 +13,7 @@
         <h1>
           {{ channel.name }}
         </h1>
-        <div style="flex: none">
+        <div style="flex: none;margin-left:15px;">
           <div v-if="!userChannel" key="sub">
             <el-button
               v-on:click="sub"
