@@ -18,17 +18,17 @@
             <el-button
               v-on:click="sub"
               type="primary"
+              size="mini"
               icon="el-icon-plus"
-              circle
             ></el-button>
           </div>
           <div v-else key="unsub">
             <div>
               <el-button
                 type="default"
+                size="mini"
                 v-on:click="unsub"
                 icon="el-icon-check"
-                circle
               >
               </el-button>
             </div>
