@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex-between">
-      <h1>爱追更</h1>
+      <h1 class="logo"></h1>
       <div class="btns">
         <el-button
           icon="el-icon-search"
@@ -123,6 +123,12 @@ export default {
 </script>
 
 <style scoped>
+.logo{
+  font-weight: bold;
+  width: 80px;
+  height: 80px;
+  background: url("../assets/logo.png") center / 150% auto no-repeat;
+}
 .btns::v-deep .el-button {
   margin-left: 10px;
 }
@@ -163,7 +169,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #eee;
+  background: #ffde59;
   border-radius: 5px;
   overflow: hidden;
   border-left: 3px solid rgba(0, 0, 0, 0);
@@ -180,7 +186,7 @@ export default {
   margin: auto;
   font-size: 22px;
   font-weight: 600;
-  color: #4e4848;
+  color: #333;
 }
 .notify-on {
   color: #008cba;
