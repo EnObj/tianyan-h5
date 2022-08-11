@@ -4,14 +4,15 @@
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>探索</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1>探索</h1>
-    <el-input
-      placeholder="搜索你关心的人"
-      v-model="keyword"
-      clearable
-      prefix-icon="el-icon-search"
-      v-on:change="search(keyword)"
-    />
+    <div style="margin: 20px 0;">
+      <el-input
+        placeholder="搜索你关心的人"
+        v-model="keyword"
+        clearable
+        prefix-icon="el-icon-search"
+        v-on:change="search(keyword)"
+      />
+    </div>
   </div>
 </template>
 

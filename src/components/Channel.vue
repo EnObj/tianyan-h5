@@ -10,9 +10,9 @@
         <el-breadcrumb-item>频道</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="flex-between">
-        <h1>
+        <h3>
           {{ channel.name }}
-        </h1>
+        </h3>
         <div style="flex: none;margin-left:15px;">
           <div v-if="!userChannel" key="sub">
             <el-button
@@ -93,9 +93,9 @@
         </div>
       </div>
       <el-divider content-position="left"
-        ><i class="el-icon-time"></i>&nbsp;<span style="color:gray;">{{
-          nextListenTime
-        }}</span></el-divider
+        ><i class="el-icon-time"></i>&nbsp;<span style="color:gray;"
+          >正在追更</span
+        ></el-divider
       >
       <div class="channel-datas">
         <div
@@ -103,9 +103,6 @@
           v-bind:key="channelData._id"
           class="flex-start channel-data"
         >
-          <div class="not-importent">
-            <span>{{ channelData.createTime | formatPass }}</span>
-          </div>
           <div class="datas">
             <div
               v-for="attr in channelData.channel.attrs ||
@@ -117,6 +114,9 @@
                 channelData.data[attr.name]
               }}</span>
             </div>
+          </div>
+          <div class="not-importent">
+            <span>{{ channelData.createTime | formatPass }}</span>
           </div>
         </div>
       </div>
@@ -284,12 +284,14 @@ export default {
   color: #008cba;
 }
 .channel-data {
-  margin: 15px 0;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  padding: 10px;
+  background: #eee;
+  border-radius: 5px;
 }
 .datas {
-  margin-top: 5px;
+  margin-bottom: 5px;
   background: #f6f6f6;
   word-break: break-all;
   border-radius: 5px;
@@ -300,6 +302,9 @@ export default {
 }
 .channel-datas {
   margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 .channel-template-name {
   width: 50px;

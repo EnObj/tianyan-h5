@@ -5,7 +5,6 @@
       <el-breadcrumb-item :to="{ path: '/explore' }">探索</el-breadcrumb-item>
       <el-breadcrumb-item>搜索</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1>搜索</h1>
     <div class="inp">
       <el-input
         placeholder="搜索你关心的人"
@@ -219,6 +218,6 @@ export default {
   margin: 10px 0;
 }
 .inp {
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 </style>

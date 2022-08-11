@@ -7,7 +7,6 @@
       }}</el-breadcrumb-item>
       <el-breadcrumb-item>考古</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1>考古</h1>
     <div class="channel-posts">
       <div
         class="channel-post"
@@ -91,6 +90,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+.channel-posts{
+  margin-top: 20px;
 }
 .channel-post-time {
   color: gray;

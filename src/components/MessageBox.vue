@@ -4,7 +4,6 @@
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>消息</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1>消息列表</h1>
     <div
       v-for="message in messages"
       v-bind:key="message._id"
