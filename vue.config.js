@@ -1,6 +1,7 @@
 module.exports = {
+    // 把静态文件build到index.html同目录下
     publicPath: process.env.NODE_ENV === 'production'
-    ? 'https://6465-dev-9g0suwuw61afb9f3-1252108641.tcb.qcloud.la/enobj/tianyan/'
+    ? './'
     : '/',
     chainWebpack: config => {
         config
