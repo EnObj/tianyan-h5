@@ -18,6 +18,8 @@ import "element-ui/lib/theme-chalk/index.css";
 import "./assets/my-style.css";
 import CloudUtils from "./components/CloudUtils";
 import EoCloud from "./components/EoCloud.vue";
+// main.js
+import "tailwindcss/tailwind.css"
 
 // 链接云服务
 const cloud = (Vue.prototype.cloud = cloudbase.init({
@@ -84,7 +86,6 @@ const routes = [
   {
     path: "/search",
     component: Search,
-    props: (route) => ({ keyword: route.query.keyword }),
   },
   { path: "/more", component: More },
   { path: "/channel/:id", component: Channel, props: true },

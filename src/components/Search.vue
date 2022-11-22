@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <el-breadcrumb style="margin-top:20px;">
+    <el-breadcrumb style="margin-top: 20px">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item :to="{ path: '/explore' }">探索</el-breadcrumb-item>
       <el-breadcrumb-item>搜索</el-breadcrumb-item>
@@ -8,11 +8,21 @@
     <div class="inp">
       <el-input
         placeholder="搜索你关心的人"
-        v-model="keywordVal"
+        v-model="keyword"
         clearable
         prefix-icon="el-icon-search"
-        v-on:change="$router.replace({ query: { keyword: keywordVal } })"
       />
+    </div>
+    <div class="search-templates flex flex-wrap gap-2 mb-4" v-show="!!keyword">
+      <div v-for="template in templates" :key="template._id">
+        <el-button
+          type="default"
+          class="search-template"
+          @click="searchByTemplate(template)"
+        >
+          搜索：{{ template.name }}
+        </el-button>
+      </div>
     </div>
     <div
       style="margin-bottom: 20px"
@@ -30,7 +40,7 @@
         v-for="channel in channels"
         v-bind:key="channel._id"
         v-on:click="$router.push('/channel/' + channel._id)"
-        class="padding-box channel flex-start"
+        class="padding-box channel flex-start cursor-pointer"
       >
         <ChannelTemplateLogo
           v-bind:main-color="channel.channelTemplate.mainColor"
@@ -52,7 +62,7 @@
         v-on:click="
           openMaybeChannel(maybeChannel.name, maybeChannel.channelTemplate._id)
         "
-        class="padding-box channel flex-start"
+        class="padding-box channel flex-start cursor-pointer"
       >
         <ChannelTemplateLogo
           v-bind:main-color="maybeChannel.channelTemplate.mainColor"
@@ -89,9 +99,9 @@
 <script>
 import CloudUtils from "./CloudUtils";
 import ChannelTemplateLogo from "./ChannelTemplateLogo";
+import _ from "lodash";
 export default {
   name: "Search",
-  props: ["keyword"],
   data: function () {
     return {
       templates: [],
@@ -99,7 +109,7 @@ export default {
       maybeChannels: [],
       finishedSearchCount: 0,
       showNewChannelDoor: false,
-      keywordVal: this.keyword
+      keyword: "",
     };
   },
   components: { ChannelTemplateLogo },
@@ -116,9 +126,7 @@ export default {
   },
   watch: {
     keyword: function (nVal) {
-      if (nVal) {
-        this.search(nVal);
-      }
+      this.searchLocalChannel(nVal);
     },
   },
   computed: {
@@ -132,6 +140,58 @@ export default {
     },
   },
   methods: {
+    // 搜索已收录
+    searchLocalChannel: _.debounce(async function (name) {
+      if (!name) {
+        this.channels = [];
+        this.maybeChannels = [];
+        return;
+      }
+      // 实时搜索本地库
+      const { data: channels } = await this.cloud
+        .database()
+        .collection("ty_channel")
+        .where({ name: new RegExp(name, "i") })
+        .limit(20)
+        .get();
+      console.log(channels);
+      this.channels = channels;
+    }, 300),
+    async searchByTemplate(template) {
+      const loading = this.$loading();
+      const templateId = template._id;
+      this.showSearchByTemplate = false;
+      this.channels = [];
+      try {
+        const { result } = await this.cloud.callFunction({
+          name: "resolveTyChannel",
+          data: {
+            templateId,
+            key: this.keyword,
+          },
+        });
+        console.log(result);
+        if (!result.errCode && !result.errorCode) {
+          this.channels = [result.channel];
+        } else {
+          // 处理405建议：
+          if (result.errCode == 405) {
+            this.maybeChannels = result.advices.map((advice) => {
+              return {
+                name: `${advice}`,
+                channelTemplate: template,
+              };
+            });
+          } else {
+            console.error(result);
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        loading.close();
+      }
+    },
     search(keyword) {
       const loading = this.$loading();
       console.log("搜索：" + keyword);
@@ -155,7 +215,7 @@ export default {
           .then((res) => {
             this.finishedSearchCount++;
             // 关闭加载遮罩
-            if(this.finishedSearchCount == 1){
+            if (this.finishedSearchCount == 1) {
               loading.close();
             }
             if (!res.result.errCode) {
@@ -179,7 +239,7 @@ export default {
           .catch((err) => {
             this.finishedSearchCount++;
             // 关闭加载遮罩
-            if(this.finishedSearchCount == 1){
+            if (this.finishedSearchCount == 1) {
               loading.close();
             }
             console.error(err);
