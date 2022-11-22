@@ -15,11 +15,10 @@ import ChannelTemplate from "./components/ChannelTemplate.vue";
 import cloudbase from "@cloudbase/js-sdk";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import "./assets/my-style.css";
 import CloudUtils from "./components/CloudUtils";
 import EoCloud from "./components/EoCloud.vue";
-// main.js
 import "tailwindcss/tailwind.css"
+import "./assets/my-style.css";
 
 // 链接云服务
 const cloud = (Vue.prototype.cloud = cloudbase.init({
