@@ -43,7 +43,7 @@ export default {
       .collection("ty_channel")
       .where({ userChannelCount: this.cloud.database().command.gt(1) })
       .orderBy("userChannelCount", "desc")
-      .limit(10)
+      .limit(20)
       .get();
     this.popularChannels = channels;
   },
