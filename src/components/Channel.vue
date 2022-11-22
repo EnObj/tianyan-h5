@@ -10,7 +10,7 @@
         <el-breadcrumb-item>频道</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="flex-between">
-        <h3>
+        <h3 class="my-4 text-lg">
           {{ channel.name }}
         </h3>
         <div style="flex: none;margin-left:15px;">
