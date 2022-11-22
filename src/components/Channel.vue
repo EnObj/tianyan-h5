@@ -76,7 +76,7 @@
             v-bind:class="{ 'switch-on': userChannel.top }"
             v-on:click="switchTop"
           >
-            <i class="el-icon-top"></i>
+            <i class="el-icon-star-on"></i>
           </div>
           <div class="not-importent">置顶</div>
         </div>

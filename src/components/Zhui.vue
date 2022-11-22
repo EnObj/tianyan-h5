@@ -22,7 +22,26 @@
         ></el-button>
       </div>
     </div>
-    <div v-if="userChannels.length" class="user-channels">
+    <div v-if="userChannels.length">
+      <div
+        v-for="userChannel in userChannels"
+        v-bind:key="userChannel._id"
+        class="flex items-center"
+      >
+        <div class="flex-auto" v-on:click="openChannel(userChannel)">
+          <ChannelCardVue :channel="userChannel.channel"></ChannelCardVue>
+        </div>
+        <div class="user-channel-status flex-none ml-4 w-8 text-center">
+          <div v-if="userChannel.notify">
+            <i class="el-icon-message-solid"></i>
+          </div>
+          <div v-if="userChannel.top">
+            <i class="el-icon-star-on"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div v-if="userChannels.length" class="user-channels">
       <div
         v-for="userChannel in userChannels"
         v-bind:key="userChannel._id"
@@ -39,13 +58,15 @@
           >
             <el-badge
               is-dot
-              style="margin:auto;display:block;"
+              style="margin: auto; display: block"
               :hidden="
                 !userChannel.channelDataMessage ||
-                  userChannel.channelDataMessage.readed
+                userChannel.channelDataMessage.readed
               "
             >
-              <div class="logo-temp">{{userChannel.channel.name.substr(0,1)}}</div>
+              <div class="logo-temp">
+                {{ userChannel.channel.name.substr(0, 1) }}
+              </div>
             </el-badge>
             <div class="notify" :class="{ 'notify-on': userChannel.notify }">
               <i class="el-icon-bell"></i>
@@ -57,7 +78,7 @@
           {{ userChannel.channel.name }}
         </div>
       </div>
-    </div>
+    </div> -->
     <div v-else-if="userChannelsLoaded">
       <div class="empty-tip abs-center">
         <div
@@ -81,12 +102,16 @@
 
 <script>
 import { mapState } from "vuex";
+import ChannelCardVue from "./ChannelCard.vue";
 export default {
   name: "Zhui",
   data: () => {
     return {
       lastUnreadedMessage: null,
     };
+  },
+  components: {
+    ChannelCardVue,
   },
   computed: mapState(["userChannels", "userChannelsLoaded"]),
   beforeRouteEnter(to, from, next) {
@@ -107,7 +132,7 @@ export default {
     });
   },
   methods: {
-    switchNotify: function(userChannelId) {
+    switchNotify: function (userChannelId) {
       this.$store.dispatch("switchUserChannelNotify", {
         db: this.cloud.database(),
         userChannelId: userChannelId,
@@ -123,7 +148,7 @@ export default {
 </script>
 
 <style scoped>
-.logo{
+.logo {
   font-weight: bold;
   width: 80px;
   height: 80px;
@@ -182,7 +207,7 @@ export default {
   right: -5px;
   bottom: -5px;
 }
-.logo-temp{
+.logo-temp {
   margin: auto;
   font-size: 22px;
   font-weight: 600;
