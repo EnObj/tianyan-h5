@@ -36,28 +36,11 @@
     </div>
     <div v-show="channels.length">
       <div class="not-importent">已收录</div>
-      <div
+      <ChannelCardVue
+        :channel="channel"
         v-for="channel in channels"
         v-bind:key="channel._id"
-        v-on:click="$router.push('/channel/' + channel._id)"
-        class="padding-box channel flex-start cursor-pointer"
-      >
-        <ChannelTemplateLogo
-          v-bind:main-color="channel.channelTemplate.mainColor"
-          v-bind:text="channel.channelTemplate.name.substr(0, 1)"
-        />
-        <div>
-          <div>
-            {{ channel.name }}
-          </div>
-          <div class="not-importent">
-            {{ channel.channelTemplate.name
-            }}<span class="ml-2 gray"
-              >{{ channel.userChannelCount }}人订阅</span
-            >
-          </div>
-        </div>
-      </div>
+      />
     </div>
     <div v-show="maybeChannels.length">
       <div class="not-importent">建议</div>
@@ -104,6 +87,7 @@
 <script>
 import CloudUtils from "./CloudUtils";
 import ChannelTemplateLogo from "./ChannelTemplateLogo";
+import ChannelCardVue from "./ChannelCard.vue";
 import _ from "lodash";
 export default {
   name: "Search",
@@ -117,7 +101,7 @@ export default {
       keyword: "",
     };
   },
-  components: { ChannelTemplateLogo },
+  components: { ChannelTemplateLogo, ChannelCardVue },
   mounted() {
     CloudUtils.getAll(
       this.cloud.database().collection("ty_channel_template").where({})

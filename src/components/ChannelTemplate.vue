@@ -4,7 +4,7 @@
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>节点</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1>{{ channelTemplate.name }}</h1>
+    <h1 class="my-4 text-lg">{{ channelTemplate.name }}</h1>
     <p>{{ channelTemplate.desc }}</p>
     <div v-if="channelTemplate.keyName">
       <div style="margin-top:30px;">
