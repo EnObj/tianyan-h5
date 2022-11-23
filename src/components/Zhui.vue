@@ -26,12 +26,21 @@
       <div
         v-for="userChannel in userChannels"
         v-bind:key="userChannel._id"
-        class="flex items-center"
+        class="flex items-center bg-gray-100 px-2 my-2"
       >
         <div class="flex-auto" v-on:click="openChannel(userChannel)">
-          <ChannelCardVue :channel="userChannel.channel"></ChannelCardVue>
+          <ChannelCardVue
+            :channel="userChannel.channel"
+            :showBadge="
+              userChannel.channelDataMessage &&
+              !userChannel.channelDataMessage.readed
+            "
+          ></ChannelCardVue>
         </div>
-        <div class="user-channel-status flex-none ml-4 w-8 text-center">
+        <div
+          class="user-channel-status flex-none mx-2 w-8 text-center"
+          style="color: #008cba"
+        >
           <div v-if="userChannel.notify">
             <i class="el-icon-message-solid"></i>
           </div>
@@ -41,44 +50,6 @@
         </div>
       </div>
     </div>
-    <!-- <div v-if="userChannels.length" class="user-channels">
-      <div
-        v-for="userChannel in userChannels"
-        v-bind:key="userChannel._id"
-        v-on:click="openChannel(userChannel)"
-        class="user-channel"
-      >
-        <div class="channel-logo-c">
-          <div
-            class="channel-logo"
-            :style="{
-              borderColor:
-                userChannel.channel.channelTemplate.mainColor || 'gray',
-            }"
-          >
-            <el-badge
-              is-dot
-              style="margin: auto; display: block"
-              :hidden="
-                !userChannel.channelDataMessage ||
-                userChannel.channelDataMessage.readed
-              "
-            >
-              <div class="logo-temp">
-                {{ userChannel.channel.name.substr(0, 1) }}
-              </div>
-            </el-badge>
-            <div class="notify" :class="{ 'notify-on': userChannel.notify }">
-              <i class="el-icon-bell"></i>
-            </div>
-            <div class="top" v-if="userChannel.top"></div>
-          </div>
-        </div>
-        <div class="channel-name no-wrap">
-          {{ userChannel.channel.name }}
-        </div>
-      </div>
-    </div> -->
     <div v-else-if="userChannelsLoaded">
       <div class="empty-tip abs-center">
         <div

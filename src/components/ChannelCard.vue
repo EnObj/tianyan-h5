@@ -2,7 +2,16 @@
 <template>
   <div class="channle-card">
     <div
-      class="p-4 bg-gray-100 my-2 rounded-lg channel flex-start cursor-pointer hover:bg-gray-200"
+      class="
+        p-4
+        bg-gray-100
+        my-2
+        rounded-lg
+        channel
+        flex-start
+        cursor-pointer
+        hover:bg-gray-200
+      "
     >
       <ChannelTemplateLogo
         v-bind:main-color="channel.channelTemplate.mainColor"
@@ -10,7 +19,9 @@
       />
       <div>
         <div>
-          {{ channel.name }}
+          <el-badge is-dot :hidden="!showBadge">
+            {{ channel.name }}
+          </el-badge>
         </div>
         <div class="not-importent">
           {{ channel.channelTemplate.name
@@ -24,7 +35,7 @@
 <script>
 import ChannelTemplateLogo from "./ChannelTemplateLogo.vue";
 export default {
-  props: ["channel"],
+  props: ["channel", "showBadge"],
   components: {
     ChannelTemplateLogo,
   },
