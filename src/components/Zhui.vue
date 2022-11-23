@@ -6,7 +6,7 @@
         <el-button
           icon="el-icon-search"
           circle
-          @click="$router.push('/explore')"
+          @click="$router.push('/search')"
         ></el-button>
         <el-badge is-dot v-bind:hidden="!lastUnreadedMessage">
           <el-button
@@ -22,11 +22,12 @@
         ></el-button>
       </div>
     </div>
-    <div v-if="userChannels.length">
+    <div v-if="userChannels.length" class="mt-4">
+      <div class="not-importent">我的订阅</div>
       <div
         v-for="userChannel in userChannels"
         v-bind:key="userChannel._id"
-        class="flex items-center bg-gray-100 px-2 my-2"
+        class="flex items-center"
       >
         <div class="flex-auto" v-on:click="openChannel(userChannel)">
           <ChannelCardVue

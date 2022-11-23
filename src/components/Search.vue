@@ -2,7 +2,6 @@
   <div class="search">
     <el-breadcrumb style="margin-top: 20px">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item :to="{ path: '/explore' }">探索</el-breadcrumb-item>
       <el-breadcrumb-item>搜索</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="inp">
@@ -83,6 +82,17 @@
         </div>
       </div>
     </div>
+    <div class="popular-channels" v-show="!keyword">
+      <div class="not-importent">最受欢迎</div>
+      <div
+        class="popular-channel"
+        v-for="channel in popularChannels"
+        v-on:click="$router.push('/channel/' + channel._id)"
+        :key="channel._id"
+      >
+        <ChannelCardVue :channel="channel"></ChannelCardVue>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -100,11 +110,12 @@ export default {
       maybeChannels: [],
       finishedSearchCount: 0,
       showNewChannelDoor: false,
+      popularChannels: [], // 订阅最多
       keyword: "",
     };
   },
   components: { ChannelTemplateLogo, ChannelCardVue },
-  mounted() {
+  async mounted() {
     CloudUtils.getAll(
       this.cloud.database().collection("ty_channel_template").where({})
     ).then((templates) => {
@@ -114,6 +125,14 @@ export default {
         this.search(this.keyword);
       }
     });
+    const { data: channels } = await this.cloud
+      .database()
+      .collection("ty_channel")
+      .where({ userChannelCount: this.cloud.database().command.gt(1) })
+      .orderBy("userChannelCount", "desc")
+      .limit(20)
+      .get();
+    this.popularChannels = channels;
   },
   watch: {
     keyword: function (nVal) {

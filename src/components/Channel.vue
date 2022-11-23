@@ -1,35 +1,30 @@
 <template>
   <div class="channel">
     <div v-if="channel">
-      <el-breadcrumb style="margin-top:20px;">
+      <el-breadcrumb style="margin-top: 20px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item
-          :to="{ path: '/channel-template/' + channel.channelTemplate._id }"
-          >{{ channel.channelTemplate.name }}</el-breadcrumb-item
-        >
         <el-breadcrumb-item>频道</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="flex-between">
         <h3 class="my-4 text-lg">
           {{ channel.name }}
         </h3>
-        <div style="flex: none;margin-left:15px;">
+        <div style="flex: none; margin-left: 15px">
           <div v-if="!userChannel" key="sub">
             <el-button
               v-on:click="sub"
               type="primary"
-              size="mini"
               icon="el-icon-plus"
-            ></el-button>
+              >订阅</el-button
+            >
           </div>
           <div v-else key="unsub">
             <div>
               <el-button
                 type="default"
-                size="mini"
                 v-on:click="unsub"
                 icon="el-icon-check"
-              >
+                >已订阅
               </el-button>
             </div>
           </div>
@@ -93,7 +88,7 @@
         </div>
       </div>
       <el-divider content-position="left"
-        ><i class="el-icon-time"></i>&nbsp;<span style="color:gray;"
+        ><i class="el-icon-time"></i>&nbsp;<span style="color: gray"
           >正在追更</span
         ></el-divider
       >
@@ -101,21 +96,21 @@
         <div
           v-for="channelData in channelDatas"
           v-bind:key="channelData._id"
-          class="flex-start channel-data"
+          class="channel-data flex justify-between items-center"
         >
           <div class="datas">
             <div
               v-for="attr in channelData.channel.attrs ||
-                channelData.channel.channelTemplate.attrs"
+              channelData.channel.channelTemplate.attrs"
               v-bind:key="attr.name"
             >
-              <!-- <span>{{ attr.name }}</span> -->
+              <span>{{ attr.name }}：</span>
               <span class="not-importent data-value">{{
                 channelData.data[attr.name]
               }}</span>
             </div>
           </div>
-          <div class="not-importent">
+          <div class="not-importent ml-4 flex-none">
             <span>{{ channelData.createTime | formatPass }}</span>
           </div>
         </div>
@@ -128,7 +123,7 @@
 export default {
   name: "Channel",
   props: ["id"],
-  data: function() {
+  data: function () {
     return {
       channel: null,
       channelDatas: [],
@@ -150,11 +145,11 @@ export default {
     },
   },
   watch: {
-    id: function() {
+    id: function () {
       this.initChannel();
     },
   },
-  created: function() {
+  created: function () {
     this.initChannel();
   },
   methods: {
@@ -204,7 +199,7 @@ export default {
           this.channelDatas = res.data;
         });
     },
-    sub: function() {
+    sub: function () {
       console.log("sub");
       this.cloud
         .database()
@@ -225,7 +220,7 @@ export default {
             });
         });
     },
-    unsub: function() {
+    unsub: function () {
       console.log("unsub");
       this.cloud
         .database()
@@ -236,7 +231,7 @@ export default {
           this.$store.commit("deleteUserChannel", this.userChannel._id);
         });
     },
-    switchNotify: function() {
+    switchNotify: function () {
       if (this.userChannel) {
         this.$store.dispatch("switchUserChannelNotify", {
           db: this.cloud.database(),
@@ -244,7 +239,7 @@ export default {
         });
       }
     },
-    switchTop: function() {
+    switchTop: function () {
       if (this.userChannel) {
         this.$store.dispatch("switchUserChannelTop", {
           db: this.cloud.database(),
@@ -284,27 +279,19 @@ export default {
   color: #008cba;
 }
 .channel-data {
-  flex-direction: column;
-  align-items: center;
   padding: 10px;
-  background: #eee;
+  background: #f6f6f6;
   border-radius: 5px;
+  margin: 10px 0;
 }
 .datas {
-  margin-bottom: 5px;
-  background: #f6f6f6;
   word-break: break-all;
-  border-radius: 5px;
-  padding: 10px;
 }
 .data-value {
   margin-left: 0px;
 }
 .channel-datas {
   margin: 20px 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
 }
 .channel-template-name {
   width: 50px;
