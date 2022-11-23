@@ -36,11 +36,13 @@
     </div>
     <div v-show="channels.length">
       <div class="not-importent">已收录</div>
-      <ChannelCardVue
-        :channel="channel"
+      <div
+        v-on:click="$router.push('/channel/' + channel._id)"
         v-for="channel in channels"
         v-bind:key="channel._id"
-      />
+      >
+        <ChannelCardVue :channel="channel" />
+      </div>
     </div>
     <div v-show="maybeChannels.length">
       <div class="not-importent">建议</div>
