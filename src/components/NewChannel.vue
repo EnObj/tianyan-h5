@@ -4,7 +4,7 @@
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>DIY</el-breadcrumb-item>
     </el-breadcrumb>
-    <h1>{{ document.title }}</h1>
+    <h1 class="my-4 text-lg">{{ document.title }}</h1>
     <div
       v-for="item in textAndDivList"
       v-bind:key="item.insideId"

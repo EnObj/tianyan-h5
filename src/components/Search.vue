@@ -14,13 +14,26 @@
       />
     </div>
     <div class="search-templates flex flex-wrap gap-2 mb-4" v-show="!!keyword">
-      <div v-for="template in templates" :key="template._id">
+      <div v-show="showNewChannelDoor" class="search-template">
+        <el-button
+          type="primary"
+          icon="el-icon-edit"
+          @click="
+            $router.push({ path: '/new-channel', query: { url: keyword } })
+          "
+          >DIY定制
+        </el-button>
+      </div>
+      <div
+        v-for="template in templates"
+        :key="template._id"
+        class="search-template"
+      >
         <el-button
           type="default"
-          class="search-template"
           @click="searchByTemplate(template)"
-        >
-          搜索：{{ template.name }}
+          icon="el-icon-search"
+          >{{ template.name }}
         </el-button>
       </div>
     </div>
@@ -70,19 +83,6 @@
         </div>
       </div>
     </div>
-    <div v-show="showNewChannelDoor">
-      <div class="not-importent">定制</div>
-      <div class="padding-box channel flex-start" style="word-break: break-all">
-        <ChannelTemplateLogo v-bind:text="'链'" />
-        <div
-          v-on:click="
-            $router.push({ path: '/new-channel', query: { url: keyword } })
-          "
-        >
-          {{ keyword }}
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -117,6 +117,9 @@ export default {
   },
   watch: {
     keyword: function (nVal) {
+      if (/^https?:\/\//.test(nVal)) {
+        this.showNewChannelDoor = true;
+      }
       this.searchLocalChannel(nVal);
     },
   },
