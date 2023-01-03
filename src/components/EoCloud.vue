@@ -5,7 +5,7 @@
       <el-breadcrumb-item>账户</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="user">
-      <div class="user-icon flex justify-center">
+      <div class="user-icon flex justify-center mb-2">
         <img :src="require('../assets/' + userIcon)" alt="头像" />
       </div>
       <div class="user-name">{{ userName }}</div>

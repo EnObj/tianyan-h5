@@ -47,8 +47,8 @@
           class="abs-center-content flex-start"
           style="flex-direction: column"
         >
-          <p class="nothing not-importent">还没有任何订阅</p>
-          <el-button type="primary" round v-on:click="$router.push('/explore')"
+          <p class="nothing not-importent mb-2">还没有任何订阅</p>
+          <el-button type="primary" round v-on:click="$router.push('/search')"
             >探索</el-button
           >
         </div>
