@@ -14,7 +14,7 @@
         </div>
         <div class="not-importent">
           {{ channel.channelTemplate.name
-          }}<span class="ml-2 gray">{{ channel.userChannelCount }}人订阅</span>
+          }}<span class="ml-2 gray" v-if="channel.userChannelCount">{{ channel.userChannelCount }}人订阅</span>
         </div>
       </div>
     </div>
