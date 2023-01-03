@@ -27,27 +27,17 @@
       <div
         v-for="userChannel in userChannels"
         v-bind:key="userChannel._id"
-        class="flex items-center"
       >
-        <div class="flex-auto" v-on:click="openChannel(userChannel)">
+        <div v-on:click="openChannel(userChannel)">
           <ChannelCardVue
             :channel="userChannel.channel"
             :showBadge="
               userChannel.channelDataMessage &&
               !userChannel.channelDataMessage.readed
             "
+            :showNotify="userChannel.notify"
+            :showStar="userChannel.top"
           ></ChannelCardVue>
-        </div>
-        <div
-          class="user-channel-status flex-none mx-2 w-8 text-center"
-          style="color: #008cba"
-        >
-          <div v-if="userChannel.notify">
-            <i class="el-icon-message-solid"></i>
-          </div>
-          <div v-if="userChannel.top">
-            <i class="el-icon-star-on"></i>
-          </div>
         </div>
       </div>
     </div>
