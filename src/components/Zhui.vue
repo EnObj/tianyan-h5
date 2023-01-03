@@ -115,6 +115,8 @@ export default {
   width: 80px;
   height: 80px;
   background: url("../assets/logo.png") center / 150% auto no-repeat;
+  position: relative;
+  left: -10px;
 }
 .btns::v-deep .el-button {
   margin-left: 10px;
