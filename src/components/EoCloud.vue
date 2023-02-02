@@ -41,6 +41,15 @@
       </div>
       <div class="action">
         <el-button
+          type="text"
+          @click="showWexinLoginDialog = true"
+          v-if="!user.logined"
+          :loading="loginLoading"
+          >微信登录</el-button
+        >
+      </div>
+      <div class="action">
+        <el-button
           type="success"
           v-if="!user.logined"
           @click="showRegisterDialog = true"
@@ -59,6 +68,12 @@
         </el-popconfirm>
       </div>
     </div>
+    <!-- 微信登录弹窗 -->
+    <el-dialog title="微信扫码登录" :visible.sync="showWexinLoginDialog" width="350px">
+      <div v-if="weixinLoginQrcode" class="flex justify-center">
+        <img :src="weixinLoginQrcode" alt="头像" width="150" height="150"/>
+      </div>
+    </el-dialog>
     <!-- 登录弹窗 -->
     <el-dialog title="登录" :visible.sync="showLoginDialog" width="350px">
       <el-form
@@ -213,7 +228,7 @@ export default {
       user: {
         email: "",
         logined: false, // false-未登录，true-已登录
-        loginType: "", // 0-匿名登录，1-邮箱登录
+        loginType: "", // 0-匿名登录，1-邮箱登录，2-微信扫码登录
       },
       showLoginDialog: false,
       // 登录相关
@@ -259,6 +274,10 @@ export default {
         email: [{ required: true, trigger: "blur" }],
       },
       resetPasswordLoading: false,
+      // 微信扫码登录
+      showWexinLoginDialog: false,
+      weixinLoginQrcode: '',
+      waitForTicket: ''
     };
   },
   computed: {
@@ -272,7 +291,7 @@ export default {
     // 用户名称
     userName() {
       if (this.user.logined) {
-        return this.user.loginType == "0" ? "匿名用户" : this.user.email;
+        return this.user.loginType == "0" ? "匿名用户" : this.user.loginType == "1" ?this.user.email : "微信用户";
       }
       return "未登录";
     },
@@ -281,6 +300,44 @@ export default {
       return (this.user.email ? "使用" + this.user.email : "邮箱") + "登录";
     },
   },
+  watch: {
+    async showWexinLoginDialog(value){
+      // 打开了扫码弹窗
+      if(value) {
+        const sessionId = 's' + Date.now() + Math.ceil(Math.random() * 10000)
+        this.weixinLoginQrcode = await fetch('https://service-p4kkb89x-1252108641.sh.apigw.tencentcs.com/release/office-wx-token', {
+          method: 'post',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: 'genLoginQrCode',
+            data: {
+              sessionId
+            }
+          })
+        }).then(res=>res.blob()).then(imageBlob => URL.createObjectURL(imageBlob))
+        // 开始轮询session列表获得ticket
+        this.waitForTicket = setInterval(async ()=>{
+          const session = await fetch('https://service-p4kkb89x-1252108641.sh.apigw.tencentcs.com/release/office-wx-token', {
+            method: 'post',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: 'getQrCodeTicket',
+              data: {
+                sessionId
+              }
+            })
+          }).then(res=>res.json())
+          if(session.ticket){
+            await this.cloudAuth.customAuthProvider().signIn(session.ticket);
+            this.showWexinLoginDialog = false;
+          }
+        }, 2000)
+      } else{
+        this.weixinLoginQrcode = ''
+        clearInterval(this.waitForTicket)
+      }
+    }
+  },
   created() {
     // 监听登录状态变化
     this.cloudAuth.onLoginStateChanged((loginState) => {
@@ -288,7 +345,7 @@ export default {
       if (loginState) {
         // 有登录状态
         this.user.logined = true;
-        this.user.loginType = loginState.loginType == "ANONYMOUS" ? "0" : "1";
+        this.user.loginType = {"ANONYMOUS": 0, "EMAIL": 1, "CUSTOM": 2}[loginState.loginType];
         this.user.email = loginState.user.email;
       } else {
         // 没有登录
@@ -356,6 +413,9 @@ export default {
       } finally {
         this.loginLoading = false;
       }
+    },
+    async loginByWeixinQrCode(){
+
     },
     /**
      * 绑定邮箱
