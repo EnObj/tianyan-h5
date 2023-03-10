@@ -107,7 +107,13 @@ const router = new VueRouter({
 // 路由守卫，登录验证
 router.beforeEach((to, from, next) => {
   if (to.path !== "/cloud" && !cloudAuth.hasLoginState()) {
-    next("/cloud");
+    // 尝试使用匿名登录
+    cloudAuth.anonymousAuthProvider().signIn().then(()=>{
+      next()
+    }).catch(err=>{
+      console.error(err);
+      next("/cloud")
+    })
   } else {
     next();
   }
