@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "depl-tcb": "npm run build && tcb storage upload ./dist enobj/tianyan -e dev-9g0suwuw61afb9f3"
+    "depl": "npm run build && tcb storage upload ./dist enobj/tianyan -e dev-9g0suwuw61afb9f3"
   },
   "dependencies": {
     "@cloudbase/js-sdk": "^1.3.3",
