@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "depl": "npm run build && tcb storage upload ./dist enobj/tianyan -e dev-9g0suwuw61afb9f3"
